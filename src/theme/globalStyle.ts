@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: ${({ theme }) => theme.color.system1};
+    background-color: ${({ theme }) => theme.color.systemWhite};
   }
 
   * {
@@ -23,15 +23,6 @@ const GlobalStyle = createGlobalStyle`
   :root {
     --border-radius-small: 4px;
     --default-delay: 0.3s;
-  }
-
-  mark {
-    background: #333849;
-    border-radius: 2px;
-    padding: 4px 4px;
-    color: white;
-    font-size: 0.9375rem;
-    margin: 2px;
   }
 `;
 
