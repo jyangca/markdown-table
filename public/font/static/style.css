@@ -1,0 +1,27 @@
+@font-face {
+  font-family: Poppins;
+  src: './poppins-v19-latin-regular.woff';
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Poppins;
+  src: './poppins-v19-latin-700.woff';
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: NotoSansKR;
+  src: '/font/NotoSans-Regular.woff';
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: NotoSansKR;
+  src: '/font/NotoSans-Bold.woff';
+  font-weight: 700;
+  font-display: swap;
+}
