@@ -1,34 +1,43 @@
-import React from 'react';
+import { TableForm } from '@/components';
+import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import styled from 'styled-components';
 
 const Container = styled.div`
+  padding: 2.5rem;
   width: 100%;
   height: 100%;
+  align-items: stretch;
   display: flex;
-  flex-direction: row;
+  flex-direciton: row;
   column-gap: 2rem;
-`;
-
-const TextAreaForm = styled.textarea`
-  width: 100%;
+  background-color: ${({ theme }) => theme.color.systemE};
 `;
 
 const MarkdownContainer = styled.div`
   width: 100%;
+  border-radius: 8px;
+  border: none;
+  min-width: 500px;
+  background-color: ${({ theme }) => theme.color.systemWhite};
+`;
+
+const ShortCutContainer = styled.div`
+  width: 340px;
+  height: 100%;
+
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.color.systemWhite};
 `;
 
 const index = () => {
-  const [markdown, setMarkdown] = React.useState('');
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMarkdown(e.target.value);
-  };
+  const [markdown, setMarkdown] = useState('');
 
   return (
     <Container>
-      <TextAreaForm onChange={handleChange} />
+      <ShortCutContainer />
+      <TableForm />
       <MarkdownContainer>
         <ReactMarkdown remarkPlugins={[remarkGfm]} children={markdown} />
       </MarkdownContainer>
