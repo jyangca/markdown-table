@@ -1,0 +1,35 @@
+export const toClassName = (array: string[]) => array.join(' ');
+
+export const generateKey = (item: unknown, index?: number) =>
+  `${JSON.stringify(item)}_${index}`;
+
+export const initialData = () => {
+  const cols = ['name', 'age', 'country', 'sport'];
+  const rows = [
+    {
+      name: 'Aleksey Nemov',
+      age: 24,
+      country: 'Russia',
+      sport: 'Gymnastics',
+    },
+    {
+      name: 'MICHAEL PHELPS',
+      age: 27,
+      country: 'USA',
+      sport: 'Swimming',
+    },
+    {
+      name: 'IAN THORPE',
+      age: 17,
+      country: 'Australia',
+      sport: 'Swimming',
+    },
+    {
+      name: 'LEONTIEN ZIJLAARD-VAN MOORSEL',
+      age: 30,
+      country: 'Netherlands',
+      sport: 'Cycling',
+    },
+  ];
+  return { cols, rows };
+};

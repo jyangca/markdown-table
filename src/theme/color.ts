@@ -12,6 +12,7 @@ const systemF = '#F3F8FD';
 const systemWhite = '#fff';
 const systemError = '#EA0000';
 const systemBlue = '#0069E4';
+const systemHover = '#FAFAFA';
 
 const systemColor = {
   system1,
@@ -27,6 +28,7 @@ const systemColor = {
   systemWhite,
   systemError,
   systemBlue,
+  systemHover,
 };
 
 export type SystemColorKeyType = keyof typeof systemColor;

@@ -9,6 +9,7 @@ export const TableAreaContainer = styled.div`
 `;
 
 export const Table = styled.table`
+  width: 100%;
   border-collapse: collapse;
 `;
 
@@ -16,14 +17,12 @@ type StyledCellProps = {
   dragOver: boolean;
 };
 export const Cell = styled.td<StyledCellProps>`
-  font-size: 14px;
-  text-align: left;
   text-transform: capitalize;
   vertical-align: center;
-  padding: 20px;
-  border-bottom: 2px solid #eef0f5;
-  text-transform: lowercase;
-  border-left: ${({ dragOver }) => dragOver && '5px solid red'};
+  padding: 1rem;
+  border-bottom: 1px solid ${({ theme }) => theme.color.systemE};
+  border-left: ${({ dragOver, theme }) =>
+    dragOver && `1px dashed ${theme.color.systemA}`};
 `;
 
 type StyledThProps = {
@@ -31,15 +30,29 @@ type StyledThProps = {
 };
 export const StyledTh = styled.th<StyledThProps>`
   white-space: nowrap;
-  color: #716f88;
+  color: ${({ theme }) => theme.color.system9}
   letter-spacing: 1.5px;
   font-weight: 600;
-  font-size: 14px;
-  text-align: left;
+  font-size: 16px;
   text-transform: capitalize;
   vertical-align: middle;
-  padding: 20px;
-  border-bottom: 2px solid #eef0f5;
+  padding: 1rem 0;
+  margin: 1rem;
+  border-bottom: 2px solid ${({ theme }) => theme.color.systemE};
   text-transform: uppercase;
-  border-left: ${({ dragOver }) => dragOver && '5px solid red'};
+  border-radius: 8px;
+  border-left: ${({ dragOver, theme }) =>
+    dragOver && `1px dashed ${theme.color.systemA}`};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.systemHover};
+  }
+`;
+
+export const StyledTr = styled.tr`
+  border-radius: 8px;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.systemHover};
+  }
 `;
