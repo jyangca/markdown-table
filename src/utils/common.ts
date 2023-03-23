@@ -33,3 +33,11 @@ export const initialData = () => {
   ];
   return { cols, rows };
 };
+
+export const swapElement = (target: Record<string, any>, cols: string[]) => {
+  const newObj: Record<string, any> = {};
+  cols.forEach((col) => {
+    newObj[col] = target[col];
+  });
+  return newObj;
+};

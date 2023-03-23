@@ -1,11 +1,13 @@
+import { swapElement } from '@/utils/common';
 import React, { useState } from 'react';
 
 type useTableDragProps = {
   cols: string[];
   setCols: React.Dispatch<React.SetStateAction<string[]>>;
+  setRows: React.Dispatch<React.SetStateAction<Record<string, any>[]>>;
 };
 
-const useTableDrag = ({ cols, setCols }: useTableDragProps) => {
+const useTableDrag = ({ cols, setCols, setRows }: useTableDragProps) => {
   const [dragOver, setDragOver] = useState('');
 
   const handleDragStart = (e: React.DragEvent<HTMLElement>) => {
@@ -30,7 +32,9 @@ const useTableDrag = ({ cols, setCols }: useTableDragProps) => {
 
     tempCols[draggedColIdx] = cols[droppedColIdx];
     tempCols[droppedColIdx] = cols[draggedColIdx];
+
     setCols(tempCols);
+    setRows((prev) => prev.map((row) => swapElement(row, tempCols)));
     setDragOver('');
   };
 
