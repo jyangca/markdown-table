@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  Cell,
   StyledTh,
   StyledTr,
   Table,
@@ -8,9 +7,12 @@ import {
 } from './TableForm.style';
 import { generateKey, toClassName, initialData } from '@/utils/common';
 import { useColumnDrag, useSortColumn } from '@/hooks';
+import { Cell } from '@/components';
 
 const TableForm = () => {
   const { cols: initialCols, rows: initialRows } = initialData();
+
+  const tableRef = useRef<HTMLTableElement>(null);
 
   const [cols, setCols] = useState<string[]>(initialCols);
   const [rows, setRows] = useState<Record<string, any>[]>(initialRows);
@@ -21,16 +23,16 @@ const TableForm = () => {
     handleDragEnter,
     handleOnDrop,
     dragOver,
-  } = useColumnDrag({ cols, setCols });
+  } = useColumnDrag({ cols, setCols, setRows });
 
-  if (typeof document !== 'undefined') {
+  useEffect(() => {
     const table = document.querySelector('#table');
     if (table) useSortColumn(table);
-  }
+  }, []);
 
   return (
     <TableAreaContainer>
-      <Table id="table" className={toClassName(['table'])}>
+      <Table id="table" ref={tableRef} className={toClassName(['table'])}>
         <thead>
           <tr>
             {cols.map((col) => (
