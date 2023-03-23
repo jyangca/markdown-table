@@ -24,7 +24,6 @@ const useSortColumn = (table: Element) => {
 
   const sortColumn = (index: number) => {
     let direction = directions[index] || 'asc';
-    console.log(directions, index);
 
     const newRows = Array.from(trs || []);
 
@@ -47,8 +46,6 @@ const useSortColumn = (table: Element) => {
     });
 
     directions[index] = direction === 'asc' ? 'desc' : 'asc';
-
-    console.log(directions);
 
     trs?.forEach((row) => {
       tableBody?.removeChild(row);
