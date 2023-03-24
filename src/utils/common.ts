@@ -41,3 +41,15 @@ export const swapElement = (target: Record<string, any>, cols: string[]) => {
   });
   return newObj;
 };
+
+export const toArrayLikeType = <T extends Node>(
+  nodeList: NodeListOf<T>,
+): ArrayLike<T> => {
+  return nodeList;
+};
+
+export const toIterableType = <T extends Node>(
+  nodeList: NodeListOf<T>,
+): Iterable<T> => {
+  return nodeList;
+};
