@@ -9,6 +9,9 @@ export const InputItem = styled.input`
 
   height: 32px;
 
+  padding-left: 10px;
+  font-size: 12px;
+
   border: 1px solid ${({ theme }) => theme.color.systemE};
   border-radius: 4px;
   background-color: ${({ theme }) => theme.color.systemHover};

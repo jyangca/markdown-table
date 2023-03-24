@@ -17,9 +17,9 @@ const Container = styled.div`
 
 const MarkdownContainer = styled.div`
   width: 100%;
+  max-width: 350px;
   border-radius: 8px;
   border: none;
-  min-width: 500px;
   background-color: ${({ theme }) => theme.color.systemWhite};
 `;
 

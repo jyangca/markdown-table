@@ -1,7 +1,6 @@
 const useSortColumn = (table: Element) => {
   const headers = table.querySelectorAll('th');
   const tableBody = table.querySelector('tbody');
-  const trs = tableBody?.querySelectorAll('tr');
 
   headers?.forEach((header, index) => {
     header.addEventListener('click', () => {
@@ -23,6 +22,8 @@ const useSortColumn = (table: Element) => {
   const directions = Array.from(headers, (_) => 'desc');
 
   const sortColumn = (index: number) => {
+    const trs = tableBody?.querySelectorAll('tr');
+
     let direction = directions[index] || 'asc';
 
     const newRows = Array.from(trs || []);
