@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import {
   StyledTh,
   StyledTr,
@@ -9,7 +9,11 @@ import { generateKey, toClassName, initialData } from '@/utils/common';
 import { useColumnDrag, useSortColumn } from '@/hooks';
 import { Cell } from '@/components';
 
-const TableForm = () => {
+type TableFormProps = {
+  updateMarkdown: (markdown: string) => void;
+};
+
+const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const { cols: initialCols, rows: initialRows } = initialData();
 
   const tableRef = useRef<HTMLTableElement>(null);
@@ -55,7 +59,11 @@ const TableForm = () => {
           {rows.map((row, rowIdx) => (
             <StyledTr key={generateKey(row, rowIdx)}>
               {Object.entries(row).map(([_, v], cellIdx) => (
-                <Cell key={v} dragOver={cols[cellIdx] === dragOver}>
+                <Cell
+                  key={v}
+                  dragOver={cols[cellIdx] === dragOver}
+                  updateMarkdown={updateMarkdown}
+                >
                   {row[cols[cellIdx]]}
                 </Cell>
               ))}
@@ -67,4 +75,4 @@ const TableForm = () => {
   );
 };
 
-export default TableForm;
+export default memo(TableForm);

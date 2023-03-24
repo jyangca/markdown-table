@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { StyledTd } from './Cell.style';
 import { Input } from '@/components';
 
 type CellProps = {
   dragOver: boolean;
   children: string | number;
+  updateMarkdown: (markdown: string) => void;
 };
-const Cell = ({ dragOver, children }: CellProps) => {
+const Cell = ({ dragOver, children, updateMarkdown }: CellProps) => {
   const [value, setValue] = useState<string | number>(children);
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
+    updateMarkdown(event.target.value);
   };
 
   return (
@@ -20,4 +22,4 @@ const Cell = ({ dragOver, children }: CellProps) => {
   );
 };
 
-export default Cell;
+export default memo(Cell);
