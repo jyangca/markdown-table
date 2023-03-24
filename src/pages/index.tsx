@@ -1,7 +1,5 @@
-import { TableForm } from '@/components';
-import React, { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MarkdownContainer, TableForm } from '@/components';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -15,14 +13,6 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.color.systemE};
 `;
 
-const MarkdownContainer = styled.div`
-  width: 100%;
-  max-width: 350px;
-  border-radius: 8px;
-  border: none;
-  background-color: ${({ theme }) => theme.color.systemWhite};
-`;
-
 const ShortCutContainer = styled.div`
   width: 340px;
   height: 100%;
@@ -34,13 +24,15 @@ const ShortCutContainer = styled.div`
 const index = () => {
   const [markdown, setMarkdown] = useState('');
 
+  const updateMarkdown = useCallback((markdown: string) => {
+    setMarkdown(markdown);
+  }, []);
+
   return (
     <Container>
       <ShortCutContainer />
-      <TableForm />
-      <MarkdownContainer>
-        <ReactMarkdown remarkPlugins={[remarkGfm]} children={markdown} />
-      </MarkdownContainer>
+      <TableForm updateMarkdown={updateMarkdown} />
+      <MarkdownContainer markdown={markdown} />
     </Container>
   );
 };
