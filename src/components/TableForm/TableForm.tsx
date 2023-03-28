@@ -1,16 +1,12 @@
-import React, { memo, useEffect, useRef, useState } from 'react';
-import {
-  StyledTh,
-  StyledTr,
-  Table,
-  TableAreaContainer,
-} from './TableForm.style';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { StyledTr, Table, TableAreaContainer } from './TableForm.style';
 import { generateKey, toClassName, initialData } from '@/utils/common';
 import { useColumnDrag, useSortColumn } from '@/hooks';
-import { Cell } from '@/components';
+import { Cell, HeaderCell } from '@/components';
+import { ForceUpdateType } from '@/hooks/useForceUpdate';
 
 type TableFormProps = {
-  updateMarkdown: (markdown: string) => void;
+  updateMarkdown: ForceUpdateType;
 };
 
 const TableForm = ({ updateMarkdown }: TableFormProps) => {
@@ -21,37 +17,40 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [cols, setCols] = useState<string[]>(initialCols);
   const [rows, setRows] = useState<Record<string, any>[]>(initialRows);
 
-  const {
-    handleDragStart,
-    handleDragOver,
-    handleDragEnter,
-    handleOnDrop,
-    dragOver,
-  } = useColumnDrag({ cols, setCols, setRows });
-
   useEffect(() => {
-    const table = document.querySelector('#table');
-    if (table) useSortColumn(table);
-  }, []);
+    useSortColumn();
+  }, [cols]);
+
+  const handleAddColumn = () => {
+    const newCols = [...cols, `column${cols.length + 1}`];
+    const newRows = rows.map((row) => ({ ...row, '': '' }));
+    setCols(newCols);
+    setRows(newRows);
+  };
+
+  const handleAddRow = () => {
+    const newRow = cols.reduce((acc, cur) => ({ ...acc, [cur]: '' }), {});
+    setRows([...rows, newRow]);
+  };
 
   return (
     <TableAreaContainer>
+      <div>
+        <button onClick={handleAddColumn}>Add Column</button>
+        <button onClick={handleAddRow}>Add Row</button>
+      </div>
       <Table id="table" ref={tableRef} className={toClassName(['table'])}>
         <thead>
           <tr>
-            {cols.map((col) => (
-              <StyledTh
-                id={col}
-                key={col}
-                draggable
-                onDragStart={handleDragStart}
-                onDragOver={handleDragOver}
-                onDrop={handleOnDrop}
-                onDragEnter={handleDragEnter}
-                dragOver={col === dragOver}
-              >
-                {col}
-              </StyledTh>
+            {cols.map((col, index) => (
+              <HeaderCell
+                key={generateKey([col, index])}
+                col={col}
+                index={index}
+                setCols={setCols}
+                setRows={setRows}
+                updateMarkdown={updateMarkdown}
+              />
             ))}
           </tr>
         </thead>
@@ -59,11 +58,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
           {rows.map((row, rowIdx) => (
             <StyledTr key={generateKey(row, rowIdx)}>
               {Object.entries(row).map(([_, v], cellIdx) => (
-                <Cell
-                  key={v}
-                  dragOver={cols[cellIdx] === dragOver}
-                  updateMarkdown={updateMarkdown}
-                >
+                <Cell key={v} updateMarkdown={updateMarkdown}>
                   {row[cols[cellIdx]]}
                 </Cell>
               ))}
