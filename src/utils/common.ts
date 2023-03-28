@@ -1,4 +1,4 @@
-export const toClassName = (array: string[]) => array.join(' ');
+export const toClassName = (array: Array<string | number>) => array.join(' ');
 
 export const generateKey = (item: unknown, index?: number) =>
   `${JSON.stringify(item)}_${index}`;
@@ -52,4 +52,26 @@ export const toIterableType = <T extends Node>(
   nodeList: NodeListOf<T>,
 ): Iterable<T> => {
   return nodeList;
+};
+
+export const toElementType = (value: HTMLElement): Element => value;
+
+export const getInputValue = (element: HTMLElement | HTMLInputElement) => {
+  if (element instanceof HTMLInputElement) {
+    return element.value;
+  }
+
+  const input = element.querySelector('input');
+  if (input instanceof HTMLInputElement) {
+    return input.value;
+  }
+  return '';
+};
+
+export const getColsFromTable = (table: Element | null) => {
+  const ths = table!.querySelectorAll('th');
+  const cols = Array.from(ths).map(
+    (th) => th.querySelector('input')?.value ?? '',
+  );
+  return cols;
 };
