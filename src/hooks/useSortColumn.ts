@@ -1,13 +1,11 @@
+export type UseSortColumnReturnType = {
+  handleClick: (index: number) => void;
+};
+
 const useSortColumn = () => {
   const table = document.querySelector('#table');
   const ths = table!.querySelectorAll('th');
   const tableBody = table!.querySelector('tbody');
-
-  ths?.forEach((header, index) => {
-    header.addEventListener('click', () => {
-      sortColumn(index);
-    });
-  });
 
   const transform = (index: number, content: string) => {
     const type = ths[index]?.getAttribute('data-type');
@@ -56,6 +54,10 @@ const useSortColumn = () => {
     newRows.forEach((newRow) => {
       tableBody?.appendChild(newRow);
     });
+  };
+
+  return {
+    handleClick: sortColumn,
   };
 };
 

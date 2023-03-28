@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { StyledTh } from './HeaderCell.style';
 import { Input } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
-import { useColumnDrag } from '@/hooks';
+import { useColumnDrag, useSortColumn } from '@/hooks';
 import { UseTableDragReturnType } from '@/hooks/useColumnDrag';
+import { UseSortColumnReturnType } from '@/hooks/useSortColumn';
 
 type HeaderCellProps = {
   col: string;
@@ -15,13 +16,15 @@ type HeaderCellProps = {
 
 const HeaderCell = ({
   col,
+  index,
   setCols,
   setRows,
   updateMarkdown,
 }: HeaderCellProps) => {
   const [value, setValue] = useState(col);
-  const [headerCellEvent, setHeaderCellEvent] =
-    useState<UseTableDragReturnType>();
+  const [headerCellEvent, setHeaderCellEvent] = useState<
+    UseTableDragReturnType & UseSortColumnReturnType
+  >();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -29,18 +32,25 @@ const HeaderCell = ({
   };
 
   useEffect(() => {
-    setHeaderCellEvent(
-      useColumnDrag({
-        setCols,
-        setRows,
-      }),
-    );
+    const { handleClick } = useSortColumn();
+    const { handleDragStart, handleDragOver, handleDrop } = useColumnDrag({
+      setCols,
+      setRows,
+    });
+
+    setHeaderCellEvent({
+      handleClick,
+      handleDragStart,
+      handleDragOver,
+      handleDrop,
+    });
     updateMarkdown();
   }, [value]);
 
   return (
     <StyledTh
       draggable
+      onClick={() => headerCellEvent?.handleClick(index)}
       onDragStart={headerCellEvent?.handleDragStart}
       onDragOver={headerCellEvent?.handleDragOver}
       onDrop={headerCellEvent?.handleDrop}
