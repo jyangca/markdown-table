@@ -17,10 +17,6 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [cols, setCols] = useState<string[]>(initialCols);
   const [rows, setRows] = useState<Record<string, any>[]>(initialRows);
 
-  useEffect(() => {
-    useSortColumn();
-  }, [cols]);
-
   const handleAddColumn = () => {
     const newCols = [...cols, `column${cols.length + 1}`];
     const newRows = rows.map((row) => ({ ...row, '': '' }));
