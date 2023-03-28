@@ -1,5 +1,6 @@
 import { MarkdownContainer, TableForm } from '@/components';
-import React, { useCallback, useState } from 'react';
+import { useForceUpdate } from '@/hooks';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -22,17 +23,17 @@ const ShortCutContainer = styled.div`
 `;
 
 const index = () => {
-  const [markdown, setMarkdown] = useState('');
+  const [deps, forceUpdate] = useForceUpdate();
 
-  const updateMarkdown = useCallback((markdown: string) => {
-    setMarkdown(markdown);
+  const updateMarkdown = useCallback(() => {
+    forceUpdate();
   }, []);
 
   return (
     <Container>
       <ShortCutContainer />
       <TableForm updateMarkdown={updateMarkdown} />
-      <MarkdownContainer markdown={markdown} />
+      <MarkdownContainer deps={deps} />
     </Container>
   );
 };
