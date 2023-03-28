@@ -2,18 +2,21 @@ import React, { memo, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { MarkdownWrapper } from './MarkdownContainer.style';
-import { toArrayLikeType, toIterableType } from '@/utils/common';
+import { toIterableType } from '@/utils/common';
 
 type MarkdownContainerProps = {
-  markdown: string;
+  deps: number;
 };
 
-const MarkdownContainer = ({ markdown }: MarkdownContainerProps) => {
+const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
   const [markdownTable, setMarkdownTable] = useState<string>('');
 
   useEffect(() => {
     const table = document.querySelector('#table');
-    const headers = toArrayLikeType(table!.querySelectorAll('th'));
+    const ths = table!.querySelectorAll('th');
+    const headers = Array.from(ths).map(
+      (th) => th.querySelector('input')?.value,
+    );
     const tableBody = table?.querySelector('tbody');
     const trs = toIterableType(tableBody!.querySelectorAll('tr'));
 
@@ -23,20 +26,19 @@ const MarkdownContainer = ({ markdown }: MarkdownContainerProps) => {
     );
 
     const generateMarkdownTable = () => {
-      const header = Array.from(headers).map((header) => header.textContent);
       const body = Array.from(trs).map((tr) => {
         const tds = tr.querySelectorAll('td');
         return Array.from(tds).map((td) => td.querySelector('input')?.value);
       });
 
-      const result = [header, columnDivider, ...body]
+      const result = [headers, columnDivider, ...body]
         .map((row) => row.join(' | '))
         .join('\n');
 
       return result;
     };
     setMarkdownTable(generateMarkdownTable());
-  }, [markdown]);
+  }, [deps]);
 
   return (
     <MarkdownWrapper>
