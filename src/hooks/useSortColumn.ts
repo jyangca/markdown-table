@@ -1,15 +1,16 @@
-const useSortColumn = (table: Element) => {
-  const headers = table.querySelectorAll('th');
-  const tableBody = table.querySelector('tbody');
+const useSortColumn = () => {
+  const table = document.querySelector('#table');
+  const ths = table!.querySelectorAll('th');
+  const tableBody = table!.querySelector('tbody');
 
-  headers?.forEach((header, index) => {
+  ths?.forEach((header, index) => {
     header.addEventListener('click', () => {
       sortColumn(index);
     });
   });
 
   const transform = (index: number, content: string) => {
-    const type = headers[index]?.getAttribute('data-type');
+    const type = ths[index]?.getAttribute('data-type');
     switch (type) {
       case 'number':
         return parseFloat(content);
@@ -19,7 +20,7 @@ const useSortColumn = (table: Element) => {
     }
   };
 
-  const directions = Array.from(headers, (_) => 'desc');
+  const directions = Array.from(ths, (_) => 'desc');
 
   const sortColumn = (index: number) => {
     const trs = tableBody?.querySelectorAll('tr');
