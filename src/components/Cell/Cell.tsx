@@ -1,22 +1,22 @@
 import React, { memo, useState } from 'react';
 import { StyledTd } from './Cell.style';
 import { Input } from '@/components';
+import { ForceUpdateType } from '@/hooks/useForceUpdate';
 
 type CellProps = {
-  dragOver: boolean;
   children: string | number;
-  updateMarkdown: (markdown: string) => void;
+  updateMarkdown: ForceUpdateType;
 };
-const Cell = ({ dragOver, children, updateMarkdown }: CellProps) => {
+const Cell = ({ children, updateMarkdown }: CellProps) => {
   const [value, setValue] = useState<string | number>(children);
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
-    updateMarkdown(event.target.value);
+    updateMarkdown();
   };
 
   return (
-    <StyledTd dragOver={dragOver}>
+    <StyledTd>
       <Input onChange={handleChangeInput}>{value}</Input>
     </StyledTd>
   );
