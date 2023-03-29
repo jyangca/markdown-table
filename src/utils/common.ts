@@ -66,3 +66,15 @@ export const getColsFromTable = (table: Element | null) => {
   );
   return cols;
 };
+
+export const copySelected = (e: KeyboardEvent) => {
+  if (e.metaKey && e.key === 'c') {
+    e.preventDefault();
+    const selectedCells = document.querySelectorAll('.selected');
+    const selectedCellsValues = Array.from(selectedCells).map(
+      (cell) => cell.textContent,
+    );
+    const selectedCellsValuesString = selectedCellsValues.join('\t');
+    navigator.clipboard.writeText(selectedCellsValuesString);
+  }
+};

@@ -1,4 +1,4 @@
-import { MarkdownContainer, TableForm } from '@/components';
+import { MarkdownContainer, ShortCut, TableForm } from '@/components';
 import { useForceUpdate } from '@/hooks';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
@@ -14,14 +14,6 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.color.systemE};
 `;
 
-const ShortCutContainer = styled.div`
-  width: 340px;
-  height: 100%;
-
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.color.systemWhite};
-`;
-
 const index = () => {
   const [deps, forceUpdate] = useForceUpdate();
 
@@ -31,7 +23,7 @@ const index = () => {
 
   return (
     <Container>
-      <ShortCutContainer />
+      <ShortCut />
       <TableForm updateMarkdown={updateMarkdown} />
       <MarkdownContainer deps={deps} />
     </Container>
