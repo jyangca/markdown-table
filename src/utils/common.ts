@@ -42,27 +42,18 @@ export const swapElement = (target: Record<string, any>, cols: string[]) => {
   return newObj;
 };
 
-export const toArrayLikeType = <T extends Node>(
-  nodeList: NodeListOf<T>,
-): ArrayLike<T> => {
-  return nodeList;
-};
-
-export const toIterableType = <T extends Node>(
-  nodeList: NodeListOf<T>,
-): Iterable<T> => {
-  return nodeList;
-};
-
-export const toElementType = (value: HTMLElement): Element => value;
-
-export const getInputValue = (element: HTMLElement | HTMLInputElement) => {
+export const getInputValue = (element: HTMLElement): string => {
   if (element instanceof HTMLInputElement) {
     return element.value;
   }
 
   const input = element.querySelector('input');
-  if (input instanceof HTMLInputElement) {
+
+  if ('textContent' in element && !input) {
+    return element.textContent || '';
+  }
+
+  if (input) {
     return input.value;
   }
   return '';

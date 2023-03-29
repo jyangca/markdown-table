@@ -9,6 +9,7 @@ import { UseSortColumnReturnType } from '@/hooks/useSortColumn';
 type HeaderCellProps = {
   col: string;
   index: number;
+  isEdit: boolean;
   setCols: React.Dispatch<React.SetStateAction<string[]>>;
   setRows: React.Dispatch<React.SetStateAction<Record<string, any>[]>>;
   updateMarkdown: ForceUpdateType;
@@ -17,6 +18,7 @@ type HeaderCellProps = {
 const HeaderCell = ({
   col,
   index,
+  isEdit,
   setCols,
   setRows,
   updateMarkdown,
@@ -49,13 +51,13 @@ const HeaderCell = ({
 
   return (
     <StyledTh
-      draggable
-      onClick={() => headerCellEvent?.handleClick(index)}
-      onDragStart={headerCellEvent?.handleDragStart}
-      onDragOver={headerCellEvent?.handleDragOver}
-      onDrop={headerCellEvent?.handleDrop}
+      draggable={isEdit}
+      onClick={() => !isEdit && headerCellEvent?.handleClick(index)}
+      onDragStart={isEdit && headerCellEvent?.handleDragStart}
+      onDragOver={isEdit && headerCellEvent?.handleDragOver}
+      onDrop={isEdit && headerCellEvent?.handleDrop}
     >
-      <Input onChange={handleChange}>{value}</Input>
+      {isEdit ? <Input onChange={handleChange}>{value}</Input> : value}
     </StyledTh>
   );
 };

@@ -1,9 +1,5 @@
-import {
-  getColsFromTable,
-  getInputValue,
-  swapElement,
-  toIterableType,
-} from '@/utils/common';
+import { getColsFromTable, getInputValue, swapElement } from '@/utils/common';
+import { toIterableType } from '@/utils/types';
 import React from 'react';
 
 type useTableDragProps = {
