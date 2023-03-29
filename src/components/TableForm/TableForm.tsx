@@ -1,6 +1,11 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { StyledTr, Table, TableAreaContainer } from './TableForm.style';
-import { generateKey, toClassName, initialData } from '@/utils/common';
+import {
+  generateKey,
+  toClassName,
+  initialData,
+  copySelected,
+} from '@/utils/common';
 import { Cell, HeaderCell } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { useCellSelection } from '@/hooks';
@@ -20,6 +25,8 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
   useEffect(() => {
     useCellSelection();
+
+    document.addEventListener('keydown', copySelected);
   }, []);
 
   const handleAddColumn = () => {
