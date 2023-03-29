@@ -52,7 +52,10 @@ const HeaderCell = ({
   return (
     <StyledTh
       draggable={isEdit}
-      onClick={() => !isEdit && headerCellEvent?.handleClick(index)}
+      onClick={() => {
+        !isEdit && headerCellEvent?.handleClick(index);
+        updateMarkdown();
+      }}
       onDragStart={isEdit && headerCellEvent?.handleDragStart}
       onDragOver={isEdit && headerCellEvent?.handleDragOver}
       onDrop={isEdit && headerCellEvent?.handleDrop}
