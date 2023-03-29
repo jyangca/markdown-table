@@ -1,7 +1,6 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import { StyledTr, Table, TableAreaContainer } from './TableForm.style';
 import { generateKey, toClassName, initialData } from '@/utils/common';
-import { useColumnDrag, useSortColumn } from '@/hooks';
 import { Cell, HeaderCell } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 
@@ -16,6 +15,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
   const [cols, setCols] = useState<string[]>(initialCols);
   const [rows, setRows] = useState<Record<string, any>[]>(initialRows);
+  const [editMode, setEditMode] = useState<boolean>(true);
 
   const handleAddColumn = () => {
     const newCols = [...cols, `column${cols.length + 1}`];
@@ -29,11 +29,19 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     setRows([...rows, newRow]);
   };
 
+  const handleChangeEditMode = () => {
+    setEditMode((prev) => !prev);
+    updateMarkdown();
+  };
+
   return (
     <TableAreaContainer>
       <div>
         <button onClick={handleAddColumn}>Add Column</button>
         <button onClick={handleAddRow}>Add Row</button>
+        <button onClick={handleChangeEditMode}>
+          {editMode ? '편집' : '보기'}
+        </button>
       </div>
       <Table id="table" ref={tableRef} className={toClassName(['table'])}>
         <thead>
@@ -46,6 +54,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
                 setCols={setCols}
                 setRows={setRows}
                 updateMarkdown={updateMarkdown}
+                isEdit={editMode}
               />
             ))}
           </tr>
@@ -54,7 +63,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
           {rows.map((row, rowIdx) => (
             <StyledTr key={generateKey(row, rowIdx)}>
               {Object.entries(row).map(([_, v], cellIdx) => (
-                <Cell key={v} updateMarkdown={updateMarkdown}>
+                <Cell key={v} updateMarkdown={updateMarkdown} isEdit={editMode}>
                   {row[cols[cellIdx]]}
                 </Cell>
               ))}
