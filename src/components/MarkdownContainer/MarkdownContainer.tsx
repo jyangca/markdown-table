@@ -40,8 +40,15 @@ const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
     setMarkdownTable(generateMarkdownTable());
   }, [deps]);
 
+  const copyMarkDownTable = () => {
+    if (typeof window !== 'undefined') {
+      window.navigator.clipboard.writeText(markdownTable);
+    }
+  };
+
   return (
     <MarkdownWrapper>
+      <button onClick={copyMarkDownTable}>복사</button>
       <ReactMarkdown remarkPlugins={[remarkGfm]} children={markdownTable} />
     </MarkdownWrapper>
   );

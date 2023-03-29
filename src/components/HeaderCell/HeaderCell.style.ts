@@ -17,6 +17,8 @@ export const StyledTh = styled.th<StyledThProps>`
   border-radius: 8px;
   border-bottom: 2px solid ${({ theme }) => theme.color.systemE};
 
+  user-select: none;
+
   &:hover {
     background-color: ${({ theme }) => theme.color.systemHover};
   }

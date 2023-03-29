@@ -1,8 +1,9 @@
-import React, { memo, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { StyledTr, Table, TableAreaContainer } from './TableForm.style';
 import { generateKey, toClassName, initialData } from '@/utils/common';
 import { Cell, HeaderCell } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
+import { useCellSelection } from '@/hooks';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
@@ -17,6 +18,10 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [rows, setRows] = useState<Record<string, any>[]>(initialRows);
   const [editMode, setEditMode] = useState<boolean>(true);
 
+  useEffect(() => {
+    useCellSelection();
+  }, []);
+
   const handleAddColumn = () => {
     const newCols = [...cols, `column${cols.length + 1}`];
     const newRows = rows.map((row) => ({ ...row, '': '' }));
@@ -29,7 +34,16 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     setRows([...rows, newRow]);
   };
 
+  const removeEmptyRow = () => {
+    const newRows = rows.filter((row) => {
+      const values = Object.values(row);
+      return values.some((value) => value !== '');
+    });
+    setRows(newRows);
+  };
+
   const handleChangeEditMode = () => {
+    removeEmptyRow();
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
