@@ -29,7 +29,16 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     setRows([...rows, newRow]);
   };
 
+  const removeEmptyRow = () => {
+    const newRows = rows.filter((row) => {
+      const values = Object.values(row);
+      return values.some((value) => value !== '');
+    });
+    setRows(newRows);
+  };
+
   const handleChangeEditMode = () => {
+    removeEmptyRow();
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
