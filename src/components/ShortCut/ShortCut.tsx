@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 
 const ShortCutContainer = styled.div`
@@ -13,4 +13,4 @@ const ShortCut = () => {
   return <ShortCutContainer>ShortCutContainer</ShortCutContainer>;
 };
 
-export default ShortCut;
+export default memo(ShortCut);
