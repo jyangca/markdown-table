@@ -1,4 +1,7 @@
 type isDraggingType = boolean;
+export type UseCellSelectionReturnType = {
+  clearSelection: () => void;
+};
 
 const useCellSelection = () => {
   const table = document.querySelector('table');
@@ -69,6 +72,10 @@ const useCellSelection = () => {
     tds[i].addEventListener('mousemove', handleMouseMove);
     tds[i].addEventListener('mouseup', handleMouseUp);
   }
+
+  return {
+    clearSelection,
+  };
 };
 
 export default useCellSelection;

@@ -8,7 +8,7 @@ export const StyledTd = styled.td`
 
   user-select: none;
 
-  &.selected {
+  &.selected:not(.cell-mode-edit) {
     background-color: ${({ theme }) => theme.color.systemLightBlue};
   }
 `;

@@ -7,9 +7,10 @@ import {
   copySelected,
   getPasteText,
 } from '@/utils/common';
-import { Cell, HeaderCell } from '@/components';
+import { Button, Cell, HeaderCell } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { useCellSelection } from '@/hooks';
+import { UseCellSelectionReturnType } from '@/hooks/useCellSelection';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
@@ -22,16 +23,18 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
   const [cols, setCols] = useState<string[]>(initialCols);
   const [rows, setRows] = useState<Record<string, any>[]>(initialRows);
-  const [editMode, setEditMode] = useState<boolean>(true);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [tableApi, setTableApi] = useState<UseCellSelectionReturnType>();
 
   useEffect(() => {
-    useCellSelection();
+    const { clearSelection } = useCellSelection();
+    setTableApi({ clearSelection });
 
     document.addEventListener('keydown', (e) => {
       copySelected(e);
       getPasteText(e);
     });
-  }, []);
+  }, [editMode]);
 
   const handleAddColumn = () => {
     const newCols = [...cols, `column${cols.length + 1}`];
@@ -56,19 +59,31 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const handleChangeEditMode = () => {
     removeEmptyRow();
     setEditMode((prev) => !prev);
+    tableApi?.clearSelection();
     updateMarkdown();
   };
 
   return (
     <TableAreaContainer>
-      <div>
-        <button onClick={handleAddColumn}>Add Column</button>
-        <button onClick={handleAddRow}>Add Row</button>
-        <button onClick={handleChangeEditMode}>
-          {editMode ? '편집' : '보기'}
-        </button>
+      <div style={{ display: 'flex', columnGap: '10px' }}>
+        <Button disabled={!editMode} onClick={handleAddColumn}>
+          Add Column
+        </Button>
+        <Button disabled={!editMode} onClick={handleAddRow}>
+          Add Row
+        </Button>
+        <Button onClick={handleChangeEditMode}>
+          {editMode ? '보기' : '편집'}
+        </Button>
       </div>
-      <Table id="table" ref={tableRef} className={toClassName(['table'])}>
+      <Table
+        id="table"
+        ref={tableRef}
+        className={toClassName([
+          'table',
+          editMode ? 'table-mode-edit' : 'table-mode-read',
+        ])}
+      >
         <thead>
           <tr>
             {cols.map((col, index) => (
