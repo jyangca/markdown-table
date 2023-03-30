@@ -5,6 +5,7 @@ import {
   toClassName,
   initialData,
   copySelected,
+  getPasteText,
 } from '@/utils/common';
 import { Cell, HeaderCell } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
@@ -26,7 +27,10 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   useEffect(() => {
     useCellSelection();
 
-    document.addEventListener('keydown', copySelected);
+    document.addEventListener('keydown', (e) => {
+      copySelected(e);
+      getPasteText(e);
+    });
   }, []);
 
   const handleAddColumn = () => {
