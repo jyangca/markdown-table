@@ -1,7 +1,16 @@
-import { RowsType } from '@/components/TableForm/TableForm';
+import { ColsType, RowsType } from '@/components/TableForm/TableForm';
+
+export type UseExportCsv = {
+  toCSVFormat: (cols: ColsType, rows: RowsType) => string;
+  downloadBlob: (
+    content: string,
+    filename?: string,
+    contentType?: string,
+  ) => void;
+};
 
 const useExportCsv = () => {
-  const toCSVFormat = (cols: string[], rows: RowsType) => {
+  const toCSVFormat = (cols: ColsType, rows: RowsType) => {
     const newCols = cols
       .map(String)
       .map((v) => v.replace(/"/g, ''))
@@ -23,10 +32,10 @@ const useExportCsv = () => {
     filename = 'export.csv',
     contentType = 'text/csv;charset=utf-8;',
   ) => {
-    var blob = new Blob([content], { type: contentType });
-    var url = URL.createObjectURL(blob);
+    let blob = new Blob([content], { type: contentType });
+    let url = URL.createObjectURL(blob);
 
-    var pom = document.createElement('a');
+    let pom = document.createElement('a');
     pom.href = url;
     pom.setAttribute('download', filename);
     pom.click();

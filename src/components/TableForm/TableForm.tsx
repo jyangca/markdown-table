@@ -11,10 +11,14 @@ import { Button, Cell, HeaderCell } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { useCellSelection, useExportCsv } from '@/hooks';
 import { UseCellSelectionReturnType } from '@/hooks/useCellSelection';
+import { UseExportCsv } from '@/hooks/useExportCsv';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
 };
+
+type TableApiType = UseCellSelectionReturnType & UseExportCsv;
+
 export type ColsType = string[];
 export type RowsType = Record<string, any>[];
 
@@ -26,11 +30,13 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [cols, setCols] = useState<ColsType>(initialCols);
   const [rows, setRows] = useState<RowsType>(initialRows);
   const [editMode, setEditMode] = useState<boolean>(false);
-  const [tableApi, setTableApi] = useState<UseCellSelectionReturnType>();
+  const [tableApi, setTableApi] = useState<TableApiType>();
 
   useEffect(() => {
     const { clearSelection } = useCellSelection();
-    setTableApi({ clearSelection });
+    const { toCSVFormat, downloadBlob } = useExportCsv();
+
+    setTableApi({ clearSelection, toCSVFormat, downloadBlob });
 
     document.addEventListener('keydown', (e) => {
       copySelected(e);
@@ -51,9 +57,10 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   };
 
   const handleExportCsv = () => {
-    const { toCSVFormat, downloadBlob } = useExportCsv();
-    const csv = toCSVFormat(cols, rows);
-    downloadBlob(csv);
+    if (tableApi) {
+      const csv = tableApi.toCSVFormat(cols, rows);
+      if (csv) tableApi.downloadBlob(csv);
+    }
   };
 
   const removeEmptyRow = () => {
@@ -65,9 +72,11 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   };
 
   const handleChangeEditMode = () => {
+    if (tableApi) {
+      tableApi.clearSelection();
+    }
     removeEmptyRow();
     setEditMode((prev) => !prev);
-    tableApi?.clearSelection();
     updateMarkdown();
   };
 
