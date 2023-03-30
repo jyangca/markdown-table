@@ -70,11 +70,38 @@ export const getColsFromTable = (table: Element | null) => {
 export const copySelected = (e: KeyboardEvent) => {
   if (e.metaKey && e.key === 'c') {
     e.preventDefault();
-    const selectedCells = document.querySelectorAll('.selected');
-    const selectedCellsValues = Array.from(selectedCells).map(
-      (cell) => cell.textContent,
-    );
-    const selectedCellsValuesString = selectedCellsValues.join('\t');
+    const trs = document.querySelectorAll('tr');
+    const selectedCellsValuesString = Array.from(trs)
+      .map((tr) =>
+        Array.from(tr.querySelectorAll('.selected'))
+          .map((cell) => cell.textContent)
+          .join('\t'),
+      )
+      .join('\n');
+
     navigator.clipboard.writeText(selectedCellsValuesString);
+  }
+};
+
+export const getPasteText = (e: KeyboardEvent) => {
+  if (e.metaKey && e.key === 'v') {
+    e.preventDefault();
+
+    navigator.clipboard.readText().then((text) => {
+      const textArray = text
+        .trim()
+        .split('\n')
+        .map((row) => row.split('\t'));
+      const cols = textArray[0];
+      const rows = textArray.slice(1).map((row) => {
+        const obj: Record<string, any> = {};
+        row.forEach((value, i) => {
+          obj[cols[i]] = value;
+        });
+        return obj;
+      });
+
+      return { cols, rows };
+    });
   }
 };
