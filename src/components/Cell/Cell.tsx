@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import { StyledTd } from './Cell.style';
 import { Input } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
+import { toClassName } from '@/utils/common';
 
 type CellProps = {
   isEdit: boolean;
@@ -17,7 +18,12 @@ const Cell = ({ isEdit, children, updateMarkdown }: CellProps) => {
   };
 
   return (
-    <StyledTd>
+    <StyledTd
+      className={toClassName([
+        'cell',
+        isEdit ? 'cell-mode-edit' : 'cell-mode-read',
+      ])}
+    >
       {isEdit ? <Input onChange={handleChangeInput}>{value}</Input> : value}
     </StyledTd>
   );

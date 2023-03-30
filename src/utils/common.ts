@@ -1,4 +1,5 @@
-export const toClassName = (array: Array<string | number>) => array.join(' ');
+export const toClassName = (array: Array<string | number | boolean>) =>
+  array.filter(Boolean).join(' ');
 
 export const generateKey = (item: unknown, index?: number) =>
   `${JSON.stringify(item)}_${index}`;
