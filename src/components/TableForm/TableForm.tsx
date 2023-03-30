@@ -9,20 +9,22 @@ import {
 } from '@/utils/common';
 import { Button, Cell, HeaderCell } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
-import { useCellSelection } from '@/hooks';
+import { useCellSelection, useExportCsv } from '@/hooks';
 import { UseCellSelectionReturnType } from '@/hooks/useCellSelection';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
 };
+export type ColsType = string[];
+export type RowsType = Record<string, any>[];
 
 const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const { cols: initialCols, rows: initialRows } = initialData();
 
   const tableRef = useRef<HTMLTableElement>(null);
 
-  const [cols, setCols] = useState<string[]>(initialCols);
-  const [rows, setRows] = useState<Record<string, any>[]>(initialRows);
+  const [cols, setCols] = useState<ColsType>(initialCols);
+  const [rows, setRows] = useState<RowsType>(initialRows);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [tableApi, setTableApi] = useState<UseCellSelectionReturnType>();
 
@@ -48,6 +50,12 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     setRows([...rows, newRow]);
   };
 
+  const handleExportCsv = () => {
+    const { toCSVFormat, downloadBlob } = useExportCsv();
+    const csv = toCSVFormat(cols, rows);
+    downloadBlob(csv);
+  };
+
   const removeEmptyRow = () => {
     const newRows = rows.filter((row) => {
       const values = Object.values(row);
@@ -71,6 +79,9 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
         </Button>
         <Button disabled={!editMode} onClick={handleAddRow}>
           Add Row
+        </Button>
+        <Button disabled={editMode} onClick={handleExportCsv}>
+          Export CSV
         </Button>
         <Button onClick={handleChangeEditMode}>
           {editMode ? '보기' : '편집'}
