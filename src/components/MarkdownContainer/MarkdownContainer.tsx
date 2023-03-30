@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm';
 import { MarkdownWrapper } from './MarkdownContainer.style';
 import { toIterableType } from '@/utils/types';
 import { getInputValue } from '@/utils/common';
+import { Button } from '@/components';
 
 type MarkdownContainerProps = {
   deps: number;
@@ -48,7 +49,7 @@ const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
 
   return (
     <MarkdownWrapper>
-      <button onClick={copyMarkDownTable}>복사</button>
+      <Button onClick={copyMarkDownTable}>복사</Button>
       <ReactMarkdown remarkPlugins={[remarkGfm]} children={markdownTable} />
     </MarkdownWrapper>
   );

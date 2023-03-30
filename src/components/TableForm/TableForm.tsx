@@ -7,7 +7,7 @@ import {
   copySelected,
   getPasteText,
 } from '@/utils/common';
-import { Cell, HeaderCell } from '@/components';
+import { Button, Cell, HeaderCell } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { useCellSelection } from '@/hooks';
 
@@ -61,12 +61,16 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
   return (
     <TableAreaContainer>
-      <div>
-        <button onClick={handleAddColumn}>Add Column</button>
-        <button onClick={handleAddRow}>Add Row</button>
-        <button onClick={handleChangeEditMode}>
-          {editMode ? '편집' : '보기'}
-        </button>
+      <div style={{ display: 'flex', columnGap: '10px' }}>
+        <Button disabled={!editMode} onClick={handleAddColumn}>
+          Add Column
+        </Button>
+        <Button disabled={!editMode} onClick={handleAddRow}>
+          Add Row
+        </Button>
+        <Button onClick={handleChangeEditMode}>
+          {editMode ? '보기' : '편집'}
+        </Button>
       </div>
       <Table id="table" ref={tableRef} className={toClassName(['table'])}>
         <thead>
