@@ -14,7 +14,7 @@ const tableCellSelection = () => {
     let selectedCells = table!.querySelectorAll('.selected');
 
     for (let i = 0; i < selectedCells.length; i++) {
-      selectedCells[i].classList.remove('selected');
+      selectedCells[i].classList.remove('selected', 'border-top', 'border-bottom', 'border-left', 'border-right', 'border-bottom-none');
     }
   };
 
@@ -37,11 +37,29 @@ const tableCellSelection = () => {
       endCellIndex = temp;
     }
 
-    for (let i = startRowIndex; i <= endRowIndex; i++) {
+    for (let i = startRowIndex - 1; i <= endRowIndex; i++) {
       let tableCells = trs[i].querySelectorAll('td');
 
       for (let j = startCellIndex; j <= endCellIndex; j++) {
+        if (i === startRowIndex - 1) {
+          tableCells[j]?.classList.add('border-bottom-none');
+          continue;
+        }
+
         tableCells[j].classList.add('selected');
+
+        if (i === startRowIndex) {
+          tableCells[j].classList.add('border-top');
+        }
+        if (i === endRowIndex) {
+          tableCells[j].classList.add('border-bottom');
+        }
+        if (j === startCellIndex) {
+          tableCells[j].classList.add('border-left');
+        }
+        if (j === endCellIndex) {
+          tableCells[j].classList.add('border-right');
+        }
       }
     }
   };

@@ -76,6 +76,9 @@ export const copySelected = (e: KeyboardEvent) => {
       )
       .join('\n');
 
+    setTimeout(() => Array.from(document.querySelectorAll('.selected')).forEach((cell) => cell.classList.remove('copied')), 100);
+    Array.from(document.querySelectorAll('.selected')).forEach((cell) => cell.classList.add('copied'));
+
     navigator.clipboard.writeText(selectedCellsValuesString);
   }
 };
