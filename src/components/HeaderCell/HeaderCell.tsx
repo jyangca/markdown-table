@@ -5,6 +5,7 @@ import StyledTh from './HeaderCell.style';
 import { tableColumnDrag, tableSortColumn } from '@/utils/table';
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
 import { TableSortColumnReturnType } from '@/utils/table/tableSortColumn';
+import { TableApiType } from '../TableForm/TableForm';
 
 type HeaderCellProps = {
   col: string;
@@ -13,9 +14,10 @@ type HeaderCellProps = {
   setCols: React.Dispatch<React.SetStateAction<string[]>>;
   setRows: React.Dispatch<React.SetStateAction<Record<string, any>[]>>;
   updateMarkdown: ForceUpdateType;
+  tableApi: TableApiType | undefined;
 };
 
-function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown }: HeaderCellProps) {
+function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tableApi }: HeaderCellProps) {
   const [value, setValue] = useState(col);
   const [headerCellEvent, setHeaderCellEvent] = useState<TableColumnDragReturnType & TableSortColumnReturnType>();
 
@@ -46,6 +48,7 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown }: He
       onClick={() => {
         !isEdit && headerCellEvent?.handleClick(index);
         updateMarkdown();
+        tableApi?.clearSelection();
       }}
       onDragStart={isEdit ? headerCellEvent?.handleDragStart : undefined}
       onDragOver={isEdit ? headerCellEvent?.handleDragOver : undefined}
