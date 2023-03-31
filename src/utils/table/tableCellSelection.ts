@@ -11,15 +11,18 @@ const tableCellSelection = () => {
   let startCell: HTMLTableCellElement | null = null;
 
   const clearSelection = () => {
-    let selectedCells = table!.querySelectorAll('.selected');
+    const selectedCells = table!.querySelectorAll('.selected');
+    const ths = document.querySelectorAll('th');
+    const target = [...selectedCells, ...ths];
 
-    for (let i = 0; i < selectedCells.length; i++) {
-      selectedCells[i].classList.remove('selected', 'border-top', 'border-bottom', 'border-left', 'border-right', 'border-bottom-none');
+    for (let i = 0; i < target.length; i++) {
+      target[i].classList.remove('selected', 'border-top', 'border-bottom', 'border-left', 'border-right', 'border-bottom-none');
     }
   };
 
   const selectCells = (startCell: HTMLTableCellElement, endCell: HTMLTableCellElement) => {
     const trs = table!.querySelectorAll('tr');
+    const ths = table!.querySelectorAll('th');
     let startRowIndex = (startCell.parentNode! as HTMLTableRowElement).rowIndex;
     let endRowIndex = (endCell.parentNode! as HTMLTableRowElement).rowIndex;
     let startCellIndex = startCell.cellIndex;
@@ -42,7 +45,11 @@ const tableCellSelection = () => {
 
       for (let j = startCellIndex; j <= endCellIndex; j++) {
         if (i === startRowIndex - 1) {
-          tableCells[j]?.classList.add('border-bottom-none');
+          if (i === 0) {
+            ths[j].classList.add('border-bottom-none');
+          } else {
+            tableCells[j]?.classList.add('border-bottom-none');
+          }
           continue;
         }
 
