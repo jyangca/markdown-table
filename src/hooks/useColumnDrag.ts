@@ -1,6 +1,6 @@
 import { getColsFromTable, getInputValue, swapElement } from '@/utils/common';
 import { toIterableType } from '@/utils/types';
-import React from 'react';
+import React, { DragEventHandler } from 'react';
 
 type useTableDragProps = {
   setCols: React.Dispatch<React.SetStateAction<string[]>>;
@@ -8,9 +8,9 @@ type useTableDragProps = {
 };
 
 export type UseTableDragReturnType = {
-  handleDragStart: (e: React.DragEvent<HTMLElement>) => void;
-  handleDragOver: (e: React.DragEvent<HTMLElement>) => void;
-  handleDrop: (e: React.DragEvent<HTMLElement>) => void;
+  handleDragStart: DragEventHandler<HTMLElement>;
+  handleDragOver: DragEventHandler<HTMLElement>;
+  handleDrop: DragEventHandler<HTMLElement>;
 };
 
 const useTableDrag = ({
