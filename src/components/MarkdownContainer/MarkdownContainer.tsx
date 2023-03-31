@@ -21,10 +21,7 @@ const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
     const tableBody = table?.querySelector('tbody');
     const trs = toIterableType(tableBody!.querySelectorAll('tr'));
 
-    const columnDivider = Array.from(
-      { length: (headers || []).length },
-      (_) => '---',
-    );
+    const columnDivider = Array.from({ length: (headers || []).length }, (_) => '---');
 
     const generateMarkdownTable = () => {
       const body = Array.from(trs).map((tr) => {
@@ -32,9 +29,7 @@ const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
         return Array.from(tds).map((td) => getInputValue(td));
       });
 
-      const result = [headers, columnDivider, ...body]
-        .map((row) => row.join(' | '))
-        .join('\n');
+      const result = [headers, columnDivider, ...body].map((row) => row.join(' | ')).join('\n');
 
       return result;
     };
@@ -50,7 +45,7 @@ const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
   return (
     <MarkdownWrapper>
       <Button onClick={copyMarkDownTable}>복사</Button>
-      <ReactMarkdown remarkPlugins={[remarkGfm]} children={markdownTable} />
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdownTable}</ReactMarkdown>
     </MarkdownWrapper>
   );
 };
