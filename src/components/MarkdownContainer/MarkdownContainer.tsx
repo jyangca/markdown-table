@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { MarkdownWrapper } from './MarkdownContainer.style';
+import { MarkdownStyle, MarkdownWrapper } from './MarkdownContainer.style';
 import { toIterableType } from '@/utils/types';
 import { getInputValue } from '@/utils/common';
 import { Button } from '@/components';
@@ -43,9 +43,13 @@ const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
   };
 
   return (
-    <MarkdownWrapper>
-      <Button onClick={copyMarkDownTable}>복사</Button>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdownTable}</ReactMarkdown>
+    <MarkdownWrapper direction="COLUMN" justify="SPACE_BETWEEN" align="START">
+      <MarkdownStyle>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdownTable}</ReactMarkdown>
+      </MarkdownStyle>
+      <Button fixWidth="100%" size={60} onClick={copyMarkDownTable}>
+        복사
+      </Button>
     </MarkdownWrapper>
   );
 };
