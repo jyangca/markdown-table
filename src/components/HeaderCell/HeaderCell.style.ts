@@ -15,9 +15,13 @@ const StyledTh = styled.th`
   margin: 1rem;
 
   border-radius: 8px;
-  border-bottom: 2px solid ${({ theme }) => theme.color.systemE};
+  border-bottom: 1px solid ${({ theme }) => theme.color.systemE};
 
   user-select: none;
+
+  &.border-bottom-none {
+    border-bottom: none;
+  }
 
   &:hover {
     background-color: ${({ theme }) => theme.color.systemHover};
