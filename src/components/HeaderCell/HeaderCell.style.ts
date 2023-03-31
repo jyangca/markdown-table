@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledTh = styled.th`
+const StyledTh = styled.th`
   white-space: nowrap;
   color: ${({ theme }) => theme.color.system9};
   letter-spacing: 1.5px;
@@ -23,3 +23,5 @@ export const StyledTh = styled.th`
     background-color: ${({ theme }) => theme.color.systemHover};
   }
 `;
+
+export default StyledTh;

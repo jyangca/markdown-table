@@ -14,7 +14,7 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.color.systemE};
 `;
 
-const index = () => {
+const Home = () => {
   const [deps, forceUpdate] = useForceUpdate();
 
   const updateMarkdown = useCallback(() => {
@@ -30,4 +30,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Home;

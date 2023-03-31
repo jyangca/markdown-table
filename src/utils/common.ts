@@ -1,8 +1,6 @@
-export const toClassName = (array: Array<string | number | boolean>) =>
-  array.filter(Boolean).join(' ');
+export const toClassName = (array: Array<string | number | boolean>) => array.filter(Boolean).join(' ');
 
-export const generateKey = (item: unknown, index?: number) =>
-  `${JSON.stringify(item)}_${index}`;
+export const generateKey = (item: unknown, index?: number) => `${JSON.stringify(item)}_${index}`;
 
 export const initialData = () => {
   const cols = ['name', 'age', 'country', 'sport'];
@@ -62,9 +60,7 @@ export const getInputValue = (element: HTMLElement): string => {
 
 export const getColsFromTable = (table: Element | null) => {
   const ths = table!.querySelectorAll('th');
-  const cols = Array.from(ths).map(
-    (th) => th.querySelector('input')?.value ?? '',
-  );
+  const cols = Array.from(ths).map((th) => th.querySelector('input')?.value ?? '');
   return cols;
 };
 

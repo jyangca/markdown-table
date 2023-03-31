@@ -1,11 +1,7 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import { FontStyleKeyType } from '@/theme/fontStyle';
-import {
-  ButtonFontTypeMap,
-  ButtonSizeMap,
-  ButtonThemeMap,
-} from './Button.theme';
+import { ButtonFontTypeMap, ButtonSizeMap, ButtonThemeMap } from './Button.theme';
 import { ButtonProps, ButtonSize, ButtonTheme } from './Button.types';
 
 type StyledButtonProps = {
@@ -55,36 +51,22 @@ const StyledButton = styled.button<StyledButtonProps>`
   }
 `;
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      theme = 'system3',
-      size = 32,
-      children,
-      disabled,
-      fontType = ButtonFontTypeMap[size],
-      rounded,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <StyledButton
-        buttonTheme={theme}
-        size={size}
-        fontType={fontType}
-        disabled={disabled}
-        rounded={rounded}
-        {...props}
-        ref={ref}
-        onClick={(event) => {
-          if (!disabled) props?.onClick?.(event);
-        }}
-      >
-        {children}
-      </StyledButton>
-    );
-  },
-);
+const Button = ({ theme = 'system3', size = 32, children, disabled, fontType = ButtonFontTypeMap[size], rounded, ...props }: ButtonProps) => {
+  return (
+    <StyledButton
+      buttonTheme={theme}
+      size={size}
+      fontType={fontType}
+      disabled={disabled}
+      rounded={rounded}
+      {...props}
+      onClick={(event) => {
+        if (!disabled) props?.onClick?.(event);
+      }}
+    >
+      {children}
+    </StyledButton>
+  );
+};
 
 export default Button;
