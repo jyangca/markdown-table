@@ -6,6 +6,7 @@ import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
 import { TableCellSelectionReturnType } from '@/utils/table/tableCellSelection';
 import { TableExportCsvReturnType } from '@/utils/table/tableExportCsv';
+import Flex from '../common/Flex/Flex';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
@@ -81,8 +82,8 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   };
 
   return (
-    <TableAreaContainer>
-      <div style={{ display: 'flex', columnGap: '10px' }}>
+    <TableAreaContainer direction="COLUMN" align="START" boxFill>
+      <Flex direction="ROW" gap={{ column: 8 }} boxFill>
         <Button disabled={!editMode} onClick={handleAddColumn}>
           Add Column
         </Button>
@@ -94,7 +95,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
         </Button>
         <Button onClick={handleChangeEditMode}>{editMode ? '보기' : '편집'}</Button>
         <Button onClick={handleChangePasteMode}>{pasteMode ? 'Done' : 'Paste'}</Button>
-      </div>
+      </Flex>
       {pasteMode ? (
         <PasteForm />
       ) : (

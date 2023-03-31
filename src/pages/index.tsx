@@ -1,16 +1,12 @@
-import { MarkdownContainer, ShortCut, TableForm } from '@/components';
+import { MarkdownContainer, TableForm } from '@/components';
+import Flex from '@/components/common/Flex/Flex';
 import { useForceUpdate } from '@/hooks';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
-  padding: 2.5rem;
-  width: 100%;
+const Container = styled(Flex)`
+  padding: 1rem;
   height: 100%;
-  align-items: stretch;
-  display: flex;
-  flex-direciton: row;
-  column-gap: 2rem;
   background-color: ${({ theme }) => theme.color.systemE};
 `;
 
@@ -22,8 +18,7 @@ const Home = () => {
   }, []);
 
   return (
-    <Container>
-      <ShortCut />
+    <Container direction="COLUMN" gap={{ row: 16 }} boxFill>
       <TableForm updateMarkdown={updateMarkdown} />
       <MarkdownContainer deps={deps} />
     </Container>

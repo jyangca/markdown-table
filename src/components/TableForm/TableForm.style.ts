@@ -1,12 +1,8 @@
 import styled from 'styled-components';
+import Flex from '../common/Flex/Flex';
 
-export const TableAreaContainer = styled.div`
-  width: 100%;
-  min-width: 500px;
-
+export const TableAreaContainer = styled(Flex)`
   border-radius: 8px;
-  border: none;
-
   background-color: ${({ theme }) => theme.color.systemWhite};
 `;
 

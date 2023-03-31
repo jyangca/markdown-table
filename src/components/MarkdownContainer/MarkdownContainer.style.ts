@@ -1,9 +1,16 @@
 import styled from 'styled-components';
+import Flex from '../common/Flex/Flex';
 
-export const MarkdownWrapper = styled.div`
-  width: 100%;
-  max-width: 350px;
+export const MarkdownWrapper = styled(Flex)`
+  padding: 1rem;
+  height: 100%;
+
   border-radius: 8px;
-  border: none;
   background-color: ${({ theme }) => theme.color.systemWhite};
+`;
+
+export const MarkdownStyle = styled(Flex)`
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1.5px solid ${({ theme }) => theme.color.system5};
 `;
