@@ -56,9 +56,9 @@ const HeaderCell = ({
         !isEdit && headerCellEvent?.handleClick(index);
         updateMarkdown();
       }}
-      onDragStart={isEdit && headerCellEvent?.handleDragStart}
-      onDragOver={isEdit && headerCellEvent?.handleDragOver}
-      onDrop={isEdit && headerCellEvent?.handleDrop}
+      onDragStart={isEdit ? headerCellEvent?.handleDragStart : undefined}
+      onDragOver={isEdit ? headerCellEvent?.handleDragOver : undefined}
+      onDrop={isEdit ? headerCellEvent?.handleDrop : undefined}
     >
       {isEdit ? <Input onChange={handleChange}>{value}</Input> : value}
     </StyledTh>
