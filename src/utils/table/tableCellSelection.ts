@@ -1,9 +1,9 @@
 type isDraggingType = boolean;
-export type UseCellSelectionReturnType = {
+export type TableCellSelectionReturnType = {
   clearSelection: () => void;
 };
 
-const useCellSelection = () => {
+const tableCellSelection = () => {
   const table = document.querySelector('table');
   const tds = table!.querySelectorAll('td');
 
@@ -18,10 +18,7 @@ const useCellSelection = () => {
     }
   };
 
-  const selectCells = (
-    startCell: HTMLTableCellElement,
-    endCell: HTMLTableCellElement,
-  ) => {
+  const selectCells = (startCell: HTMLTableCellElement, endCell: HTMLTableCellElement) => {
     const trs = table!.querySelectorAll('tr');
     let startRowIndex = (startCell.parentNode! as HTMLTableRowElement).rowIndex;
     let endRowIndex = (endCell.parentNode! as HTMLTableRowElement).rowIndex;
@@ -78,4 +75,4 @@ const useCellSelection = () => {
   };
 };
 
-export default useCellSelection;
+export default tableCellSelection;

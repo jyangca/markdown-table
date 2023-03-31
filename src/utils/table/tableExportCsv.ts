@@ -1,15 +1,12 @@
-import { ColsType, RowsType } from '@/components/TableForm/TableForm';
+type ColsType = string[];
+type RowsType = Record<string, any>[];
 
-export type UseExportCsv = {
+export type TableExportCsvReturnType = {
   toCSVFormat: (cols: ColsType, rows: RowsType) => string;
-  downloadBlob: (
-    content: string,
-    filename?: string,
-    contentType?: string,
-  ) => void;
+  downloadBlob: (content: string, filename?: string, contentType?: string) => void;
 };
 
-const useExportCsv = () => {
+const tableExportCsv = () => {
   const toCSVFormat = (cols: ColsType, rows: RowsType) => {
     const newCols = cols
       .map(String)
@@ -27,11 +24,7 @@ const useExportCsv = () => {
     return [newCols, ...newRows].join('\n');
   };
 
-  const downloadBlob = (
-    content: string,
-    filename = 'export.csv',
-    contentType = 'text/csv;charset=utf-8;',
-  ) => {
+  const downloadBlob = (content: string, filename = 'export.csv', contentType = 'text/csv;charset=utf-8;') => {
     let blob = new Blob([content], { type: contentType });
     let url = URL.createObjectURL(blob);
 
@@ -47,4 +40,4 @@ const useExportCsv = () => {
   };
 };
 
-export default useExportCsv;
+export default tableExportCsv;

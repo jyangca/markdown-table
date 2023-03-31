@@ -2,21 +2,18 @@ import { getColsFromTable, getInputValue, swapElement } from '@/utils/common';
 import { toIterableType } from '@/utils/types';
 import React, { DragEventHandler } from 'react';
 
-type useTableDragProps = {
+type TableColumnDragProps = {
   setCols: React.Dispatch<React.SetStateAction<string[]>>;
   setRows: React.Dispatch<React.SetStateAction<Record<string, any>[]>>;
 };
 
-export type UseTableDragReturnType = {
+export type TableColumnDragReturnType = {
   handleDragStart: DragEventHandler<HTMLElement>;
   handleDragOver: DragEventHandler<HTMLElement>;
   handleDrop: DragEventHandler<HTMLElement>;
 };
 
-const useTableDrag = ({
-  setCols,
-  setRows,
-}: useTableDragProps): UseTableDragReturnType => {
+const tableColumnDrag = ({ setCols, setRows }: TableColumnDragProps): TableColumnDragReturnType => {
   const table = document.querySelector('#table');
   const tableBody = table?.querySelector('tbody');
 
@@ -29,8 +26,7 @@ const useTableDrag = ({
     e.dataTransfer.setData('colIdx', idx.toString());
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLElement>) =>
-    e.preventDefault();
+  const handleDragOver = (e: React.DragEvent<HTMLElement>) => e.preventDefault();
 
   const handleDrop = (e: React.DragEvent<HTMLElement>) => {
     const cols = getColsFromTable(table);
@@ -63,4 +59,4 @@ const useTableDrag = ({
   };
 };
 
-export default useTableDrag;
+export default tableColumnDrag;

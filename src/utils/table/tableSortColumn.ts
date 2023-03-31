@@ -1,8 +1,8 @@
-export type UseSortColumnReturnType = {
+export type TableSortColumnReturnType = {
   handleClick: (index: number) => void;
 };
 
-const useSortColumn = () => {
+const tableSortColumn = () => {
   const table = document.querySelector('#table');
   const ths = table!.querySelectorAll('th');
   const tableBody = table!.querySelector('tbody');
@@ -61,4 +61,4 @@ const useSortColumn = () => {
   };
 };
 
-export default useSortColumn;
+export default tableSortColumn;
