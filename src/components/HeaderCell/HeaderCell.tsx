@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyledTh } from './HeaderCell.style';
-import { Input } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
-import { useColumnDrag, useSortColumn } from '@/hooks';
-import { UseTableDragReturnType } from '@/hooks/useColumnDrag';
-import { UseSortColumnReturnType } from '@/hooks/useSortColumn';
+import { Input } from '@/components';
+import StyledTh from './HeaderCell.style';
+import { tableColumnDrag, tableSortColumn } from '@/utils/table';
+import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
+import { TableSortColumnReturnType } from '@/utils/table/tableSortColumn';
 
 type HeaderCellProps = {
   col: string;
@@ -15,27 +15,18 @@ type HeaderCellProps = {
   updateMarkdown: ForceUpdateType;
 };
 
-const HeaderCell = ({
-  col,
-  index,
-  isEdit,
-  setCols,
-  setRows,
-  updateMarkdown,
-}: HeaderCellProps) => {
+function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown }: HeaderCellProps) {
   const [value, setValue] = useState(col);
-  const [headerCellEvent, setHeaderCellEvent] = useState<
-    UseTableDragReturnType & UseSortColumnReturnType
-  >();
+  const [headerCellEvent, setHeaderCellEvent] = useState<TableColumnDragReturnType & TableSortColumnReturnType>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setValue(value);
+    const { value: inputValue } = e.target;
+    setValue(inputValue);
   };
 
   useEffect(() => {
-    const { handleClick } = useSortColumn();
-    const { handleDragStart, handleDragOver, handleDrop } = useColumnDrag({
+    const { handleClick } = tableSortColumn();
+    const { handleDragStart, handleDragOver, handleDrop } = tableColumnDrag({
       setCols,
       setRows,
     });
@@ -63,6 +54,6 @@ const HeaderCell = ({
       {isEdit ? <Input onChange={handleChange}>{value}</Input> : value}
     </StyledTh>
   );
-};
+}
 
 export default HeaderCell;

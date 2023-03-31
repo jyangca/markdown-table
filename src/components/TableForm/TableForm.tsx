@@ -1,23 +1,17 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { StyledTr, Table, TableAreaContainer } from './TableForm.style';
-import {
-  generateKey,
-  toClassName,
-  initialData,
-  copySelected,
-  getPasteText,
-} from '@/utils/common';
+import { generateKey, toClassName, initialData, copySelected, getPasteText } from '@/utils/common';
 import { Button, Cell, HeaderCell } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
-import { useCellSelection, useExportCsv } from '@/hooks';
-import { UseCellSelectionReturnType } from '@/hooks/useCellSelection';
-import { UseExportCsv } from '@/hooks/useExportCsv';
+import { tableCellSelection, tableExportCsv } from '@/utils/table';
+import { TableCellSelectionReturnType } from '@/utils/table/tableCellSelection';
+import { TableExportCsvReturnType } from '@/utils/table/tableExportCsv';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
 };
 
-type TableApiType = UseCellSelectionReturnType & UseExportCsv;
+type TableApiType = TableCellSelectionReturnType & TableExportCsvReturnType;
 
 export type ColsType = string[];
 export type RowsType = Record<string, any>[];
@@ -33,8 +27,8 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [tableApi, setTableApi] = useState<TableApiType>();
 
   useEffect(() => {
-    const { clearSelection } = useCellSelection();
-    const { toCSVFormat, downloadBlob } = useExportCsv();
+    const { clearSelection } = tableCellSelection();
+    const { toCSVFormat, downloadBlob } = tableExportCsv();
 
     setTableApi({ clearSelection, toCSVFormat, downloadBlob });
 
@@ -92,18 +86,9 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
         <Button disabled={editMode} onClick={handleExportCsv}>
           Export CSV
         </Button>
-        <Button onClick={handleChangeEditMode}>
-          {editMode ? '보기' : '편집'}
-        </Button>
+        <Button onClick={handleChangeEditMode}>{editMode ? '보기' : '편집'}</Button>
       </div>
-      <Table
-        id="table"
-        ref={tableRef}
-        className={toClassName([
-          'table',
-          editMode ? 'table-mode-edit' : 'table-mode-read',
-        ])}
-      >
+      <Table id="table" ref={tableRef} className={toClassName(['table', editMode ? 'table-mode-edit' : 'table-mode-read'])}>
         <thead>
           <tr>
             {cols.map((col, index) => (
