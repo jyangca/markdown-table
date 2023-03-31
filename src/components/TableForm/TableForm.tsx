@@ -11,7 +11,7 @@ type TableFormProps = {
   updateMarkdown: ForceUpdateType;
 };
 
-type TableApiType = TableCellSelectionReturnType & TableExportCsvReturnType;
+export type TableApiType = TableCellSelectionReturnType & TableExportCsvReturnType;
 
 export type ColsType = string[];
 export type RowsType = Record<string, any>[];
@@ -99,6 +99,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
                 setCols={setCols}
                 setRows={setRows}
                 updateMarkdown={updateMarkdown}
+                tableApi={tableApi}
                 isEdit={editMode}
               />
             ))}
