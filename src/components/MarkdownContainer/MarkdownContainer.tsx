@@ -1,10 +1,9 @@
 import React, { memo, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { MarkdownStyle, MarkdownWrapper } from './MarkdownContainer.style';
+import { CopyButton, MarkdownStyle, MarkdownWrapper } from './MarkdownContainer.style';
 import { toIterableType } from '@/utils/types';
 import { getInputValue } from '@/utils/common';
-import { Button } from '@/components';
 
 type MarkdownContainerProps = {
   deps: number;
@@ -12,6 +11,7 @@ type MarkdownContainerProps = {
 
 const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
   const [markdownTable, setMarkdownTable] = useState<string>('');
+  const [copied, setCopied] = useState<boolean>(false);
 
   useEffect(() => {
     const table = document.querySelector('#table');
@@ -39,17 +39,19 @@ const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
   const copyMarkDownTable = () => {
     if (typeof window !== 'undefined') {
       window.navigator.clipboard.writeText(markdownTable);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 700);
     }
   };
 
   return (
-    <MarkdownWrapper direction="COLUMN" justify="SPACE_BETWEEN" align="START">
+    <MarkdownWrapper direction="COLUMN" justify="SPACE_BETWEEN" gap={{ row: 16 }} align="START">
       <MarkdownStyle>
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdownTable}</ReactMarkdown>
       </MarkdownStyle>
-      <Button fixWidth="100%" size={60} onClick={copyMarkDownTable}>
-        복사
-      </Button>
+      <CopyButton fixWidth="100%" size={60} onClick={copyMarkDownTable} copied={copied}>
+        {copied ? 'Copied !' : 'Copy'}
+      </CopyButton>
     </MarkdownWrapper>
   );
 };
