@@ -1,10 +1,14 @@
 import React from 'react';
 import { PasteFormBox, PasteFormContainer } from './PasteForm.style';
 
-const PasteForm = () => {
+type PasteFormProps = {
+  handlePasteOnChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+};
+
+const PasteForm = ({ handlePasteOnChange }: PasteFormProps) => {
   return (
     <PasteFormContainer>
-      <PasteFormBox></PasteFormBox>
+      <PasteFormBox onChange={handlePasteOnChange}></PasteFormBox>
     </PasteFormContainer>
   );
 };
