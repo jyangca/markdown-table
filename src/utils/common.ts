@@ -2,9 +2,9 @@ export const toClassName = (array: Array<string | number | boolean>) => array.fi
 
 export const generateKey = (item: unknown, index?: number) => `${JSON.stringify(item)}_${index}`;
 
-export const initialData = () => {
-  const cols = ['name', 'age', 'country', 'sport'];
-  const rows = [
+export const initialData = {
+  cols: ['name', 'age', 'country', 'sport'],
+  rows: [
     {
       name: 'Aleksey Nemov',
       age: 24,
@@ -29,8 +29,7 @@ export const initialData = () => {
       country: 'Netherlands',
       sport: 'Cycling',
     },
-  ];
-  return { cols, rows };
+  ],
 };
 
 export const swapElement = (target: Record<string, any>, cols: string[]) => {
@@ -83,25 +82,19 @@ export const copySelected = (e: KeyboardEvent) => {
   }
 };
 
-export const getPasteText = (e: KeyboardEvent) => {
-  if (e.metaKey && e.key === 'v') {
-    e.preventDefault();
-
-    navigator.clipboard.readText().then((text) => {
-      const textArray = text
-        .trim()
-        .split('\n')
-        .map((row) => row.split('\t'));
-      const cols = textArray[0];
-      const rows = textArray.slice(1).map((row) => {
-        const obj: Record<string, any> = {};
-        row.forEach((value, i) => {
-          obj[cols[i]] = value;
-        });
-        return obj;
-      });
-
-      return { cols, rows };
+export const getPasteText = (text: string) => {
+  const textArray = text
+    .trim()
+    .split('\n')
+    .map((row) => row.split('\t'));
+  const cols = textArray[0];
+  const rows = textArray.slice(1).map((row) => {
+    const obj: Record<string, any> = {};
+    row.forEach((value, i) => {
+      obj[cols[i]] = value;
     });
-  }
+    return obj;
+  });
+
+  return { cols, rows };
 };
