@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Flex from '../common/Flex/Flex';
 
 export const TableAreaContainer = styled(Flex)`
+  padding: 1rem;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.color.systemWhite};
 `;
