@@ -89,10 +89,22 @@ const tableCellSelection = () => {
     isDragging = false;
   };
 
+  const handleMouseClick = (event: MouseEvent) => {
+    let currentCell = event.target as HTMLTableCellElement;
+    if (currentCell.tagName === 'INPUT') {
+      currentCell = currentCell.parentNode?.parentNode as HTMLTableCellElement;
+    }
+
+    clearSelection();
+
+    selectCells(currentCell, currentCell);
+  };
+
   for (let i = 0; i < tds.length; i++) {
-    tds[i].addEventListener('mousedown', handleMouseDown);
-    tds[i].addEventListener('mousemove', handleMouseMove);
-    tds[i].addEventListener('mouseup', handleMouseUp);
+    tds[i].addEventListener('mousedown', handleMouseDown, true);
+    tds[i].addEventListener('mousemove', handleMouseMove, true);
+    tds[i].addEventListener('mouseup', handleMouseUp, true);
+    tds[i].addEventListener('click', handleMouseClick, true);
   }
 
   return {

@@ -13,7 +13,7 @@ const systemWhite = '#fff';
 const systemError = '#EA0000';
 const systemLightBlue = '#C0DEFF';
 
-const systemBlue = '#0069E4';
+const systemBlue = '#65abfc';
 const systemHover = '#FAFAFA';
 
 const systemColor = {

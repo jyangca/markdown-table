@@ -109,7 +109,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
           </Button>
         </Flex>
         <Flex direction="ROW" gap={{ column: 8 }}>
-          <Button disabled={pasteMode && pastedText.length < 1} onClick={handleChangePasteMode}>
+          <Button disabled={editMode || (pasteMode && pastedText.length < 1)} onClick={handleChangePasteMode}>
             {pasteMode ? 'Done' : 'Paste'}
           </Button>
           {pasteMode && <Button onClick={() => setPasteMode(false)}>Cancel</Button>}
