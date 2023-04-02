@@ -66,11 +66,13 @@ export const getColsFromTable = (table: Element | null) => {
 export const copySelected = (e: KeyboardEvent) => {
   if (e.metaKey && e.key === 'c') {
     e.preventDefault();
-    const trs = document.querySelectorAll('tr');
+    const table = document.querySelector('table');
+    const trs = table!.querySelectorAll('tr');
     const selectedCellsValuesString = Array.from(trs)
+      .slice(1)
       .map((tr) =>
         Array.from(tr.querySelectorAll('.selected'))
-          .map((cell) => cell.textContent)
+          .map((cell) => getInputValue(cell as HTMLElement))
           .join('\t'),
       )
       .join('\n');
