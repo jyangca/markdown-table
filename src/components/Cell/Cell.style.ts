@@ -5,11 +5,11 @@ export const StyledTd = styled.td`
   vertical-align: center;
   padding: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.color.systemE};
-  transition: background-color 0.05s ease 0s;
+  transition: background-color 0.1s ease 0s;
 
   user-select: none;
 
-  &.selected:not(.cell-mode-edit) {
+  &.selected {
     background-color: ${({ theme }) => theme.color.systemLightBlue};
   }
   &.border-bottom-none {
