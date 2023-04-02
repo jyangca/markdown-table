@@ -18,7 +18,7 @@ export type ColsType = string[];
 export type RowsType = Record<string, any>[];
 
 const TableForm = ({ updateMarkdown }: TableFormProps) => {
-  const { cols: initialCols, rows: initialRows } = initialData();
+  const { cols: initialCols, rows: initialRows } = initialData;
 
   const tableRef = useRef<HTMLTableElement>(null);
 
@@ -27,6 +27,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [pasteMode, setPasteMode] = useState<boolean>(false);
   const [tableApi, setTableApi] = useState<TableApiType>();
+  const [pastedText, setPastedText] = useState<string>('');
 
   useEffect(() => {
     const { clearSelection } = tableCellSelection();
@@ -39,7 +40,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
   const handleAddColumn = () => {
     const newCols = [...cols, `column${cols.length + 1}`];
-    const newRows = rows.map((row) => ({ ...row, '': '' }));
+    const newRows = rows.map((row) => ({ ...row, [`column${cols.length + 1}`]: '' }));
     setCols(newCols);
     setRows(newRows);
   };
@@ -74,30 +75,48 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   };
 
   const handleChangePasteMode = () => {
+    if (pasteMode) {
+      const { cols: newCols, rows: newRows } = getPasteText(pastedText);
+      setCols(newCols);
+      setRows(newRows);
+    }
     if (tableApi) {
       tableApi.clearSelection();
     }
-    removeEmptyRow();
+    !pasteMode && removeEmptyRow();
     setPasteMode((prev) => !prev);
+  };
+
+  const handlePasteOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPastedText(e.target.value);
   };
 
   return (
     <TableAreaContainer direction="COLUMN" align="START" boxFill>
-      <Flex direction="ROW" gap={{ column: 8 }} boxFill>
-        <Button disabled={!editMode} onClick={handleAddColumn}>
-          Add Column
-        </Button>
-        <Button disabled={!editMode} onClick={handleAddRow}>
-          Add Row
-        </Button>
-        <Button disabled={editMode} onClick={handleExportCsv}>
-          Export CSV
-        </Button>
-        <Button onClick={handleChangeEditMode}>{editMode ? '보기' : '편집'}</Button>
-        <Button onClick={handleChangePasteMode}>{pasteMode ? 'Done' : 'Paste'}</Button>
+      <Flex justify="SPACE_BETWEEN" boxFill>
+        <Flex gap={{ column: 8 }}>
+          <Button disabled={!editMode} onClick={handleAddColumn}>
+            Add Column
+          </Button>
+          <Button disabled={!editMode} onClick={handleAddRow}>
+            Add Row
+          </Button>
+          <Button disabled={editMode || pasteMode} onClick={handleExportCsv}>
+            Export CSV
+          </Button>
+          <Button disabled={pasteMode} onClick={handleChangeEditMode}>
+            {editMode ? '보기' : '편집'}
+          </Button>
+        </Flex>
+        <Flex direction="ROW" gap={{ column: 8 }}>
+          <Button disabled={pasteMode && pastedText.length < 1} onClick={handleChangePasteMode}>
+            {pasteMode ? 'Done' : 'Paste'}
+          </Button>
+          {pasteMode && <Button onClick={() => setPasteMode(false)}>Cancel</Button>}
+        </Flex>
       </Flex>
       {pasteMode ? (
-        <PasteForm />
+        <PasteForm handlePasteOnChange={handlePasteOnChange} />
       ) : (
         <Table id="table" ref={tableRef} className={toClassName(['table', editMode ? 'table-mode-edit' : 'table-mode-read'])}>
           <thead>

@@ -18,12 +18,7 @@ const Cell = ({ isEdit, children, updateMarkdown }: CellProps) => {
   };
 
   return (
-    <StyledTd
-      className={toClassName([
-        'cell',
-        isEdit ? 'cell-mode-edit' : 'cell-mode-read',
-      ])}
-    >
+    <StyledTd className={toClassName(['cell', isEdit ? 'cell-mode-edit' : 'cell-mode-read'])}>
       {isEdit ? <Input onChange={handleChangeInput}>{value}</Input> : value}
     </StyledTd>
   );
