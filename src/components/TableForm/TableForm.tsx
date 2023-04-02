@@ -40,14 +40,14 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
   const handleAddColumn = () => {
     const newCols = [...cols, `column${cols.length + 1}`];
-    const newRows = rows.map((row) => ({ ...row, [`column${cols.length + 1}`]: '' }));
+    const newRows = getCurrentRows().map((row) => ({ ...row, [`column${cols.length + 1}`]: '' }));
     setCols(newCols);
     setRows(newRows);
   };
 
   const handleAddRow = () => {
     const newRow = cols.reduce((acc, cur) => ({ ...acc, [cur]: '' }), {});
-    setRows([...rows, newRow]);
+    setRows([...getCurrentRows(), newRow]);
   };
 
   const handleExportCsv = () => {
