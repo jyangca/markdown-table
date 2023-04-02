@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { StyledTr, Table, TableAreaContainer } from './TableForm.style';
-import { generateKey, toClassName, initialData, copySelected, getPasteText } from '@/utils/common';
+import { generateKey, toClassName, initialData, copySelected, getPasteText, getCurrentRows, removeEmptyRow } from '@/utils/common';
 import { Button, Cell, HeaderCell, PasteForm } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
@@ -36,18 +36,18 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     setTableApi({ clearSelection, toCSVFormat, downloadBlob });
 
     document.addEventListener('keydown', copySelected);
-  }, [editMode, pasteMode]);
+  }, [editMode, pasteMode, cols, rows]);
 
   const handleAddColumn = () => {
     const newCols = [...cols, `column${cols.length + 1}`];
-    const newRows = rows.map((row) => ({ ...row, [`column${cols.length + 1}`]: '' }));
+    const newRows = getCurrentRows().map((row) => ({ ...row, [`column${cols.length + 1}`]: '' }));
     setCols(newCols);
     setRows(newRows);
   };
 
   const handleAddRow = () => {
     const newRow = cols.reduce((acc, cur) => ({ ...acc, [cur]: '' }), {});
-    setRows([...rows, newRow]);
+    setRows([...getCurrentRows(), newRow]);
   };
 
   const handleExportCsv = () => {
@@ -57,19 +57,11 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     }
   };
 
-  const removeEmptyRow = () => {
-    const newRows = rows.filter((row) => {
-      const values = Object.values(row);
-      return values.some((value) => value !== '');
-    });
-    setRows(newRows);
-  };
-
   const handleChangeEditMode = () => {
     if (tableApi) {
       tableApi.clearSelection();
     }
-    removeEmptyRow();
+    setRows(removeEmptyRow(getCurrentRows()));
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
@@ -83,7 +75,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     if (tableApi) {
       tableApi.clearSelection();
     }
-    !pasteMode && removeEmptyRow();
+    !pasteMode && setRows(removeEmptyRow(getCurrentRows()));
     setPasteMode((prev) => !prev);
   };
 

@@ -1,3 +1,5 @@
+import { RowsType } from '@/components/TableForm/TableForm';
+
 export const toClassName = (array: Array<string | number | boolean>) => array.filter(Boolean).join(' ');
 
 export const generateKey = (item: unknown, index?: number) => `${JSON.stringify(item)}_${index}`;
@@ -99,4 +101,27 @@ export const getPasteText = (text: string) => {
   });
 
   return { cols, rows };
+};
+
+export const getCurrentRows = () => {
+  const table = document.querySelector('table');
+  const trs = table!.querySelectorAll('tr');
+  const ths = Array.from(table!.querySelectorAll('th')).map((th) => getInputValue(th));
+  const rows = Array.from(trs)
+    .slice(1)
+    .map((tr) => {
+      let obj: Record<string, any> = {};
+      const tds = Array.from(tr.querySelectorAll('td'));
+      tds.forEach((td, index) => (obj[ths[index]] = getInputValue(td)));
+      return obj;
+    });
+  return rows;
+};
+
+export const removeEmptyRow = (rows: RowsType) => {
+  const newRows = rows.filter((row) => {
+    const values = Object.values(row);
+    return values.some((value) => value !== '');
+  });
+  return newRows;
 };
