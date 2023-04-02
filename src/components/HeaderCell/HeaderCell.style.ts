@@ -11,7 +11,7 @@ const StyledTh = styled.th`
 
   vertical-align: middle;
 
-  padding: 1rem 0;
+  padding: 1rem;
   margin: 1rem;
 
   border-radius: 8px;
