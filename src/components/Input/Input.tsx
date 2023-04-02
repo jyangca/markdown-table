@@ -6,10 +6,10 @@ type InputProps = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input = ({ children, onChange }: InputProps) => {
+const Input = ({ children, onChange, ...inputProps }: InputProps & React.InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <InputContainer>
-      <InputItem onChange={onChange} value={children} />
+      <InputItem onChange={onChange} value={children} {...inputProps} />
     </InputContainer>
   );
 };
