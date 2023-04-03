@@ -63,12 +63,14 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
     const keydownHandler = (event: KeyboardEvent) => {
       copySelected(event);
-      toBold(event, rows, updateRows);
-      toItalic(event, rows, updateRows);
-      toPreviousRows(event, setRows, rowHistoryRef);
       toSelectAll(event);
-      toDeleteCellValue(event, rows, updateRows);
-      toDeleteAndCopyCellValue(event, rows, updateRows);
+      if (editMode) {
+        toBold(event, rows, updateRows);
+        toItalic(event, rows, updateRows);
+        toPreviousRows(event, setRows, rowHistoryRef);
+        toDeleteCellValue(event, rows, updateRows);
+        toDeleteAndCopyCellValue(event, rows, updateRows);
+      }
     };
     keydownHandlerRef.current.keydownHandler = keydownHandler;
     document.addEventListener('keydown', keydownHandlerRef.current.keydownHandler);
