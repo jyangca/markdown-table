@@ -126,15 +126,15 @@ export const removeEmptyRow = (rows: RowsType) => {
   return newRows;
 };
 
-export const toBold = (e: KeyboardEvent, setRows: React.Dispatch<React.SetStateAction<RowsType>>) => {
+export const toBold = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
   if (e.metaKey && e.key === 'b') {
     e.preventDefault();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
     const isBoldMode = selectedValues.some((value) => value.startsWith('**') && value.endsWith('**'));
 
-    setRows((prev) => {
-      const newRows = prev.map((row) => {
+    updateRows(
+      rows.map((row) => {
         if (!isBoldMode) {
           const newRow = Object.fromEntries(
             Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? `**${value}**` : value]),
@@ -146,13 +146,12 @@ export const toBold = (e: KeyboardEvent, setRows: React.Dispatch<React.SetStateA
           );
           return newRow;
         }
-      });
-      return newRows;
-    });
+      }),
+    );
   }
 };
 
-export const toItalic = (e: KeyboardEvent, setRows: React.Dispatch<React.SetStateAction<RowsType>>) => {
+export const toItalic = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
   if (e.metaKey && e.key === 'i') {
     e.preventDefault();
     const table = document.querySelector('table');
@@ -163,8 +162,8 @@ export const toItalic = (e: KeyboardEvent, setRows: React.Dispatch<React.SetStat
         (value.startsWith('***') && value.endsWith('***')),
     );
 
-    setRows((prev) => {
-      const newRows = prev.map((row) => {
+    updateRows(
+      rows.map((row) => {
         if (!isBoldMode) {
           const newRow = Object.fromEntries(Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? `*${value}*` : value]));
           return newRow;
@@ -174,8 +173,7 @@ export const toItalic = (e: KeyboardEvent, setRows: React.Dispatch<React.SetStat
           );
           return newRow;
         }
-      });
-      return newRows;
-    });
+      }),
+    );
   }
 };

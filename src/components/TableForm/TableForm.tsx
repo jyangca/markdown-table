@@ -21,6 +21,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const { cols: initialCols, rows: initialRows } = initialData;
 
   const tableRef = useRef<HTMLTableElement>(null);
+  const rowHistoryRef = useRef<RowsType>([]);
   const keydownHandlerRef = useRef<{ keydownHandler: null | ((event: KeyboardEvent) => void) }>({ keydownHandler: null });
 
   const [cols, setCols] = useState<ColsType>(initialCols);
@@ -48,8 +49,8 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
     const keydownHandler = (event: KeyboardEvent) => {
       copySelected(event);
-      toBold(event, setRows);
-      toItalic(event, setRows);
+      toBold(event, rows, updateRows);
+      toItalic(event, rows, updateRows);
     };
     keydownHandlerRef.current.keydownHandler = keydownHandler;
     document.addEventListener('keydown', keydownHandlerRef.current.keydownHandler);
@@ -60,16 +61,21 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     return () => document.removeEventListener('keydown', keydownHandler);
   }, [rows, cols]);
 
+  const updateRows = (newRows: RowsType) => {
+    rowHistoryRef.current.push(rows);
+    setRows(newRows);
+  };
+
   const handleAddColumn = () => {
     const newCols = [...cols, `column${cols.length + 1}`];
     const newRows = getCurrentRows().map((row) => ({ ...row, [`column${cols.length + 1}`]: '' }));
     setCols(newCols);
-    setRows(newRows);
+    updateRows(newRows);
   };
 
   const handleAddRow = () => {
     const newRow = cols.reduce((acc, cur) => ({ ...acc, [cur]: '' }), {});
-    setRows([...getCurrentRows(), newRow]);
+    updateRows([...getCurrentRows(), newRow]);
   };
 
   const handleExportCsv = () => {
@@ -83,7 +89,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     if (tableApi) {
       tableApi.clearSelection();
     }
-    setRows(removeEmptyRow(getCurrentRows()));
+    updateRows(removeEmptyRow(getCurrentRows()));
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
@@ -92,12 +98,12 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     if (pasteMode) {
       const { cols: newCols, rows: newRows } = getPasteText(pastedText);
       setCols(newCols);
-      setRows(newRows);
+      updateRows(newRows);
     }
     if (tableApi) {
       tableApi.clearSelection();
     }
-    !pasteMode && setRows(removeEmptyRow(getCurrentRows()));
+    !pasteMode && updateRows(removeEmptyRow(getCurrentRows()));
     setPasteMode((prev) => !prev);
   };
 
