@@ -47,6 +47,7 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
 
   return (
     <StyledTh
+      isEdit={isEdit}
       draggable={isEdit}
       onClick={() => {
         !isEdit && headerCellEvent?.handleClick(index);
