@@ -14,7 +14,7 @@ const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
   const [copied, setCopied] = useState<boolean>(false);
 
   useEffect(() => {
-    const table = document.querySelector('#table');
+    const table = document.querySelector('table');
     const ths = table!.querySelectorAll('th');
     const headers = Array.from(ths).map((th) => getInputValue(th));
 
