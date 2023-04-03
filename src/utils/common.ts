@@ -26,7 +26,7 @@ export const initialData = {
       sport: 'Swimming',
     },
     {
-      name: 'LEONTIEN ZIJLAARD-VAN MOORSEL',
+      name: 'LEONTIEN',
       age: 30,
       country: 'Netherlands',
       sport: 'Cycling',

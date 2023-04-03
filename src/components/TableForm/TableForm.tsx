@@ -21,6 +21,7 @@ import { tableCellSelection, tableExportCsv } from '@/utils/table';
 import { TableCellSelectionReturnType } from '@/utils/table/tableCellSelection';
 import { TableExportCsvReturnType } from '@/utils/table/tableExportCsv';
 import Flex from '../common/Flex/Flex';
+import { useOutsideClick } from '@/hooks';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
@@ -80,6 +81,10 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
     return () => document.removeEventListener('keydown', keydownHandler);
   }, [rows, cols]);
+
+  useOutsideClick(tableRef.current!, () => {
+    tableApi?.clearSelection();
+  });
 
   const updateRows = (newRows: RowsType) => {
     rowHistoryRef.current.push(rows);
