@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 
-const useOutsideClick = (ref: any, onClickOut: () => void) => {
+const useOutsideClick = (ref: HTMLElement, onClickOut: () => void) => {
   useEffect(() => {
-    const onClick = ({ target }: any) => !ref.contains(target) && onClickOut?.();
-    document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
+    if (ref) {
+      const onClick = ({ target }: MouseEvent) => !ref.contains(target as HTMLElement) && onClickOut?.();
+      document.addEventListener('click', onClick);
+      return () => document.removeEventListener('click', onClick);
+    }
   }, []);
 };
 
