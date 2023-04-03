@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { StyledTr, Table, TableAreaContainer } from './TableForm.style';
-import { generateKey, toClassName, initialData, copySelected, getPasteText, getCurrentRows, removeEmptyRow } from '@/utils/common';
+import { generateKey, toClassName, initialData, copySelected, getPasteText, getCurrentRows, removeEmptyRow, toBold, toItalic } from '@/utils/common';
 import { Button, Cell, HeaderCell, PasteForm } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
@@ -21,6 +21,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const { cols: initialCols, rows: initialRows } = initialData;
 
   const tableRef = useRef<HTMLTableElement>(null);
+  const keydownHandlerRef = useRef<{ keydownHandler: null | ((event: KeyboardEvent) => void) }>({ keydownHandler: null });
 
   const [cols, setCols] = useState<ColsType>(initialCols);
   const [rows, setRows] = useState<RowsType>(initialRows);
@@ -35,8 +36,29 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
     setTableApi({ clearSelection, toCSVFormat, downloadBlob });
 
-    document.addEventListener('keydown', copySelected);
-  }, [editMode, pasteMode, cols, rows]);
+    updateMarkdown();
+  }, []);
+
+  useEffect(() => {
+    tableCellSelection();
+
+    if (keydownHandlerRef.current && keydownHandlerRef.current.keydownHandler !== null) {
+      document.removeEventListener('keydown', keydownHandlerRef.current.keydownHandler);
+    }
+
+    const keydownHandler = (event: KeyboardEvent) => {
+      copySelected(event);
+      toBold(event, setRows);
+      toItalic(event, setRows);
+    };
+    keydownHandlerRef.current.keydownHandler = keydownHandler;
+    document.addEventListener('keydown', keydownHandlerRef.current.keydownHandler);
+
+    updateMarkdown();
+    tableApi?.clearSelection();
+
+    return () => document.removeEventListener('keydown', keydownHandler);
+  }, [rows, cols]);
 
   const handleAddColumn = () => {
     const newCols = [...cols, `column${cols.length + 1}`];
