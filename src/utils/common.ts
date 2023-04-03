@@ -193,3 +193,12 @@ export const toPreviousRows = (
     rowHistoryRef.current = rowsHistory;
   }
 };
+
+export const toSelectAll = (e: KeyboardEvent) => {
+  if (e.metaKey && e.key === 'a') {
+    e.preventDefault();
+    const table = document.querySelector('table');
+    const tds = table!.querySelectorAll('td');
+    Array.from(tds).forEach((td) => td.classList.add('selected'));
+  }
+};
