@@ -202,3 +202,48 @@ export const toSelectAll = (e: KeyboardEvent) => {
     Array.from(tds).forEach((td) => td.classList.add('selected'));
   }
 };
+
+export const toDeleteCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
+  if (e.key === 'Backspace') {
+    e.preventDefault();
+    const table = document.querySelector('table');
+    const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
+
+    updateRows(
+      rows.map((row) => {
+        const newRow = Object.fromEntries(Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? '' : value]));
+        return newRow;
+      }),
+    );
+  }
+};
+
+export const toDeleteAndCopyCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
+  if (e.metaKey && e.key === 'x') {
+    e.preventDefault();
+    const table = document.querySelector('table');
+    const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
+    const trs = table!.querySelectorAll('tr');
+
+    const selectedCellsValuesString = Array.from(trs)
+      .slice(1)
+      .map((tr) =>
+        Array.from(tr.querySelectorAll('.selected'))
+          .map((cell) => getInputValue(cell as HTMLElement))
+          .join('\t'),
+      )
+      .join('\n');
+
+    setTimeout(() => Array.from(document.querySelectorAll('.selected')).forEach((cell) => cell.classList.remove('copied')), 100);
+    Array.from(document.querySelectorAll('.selected')).forEach((cell) => cell.classList.add('copied'));
+
+    navigator.clipboard.writeText(selectedCellsValuesString);
+
+    updateRows(
+      rows.map((row) => {
+        const newRow = Object.fromEntries(Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? '' : value]));
+        return newRow;
+      }),
+    );
+  }
+};

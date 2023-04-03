@@ -12,6 +12,8 @@ import {
   toItalic,
   toPreviousRows,
   toSelectAll,
+  toDeleteCellValue,
+  toDeleteAndCopyCellValue,
 } from '@/utils/common';
 import { Button, Cell, HeaderCell, PasteForm } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
@@ -65,6 +67,8 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
       toItalic(event, rows, updateRows);
       toPreviousRows(event, setRows, rowHistoryRef);
       toSelectAll(event);
+      toDeleteCellValue(event, rows, updateRows);
+      toDeleteAndCopyCellValue(event, rows, updateRows);
     };
     keydownHandlerRef.current.keydownHandler = keydownHandler;
     document.addEventListener('keydown', keydownHandlerRef.current.keydownHandler);
