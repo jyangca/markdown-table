@@ -1,6 +1,17 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { StyledTr, Table, TableAreaContainer } from './TableForm.style';
-import { generateKey, toClassName, initialData, copySelected, getPasteText, getCurrentRows, removeEmptyRow, toBold, toItalic } from '@/utils/common';
+import {
+  generateKey,
+  toClassName,
+  initialData,
+  copySelected,
+  getPasteText,
+  getCurrentRows,
+  removeEmptyRow,
+  toBold,
+  toItalic,
+  toPreviousRows,
+} from '@/utils/common';
 import { Button, Cell, HeaderCell, PasteForm } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
@@ -21,7 +32,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const { cols: initialCols, rows: initialRows } = initialData;
 
   const tableRef = useRef<HTMLTableElement>(null);
-  const rowHistoryRef = useRef<RowsType>([]);
+  const rowHistoryRef = useRef<RowsType[]>([]);
   const keydownHandlerRef = useRef<{ keydownHandler: null | ((event: KeyboardEvent) => void) }>({ keydownHandler: null });
 
   const [cols, setCols] = useState<ColsType>(initialCols);
@@ -51,6 +62,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
       copySelected(event);
       toBold(event, rows, updateRows);
       toItalic(event, rows, updateRows);
+      toPreviousRows(event, setRows, rowHistoryRef);
     };
     keydownHandlerRef.current.keydownHandler = keydownHandler;
     document.addEventListener('keydown', keydownHandlerRef.current.keydownHandler);

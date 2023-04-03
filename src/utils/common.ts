@@ -177,3 +177,19 @@ export const toItalic = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows:
     );
   }
 };
+
+export const toPreviousRows = (
+  e: KeyboardEvent,
+  setRows: React.Dispatch<React.SetStateAction<RowsType>>,
+  rowHistoryRef: React.MutableRefObject<RowsType[]>,
+) => {
+  if (e.metaKey && e.key === 'z') {
+    e.preventDefault();
+    const rowsHistory = [...rowHistoryRef.current];
+    const rollBackPoint = rowsHistory.pop();
+    if (rollBackPoint) {
+      setRows(rollBackPoint);
+    }
+    rowHistoryRef.current = rowsHistory;
+  }
+};
