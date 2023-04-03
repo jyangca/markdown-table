@@ -41,7 +41,7 @@ const tableCellSelection = () => {
     }
 
     for (let i = startRowIndex - 1; i <= endRowIndex; i++) {
-      let tableCells = trs[i].querySelectorAll('td');
+      let tableCells = trs[i]?.querySelectorAll('td');
 
       for (let j = startCellIndex; j <= endCellIndex; j++) {
         if (i === startRowIndex - 1) {
