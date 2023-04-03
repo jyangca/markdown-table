@@ -12,6 +12,7 @@ const systemF = '#F3F8FD';
 const systemWhite = '#fff';
 const systemError = '#EA0000';
 const systemLightBlue = '#C0DEFF';
+const systemLightBlueHover = '#e1eefc';
 
 const systemBlue = '#65abfc';
 const systemHover = '#FAFAFA';
@@ -32,6 +33,7 @@ const systemColor = {
   systemLightBlue,
   systemBlue,
   systemHover,
+  systemLightBlueHover,
 };
 
 export type SystemColorKeyType = keyof typeof systemColor;
