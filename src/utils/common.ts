@@ -204,7 +204,7 @@ export const toSelectAll = (e: KeyboardEvent) => {
 };
 
 export const toDeleteCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
-  if (e.key === 'Backspace') {
+  if (e.metaKey && e.key === 'Backspace') {
     e.preventDefault();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
