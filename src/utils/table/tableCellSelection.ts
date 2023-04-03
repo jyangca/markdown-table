@@ -73,6 +73,7 @@ const tableCellSelection = () => {
   };
 
   const handleMouseDown = (event: MouseEvent) => {
+    clearSelection();
     isDragging = true;
     startCell = event.target as HTMLTableCellElement;
   };
@@ -91,12 +92,11 @@ const tableCellSelection = () => {
   };
 
   const handleMouseClick = (event: MouseEvent) => {
+    clearSelection();
     let currentCell = event.target as HTMLTableCellElement;
     if (currentCell.tagName === 'INPUT') {
       currentCell = currentCell.parentNode?.parentNode as HTMLTableCellElement;
     }
-
-    clearSelection();
 
     selectCells(currentCell, currentCell);
   };
