@@ -47,8 +47,8 @@ const tableCellSelection = () => {
         if (i === startRowIndex - 1) {
           if (i === 0) {
             ths[j].classList.add('border-bottom-none');
-          } else {
-            tableCells[j]?.classList.add('border-bottom-none');
+          } else if (tableCells[j]) {
+            tableCells[j].classList.add('border-bottom-none');
           }
           continue;
         }
