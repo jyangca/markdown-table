@@ -4,7 +4,6 @@ import Button from '../common/Button/Button';
 
 export const MarkdownWrapper = styled(Flex)`
   padding: 1rem;
-  height: 100%;
 
   border-radius: 8px;
   background-color: ${({ theme }) => theme.color.systemWhite};

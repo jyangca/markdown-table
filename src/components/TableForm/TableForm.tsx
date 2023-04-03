@@ -21,6 +21,7 @@ import { tableCellSelection, tableExportCsv } from '@/utils/table';
 import { TableCellSelectionReturnType } from '@/utils/table/tableCellSelection';
 import { TableExportCsvReturnType } from '@/utils/table/tableExportCsv';
 import Flex from '../common/Flex/Flex';
+import { useOutsideClick } from '@/hooks';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
@@ -63,12 +64,14 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
     const keydownHandler = (event: KeyboardEvent) => {
       copySelected(event);
-      toBold(event, rows, updateRows);
-      toItalic(event, rows, updateRows);
-      toPreviousRows(event, setRows, rowHistoryRef);
       toSelectAll(event);
-      toDeleteCellValue(event, rows, updateRows);
-      toDeleteAndCopyCellValue(event, rows, updateRows);
+      if (editMode) {
+        toBold(event, rows, updateRows);
+        toItalic(event, rows, updateRows);
+        toPreviousRows(event, setRows, rowHistoryRef);
+        toDeleteCellValue(event, rows, updateRows);
+        toDeleteAndCopyCellValue(event, rows, updateRows);
+      }
     };
     keydownHandlerRef.current.keydownHandler = keydownHandler;
     document.addEventListener('keydown', keydownHandlerRef.current.keydownHandler);
@@ -78,6 +81,10 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
     return () => document.removeEventListener('keydown', keydownHandler);
   }, [rows, cols]);
+
+  useOutsideClick(tableRef.current!, () => {
+    tableApi?.clearSelection();
+  });
 
   const updateRows = (newRows: RowsType) => {
     rowHistoryRef.current.push(rows);

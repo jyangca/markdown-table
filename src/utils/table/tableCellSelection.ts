@@ -4,13 +4,13 @@ export type TableCellSelectionReturnType = {
 };
 
 const tableCellSelection = () => {
-  const table = document.querySelector('table');
-  const tds = table!.querySelectorAll('td');
-
   let isDragging: isDraggingType = false;
   let startCell: HTMLTableCellElement | null = null;
 
+  const tds = document!.querySelectorAll('td');
+
   const clearSelection = () => {
+    const table = document.querySelector('table');
     const selectedCells = table!.querySelectorAll('.selected');
     const ths = document.querySelectorAll('th');
     const target = [...selectedCells, ...ths];
@@ -21,6 +21,7 @@ const tableCellSelection = () => {
   };
 
   const selectCells = (startCell: HTMLTableCellElement, endCell: HTMLTableCellElement) => {
+    const table = document.querySelector('table');
     const trs = table!.querySelectorAll('tr');
     const ths = table!.querySelectorAll('th');
     let startRowIndex = (startCell.parentNode! as HTMLTableRowElement).rowIndex;
@@ -47,8 +48,8 @@ const tableCellSelection = () => {
         if (i === startRowIndex - 1) {
           if (i === 0) {
             ths[j].classList.add('border-bottom-none');
-          } else {
-            tableCells[j]?.classList.add('border-bottom-none');
+          } else if (tableCells[j]) {
+            tableCells[j].classList.add('border-bottom-none');
           }
           continue;
         }

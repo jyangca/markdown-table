@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-const StyledTh = styled.th`
+type StyledThProps = {
+  isEdit: boolean;
+};
+
+const StyledTh = styled.th<StyledThProps>`
   white-space: nowrap;
   color: ${({ theme }) => theme.color.system9};
   letter-spacing: 1.5px;
@@ -19,12 +23,16 @@ const StyledTh = styled.th`
 
   user-select: none;
 
+  cursor: pointer;
+
+  transition: background-color 0.15s ease-in-out;
+
   &.border-bottom-none {
     border-bottom: none;
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.systemHover};
+    background-color: ${({ theme, isEdit }) => (isEdit ? theme.color.systemLightBlueHover : theme.color.systemE)};
   }
 `;
 

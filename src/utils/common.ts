@@ -26,7 +26,7 @@ export const initialData = {
       sport: 'Swimming',
     },
     {
-      name: 'LEONTIEN ZIJLAARD-VAN MOORSEL',
+      name: 'LEONTIEN',
       age: 30,
       country: 'Netherlands',
       sport: 'Cycling',
@@ -233,9 +233,6 @@ export const toDeleteAndCopyCellValue = (e: KeyboardEvent, rows: RowsType, updat
           .join('\t'),
       )
       .join('\n');
-
-    setTimeout(() => Array.from(document.querySelectorAll('.selected')).forEach((cell) => cell.classList.remove('copied')), 100);
-    Array.from(document.querySelectorAll('.selected')).forEach((cell) => cell.classList.add('copied'));
 
     navigator.clipboard.writeText(selectedCellsValuesString);
 
