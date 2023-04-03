@@ -18,12 +18,10 @@ type HeaderCellProps = {
 };
 
 function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tableApi }: HeaderCellProps) {
-  const [value, setValue] = useState(col);
   const [headerCellEvent, setHeaderCellEvent] = useState<TableColumnDragReturnType & TableSortColumnReturnType>();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: inputValue } = e.target;
-    setValue(inputValue);
+  const handleChange = () => {
+    updateMarkdown();
   };
 
   useEffect(() => {
@@ -39,8 +37,13 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
       handleDragOver,
       handleDrop,
     });
+  }, []);
+
+  const dragEventProvider = (event: React.DragEvent<HTMLElement>, handler?: React.DragEventHandler<HTMLElement>) => {
+    if (!isEdit) return undefined;
+    handler?.(event);
     updateMarkdown();
-  }, [value]);
+  };
 
   return (
     <StyledTh
@@ -50,11 +53,11 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
         updateMarkdown();
         tableApi?.clearSelection();
       }}
-      onDragStart={isEdit ? headerCellEvent?.handleDragStart : undefined}
-      onDragOver={isEdit ? headerCellEvent?.handleDragOver : undefined}
-      onDrop={isEdit ? headerCellEvent?.handleDrop : undefined}
+      onDragStart={(event) => dragEventProvider(event, headerCellEvent?.handleDragStart)}
+      onDragOver={(event) => dragEventProvider(event, headerCellEvent?.handleDragOver)}
+      onDrop={(event) => dragEventProvider(event, headerCellEvent?.handleDrop)}
     >
-      {isEdit ? <Input onChange={handleChange}>{value}</Input> : value}
+      {isEdit ? <Input onChange={handleChange} defaultValue={col}></Input> : col}
     </StyledTh>
   );
 }
