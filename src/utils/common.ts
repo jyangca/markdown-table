@@ -146,7 +146,7 @@ export const toBold = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: R
     e.stopPropagation();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
-    const isBoldMode = selectedValues.some((value) => value.startsWith('**') && value.endsWith('**'));
+    const isBoldMode = selectedValues.some((value) => value.match(/\*{2}(\w+)\*{2}/g));
 
     updateRows(
       rows.map((row) => {
@@ -171,7 +171,7 @@ export const toItalic = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows:
     e.stopPropagation();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
-    const isBoldMode = selectedValues.some(
+    const isItalicMode = selectedValues.some(
       (value) =>
         (value.startsWith('*') && value.endsWith('*') && !value.startsWith('**') && !value.endsWith('**')) ||
         (value.startsWith('***') && value.endsWith('***')),
@@ -179,7 +179,7 @@ export const toItalic = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows:
 
     updateRows(
       rows.map((row) => {
-        if (!isBoldMode) {
+        if (!isItalicMode) {
           const newRow = Object.fromEntries(Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? `*${value}*` : value]));
           return newRow;
         } else {
