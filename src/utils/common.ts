@@ -106,7 +106,7 @@ export const getPasteText = (text: string) => {
 };
 
 export const italicRegex = (string: string) => {
-  const pattern = /\*{1,3}(\w+)\*{1,3}/g;
+  const pattern = /\*{1,3}(\S+(?:\s+\S+)*)\s*\*{1,3}/g;
   const newString = string.replace(pattern, (match, p1) => {
     if (match.startsWith('***') && match.endsWith('***')) {
       return `**${p1}**`;
@@ -146,7 +146,7 @@ export const toBold = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: R
     e.stopPropagation();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
-    const isBoldMode = selectedValues.some((value) => value.match(/\*{2}(\w+)\*{2}/g));
+    const isBoldMode = selectedValues.some((value) => value.match(/\*{2}(\S+)\s*\*{2}/g));
 
     updateRows(
       rows.map((row) => {
