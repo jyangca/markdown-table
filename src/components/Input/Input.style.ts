@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const InputContainer = styled.div`
   width: 80%;
+
+  user-select: none;
 `;
 
 export const InputItem = styled.input`
@@ -17,6 +19,8 @@ export const InputItem = styled.input`
   background-color: ${({ theme }) => theme.color.systemHover};
 
   align: left;
+
+  user-select: none;
 
   &:focus {
     background-color: ${({ theme }) => theme.color.systemWhite};
