@@ -105,6 +105,19 @@ export const getPasteText = (text: string) => {
   return { cols, rows };
 };
 
+export const italicRegex = (string: string) => {
+  const pattern = /\*{1,3}(\w+)\*{1,3}/g;
+  const newString = string.replace(pattern, (match, p1) => {
+    if (match.startsWith('***') && match.endsWith('***')) {
+      return `**${p1}**`;
+    } else {
+      return p1;
+    }
+  });
+
+  return newString;
+};
+
 export const getCurrentRows = () => {
   const table = document.querySelector('table');
   const trs = table!.querySelectorAll('tr');
@@ -171,7 +184,7 @@ export const toItalic = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows:
           return newRow;
         } else {
           const newRow = Object.fromEntries(
-            Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? value.replace(/\*/g, '') : value]),
+            Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? italicRegex(value) : value]),
           );
           return newRow;
         }
