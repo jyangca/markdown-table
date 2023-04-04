@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { Input } from '@/components';
 import StyledTh from './HeaderCell.style';
-import { tableColumnDrag, tableSortColumn } from '@/utils/table';
+import { tableColumnDrag, tableHeaderCellSelection, tableSortColumn } from '@/utils/table';
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
 import { TableSortColumnReturnType } from '@/utils/table/tableSortColumn';
 import { TableApiType } from '../TableForm/TableForm';
+import { TableHeaderCellSelectionType } from '@/utils/table/tableHeaderCellSelection';
 
 type HeaderCellProps = {
   col: string;
@@ -18,7 +19,7 @@ type HeaderCellProps = {
 };
 
 function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tableApi }: HeaderCellProps) {
-  const [headerCellEvent, setHeaderCellEvent] = useState<TableColumnDragReturnType & TableSortColumnReturnType>();
+  const [headerCellEvent, setHeaderCellEvent] = useState<TableColumnDragReturnType & TableSortColumnReturnType & TableHeaderCellSelectionType>();
 
   const handleChange = () => {
     updateMarkdown();
@@ -30,12 +31,14 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
       setCols,
       setRows,
     });
+    const handleEditModeClick = tableHeaderCellSelection;
 
     setHeaderCellEvent({
       handleClick,
       handleDragStart,
       handleDragOver,
       handleDrop,
+      handleEditModeClick,
     });
   }, []);
 
@@ -45,15 +48,20 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
     updateMarkdown();
   };
 
+  const clickEventProvider = () => {
+    if (isEdit) headerCellEvent?.handleEditModeClick(index);
+    else {
+      !isEdit && headerCellEvent?.handleClick(index);
+      updateMarkdown();
+      tableApi?.clearSelection();
+    }
+  };
+
   return (
     <StyledTh
       isEdit={isEdit}
       draggable={isEdit}
-      onClick={() => {
-        !isEdit && headerCellEvent?.handleClick(index);
-        updateMarkdown();
-        tableApi?.clearSelection();
-      }}
+      onClick={clickEventProvider}
       onDragStart={(event) => dragEventProvider(event, headerCellEvent?.handleDragStart)}
       onDragOver={(event) => dragEventProvider(event, headerCellEvent?.handleDragOver)}
       onDrop={(event) => dragEventProvider(event, headerCellEvent?.handleDrop)}

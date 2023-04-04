@@ -66,8 +66,10 @@ export const getColsFromTable = (table: Element | null) => {
 };
 
 export const copySelected = (e: KeyboardEvent) => {
+  if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.metaKey && e.key === 'c') {
     e.preventDefault();
+    e.stopPropagation();
     const table = document.querySelector('table');
     const trs = table!.querySelectorAll('tr');
     const selectedCellsValuesString = Array.from(trs)
@@ -128,7 +130,7 @@ export const removeEmptyRow = (rows: RowsType) => {
 
 export const toBold = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
   if (e.metaKey && e.key === 'b') {
-    e.preventDefault();
+    e.stopPropagation();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
     const isBoldMode = selectedValues.some((value) => value.startsWith('**') && value.endsWith('**'));
@@ -153,7 +155,7 @@ export const toBold = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: R
 
 export const toItalic = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
   if (e.metaKey && e.key === 'i') {
-    e.preventDefault();
+    e.stopPropagation();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
     const isBoldMode = selectedValues.some(
@@ -183,8 +185,9 @@ export const toPreviousRows = (
   setRows: React.Dispatch<React.SetStateAction<RowsType>>,
   rowHistoryRef: React.MutableRefObject<RowsType[]>,
 ) => {
+  if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.metaKey && e.key === 'z') {
-    e.preventDefault();
+    e.stopPropagation();
     const rowsHistory = [...rowHistoryRef.current];
     const rollBackPoint = rowsHistory.pop();
     if (rollBackPoint) {
@@ -195,8 +198,10 @@ export const toPreviousRows = (
 };
 
 export const toSelectAll = (e: KeyboardEvent) => {
+  if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.metaKey && e.key === 'a') {
     e.preventDefault();
+    e.stopPropagation();
     const table = document.querySelector('table');
     const tds = table!.querySelectorAll('td');
     Array.from(tds).forEach((td) => td.classList.add('selected'));
@@ -204,8 +209,9 @@ export const toSelectAll = (e: KeyboardEvent) => {
 };
 
 export const toDeleteCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
+  if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.metaKey && e.key === 'Backspace') {
-    e.preventDefault();
+    e.stopPropagation();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
 
@@ -219,8 +225,9 @@ export const toDeleteCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: 
 };
 
 export const toDeleteAndCopyCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
+  if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.metaKey && e.key === 'x') {
-    e.preventDefault();
+    e.stopPropagation();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
     const trs = table!.querySelectorAll('tr');
@@ -243,4 +250,10 @@ export const toDeleteAndCopyCellValue = (e: KeyboardEvent, rows: RowsType, updat
       }),
     );
   }
+};
+
+export const positiveAndZeroNumberOnly = (value?: number, alt?: number): number => {
+  if (value || value === 0) return value;
+  if (alt) return alt;
+  return 0;
 };
