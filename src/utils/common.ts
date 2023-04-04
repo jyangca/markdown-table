@@ -252,6 +252,8 @@ export const toDeleteAndCopyCellValue = (e: KeyboardEvent, rows: RowsType, updat
   }
 };
 
-export const positiveAndZero = (value?: number) => {
-  return value || value === 0 ? value : false;
+export const positiveAndZeroNumberOnly = (value?: number, alt?: number): number => {
+  if (value || value === 0) return value;
+  if (alt) return alt;
+  return 0;
 };

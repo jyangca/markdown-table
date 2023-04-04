@@ -1,3 +1,5 @@
+import { positiveAndZeroNumberOnly } from '../common';
+
 type isDraggingType = boolean;
 export type TableCellSelectionReturnType = {
   clearSelection: () => void;
@@ -20,14 +22,20 @@ const tableCellSelection = () => {
     }
   };
 
-  const selectCells = (startCell: HTMLTableCellElement, endCell: HTMLTableCellElement) => {
+  type SelectCellsType = {
+    startCell?: HTMLTableCellElement;
+    endCell?: HTMLTableCellElement;
+    manual?: { fromCellIndex: number; toCellIndex: number; fromRowIndex: number; toRowIndex: number };
+  };
+
+  const selectCells = ({ startCell, endCell, manual }: SelectCellsType) => {
     const table = document.querySelector('table');
     const trs = table!.querySelectorAll('tr');
     const ths = table!.querySelectorAll('th');
-    let startRowIndex = (startCell.parentNode! as HTMLTableRowElement).rowIndex;
-    let endRowIndex = (endCell.parentNode! as HTMLTableRowElement).rowIndex;
-    let startCellIndex = startCell.cellIndex;
-    let endCellIndex = endCell.cellIndex;
+    let startRowIndex = manual?.fromRowIndex || (startCell!.parentNode! as HTMLTableRowElement).rowIndex;
+    let endRowIndex = manual?.toRowIndex || (endCell!.parentNode! as HTMLTableRowElement).rowIndex;
+    let startCellIndex = positiveAndZeroNumberOnly(manual?.fromCellIndex, startCell?.cellIndex);
+    let endCellIndex = positiveAndZeroNumberOnly(manual?.toCellIndex, endCell?.cellIndex);
 
     if (startRowIndex > endRowIndex) {
       let temp = startRowIndex;
@@ -42,7 +50,7 @@ const tableCellSelection = () => {
     }
 
     for (let i = startRowIndex - 1; i <= endRowIndex; i++) {
-      let tableCells = trs[i]?.querySelectorAll('td');
+      const tableCells = trs[i]?.querySelectorAll('td');
 
       for (let j = startCellIndex; j <= endCellIndex; j++) {
         if (i === startRowIndex - 1) {
@@ -53,20 +61,21 @@ const tableCellSelection = () => {
           }
           continue;
         }
+        if (tableCells[j]) {
+          tableCells[j].classList.add('selected');
 
-        tableCells[j].classList.add('selected');
-
-        if (i === startRowIndex) {
-          tableCells[j].classList.add('border-top');
-        }
-        if (i === endRowIndex) {
-          tableCells[j].classList.add('border-bottom');
-        }
-        if (j === startCellIndex) {
-          tableCells[j].classList.add('border-left');
-        }
-        if (j === endCellIndex) {
-          tableCells[j].classList.add('border-right');
+          if (i === startRowIndex) {
+            tableCells[j].classList.add('border-top');
+          }
+          if (i === endRowIndex) {
+            tableCells[j].classList.add('border-bottom');
+          }
+          if (j === startCellIndex) {
+            tableCells[j].classList.add('border-left');
+          }
+          if (j === endCellIndex) {
+            tableCells[j].classList.add('border-right');
+          }
         }
       }
     }
@@ -84,7 +93,7 @@ const tableCellSelection = () => {
 
       clearSelection();
 
-      selectCells(startCell, endCell);
+      selectCells({ startCell, endCell });
     }
   };
   const handleMouseUp = () => {
@@ -98,7 +107,7 @@ const tableCellSelection = () => {
       currentCell = currentCell.parentNode?.parentNode as HTMLTableCellElement;
     }
 
-    selectCells(currentCell, currentCell);
+    selectCells({ startCell: currentCell, endCell: currentCell });
   };
 
   for (let i = 0; i < tds.length; i++) {
@@ -109,6 +118,7 @@ const tableCellSelection = () => {
   }
 
   return {
+    selectCells,
     clearSelection,
   };
 };
