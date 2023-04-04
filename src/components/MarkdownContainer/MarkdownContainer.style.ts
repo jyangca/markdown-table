@@ -13,6 +13,8 @@ export const MarkdownStyle = styled(Flex)`
   padding: 0.5rem;
   border-radius: 4px;
   border: 1.5px solid ${({ theme }) => theme.color.system5};
+
+  user-select: none;
 `;
 
 type CopyButtonProps = {
