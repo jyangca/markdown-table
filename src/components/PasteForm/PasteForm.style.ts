@@ -8,6 +8,7 @@ export const PasteFormContainer = styled(Flex)`
 `;
 
 export const PasteFormBox = styled.textarea`
+  padding: 1rem;
   width: 100%;
   height: 100%;
 
@@ -27,4 +28,8 @@ export const PreviewBox = styled(Flex)`
 export const PasteFormInput = styled(Input)`
   width: 100px;
   height: 32px;
+`;
+
+export const DividerBox = styled(Flex)`
+  border-bottom: 1px solid black;
 `;
