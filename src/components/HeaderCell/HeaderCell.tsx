@@ -5,8 +5,8 @@ import StyledTh from './HeaderCell.style';
 import { tableColumnDrag, tableHeaderCellSelection, tableSortColumn } from '@/utils/table';
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
 import { TableSortColumnReturnType } from '@/utils/table/tableSortColumn';
-import { TableApiType } from '../TableForm/TableForm';
 import { TableHeaderCellSelectionType } from '@/utils/table/tableHeaderCellSelection';
+import { TableApiType } from '@/types/common';
 
 type HeaderCellProps = {
   col: string;

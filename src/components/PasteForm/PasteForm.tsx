@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { PasteFormBox, PasteFormContainer, PasteFormInput, PreviewBox } from './PasteForm.style';
-import { TableApiType } from '../TableForm/TableForm';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Typography from '../common/Typography/Typography';
 import Flex from '../common/Flex/Flex';
+import { TableApiType } from '@/types/common';
 
 type PasteFormProps = {
   tableApi: TableApiType | undefined;
