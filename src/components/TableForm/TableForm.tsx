@@ -15,25 +15,17 @@ import {
   toSelectAll,
   toDeleteCellValue,
   toDeleteAndCopyCellValue,
-  GetCurrentColsReturnType,
-  GetCurrentRowsReturnType,
 } from '@/utils/common';
 import { Button, Cell, HeaderCell, PasteForm } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
-import { TableCellSelectionReturnType } from '@/utils/table/tableCellSelection';
-import { TableExportCsvReturnType } from '@/utils/table/tableExportCsv';
 import Flex from '../common/Flex/Flex';
 import { useOutsideClick } from '@/hooks';
+import { ColsType, RowsType, TableApiType } from '@/types/common';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
 };
-
-export type TableApiType = TableCellSelectionReturnType & TableExportCsvReturnType & GetCurrentRowsReturnType & GetCurrentColsReturnType;
-
-export type ColsType = string[];
-export type RowsType = Record<string, any>[];
 
 const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const { cols: initialCols, rows: initialRows } = initialData;

@@ -1,5 +1,5 @@
 import { getColsFromTable, getInputValue, swapElement } from '@/utils/common';
-import { toIterableType } from '@/utils/types';
+import { toIterableType } from '@/types/utils';
 import React, { DragEventHandler } from 'react';
 
 type TableColumnDragProps = {
