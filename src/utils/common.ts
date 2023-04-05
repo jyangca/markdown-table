@@ -1,4 +1,4 @@
-import { RowsType } from '@/components/TableForm/TableForm';
+import { ColsType, RowsType } from '@/components/TableForm/TableForm';
 
 export const toClassName = (array: Array<string | number | boolean>) => array.filter(Boolean).join(' ');
 
@@ -106,7 +106,7 @@ export const getPasteText = (text: string) => {
 };
 
 export const italicRegex = (string: string) => {
-  const pattern = /\*{1,3}(\w+)\*{1,3}/g;
+  const pattern = /\*{1,3}(\S+(?:\s+\S+)*)\s*\*{1,3}/g;
   const newString = string.replace(pattern, (match, p1) => {
     if (match.startsWith('***') && match.endsWith('***')) {
       return `**${p1}**`;
@@ -118,6 +118,9 @@ export const italicRegex = (string: string) => {
   return newString;
 };
 
+export type GetCurrentRowsReturnType = {
+  getCurrentRows: () => RowsType;
+};
 export const getCurrentRows = () => {
   const table = document.querySelector('table');
   const trs = table!.querySelectorAll('tr');
@@ -133,6 +136,15 @@ export const getCurrentRows = () => {
   return rows;
 };
 
+export type GetCurrentColsReturnType = {
+  getCurrentCols: () => ColsType;
+};
+export const getCurrentCols = () => {
+  const table = document.querySelector('table');
+  const ths = Array.from(table!.querySelectorAll('th')).map((th) => getInputValue(th));
+  return ths;
+};
+
 export const removeEmptyRow = (rows: RowsType) => {
   const newRows = rows.filter((row) => {
     const values = Object.values(row);
@@ -146,7 +158,7 @@ export const toBold = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: R
     e.stopPropagation();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
-    const isBoldMode = selectedValues.some((value) => value.match(/\*{2}(\w+)\*{2}/g));
+    const isBoldMode = selectedValues.some((value) => value.match(/\*{2}(\S+)\s*\*{2}/g));
 
     updateRows(
       rows.map((row) => {

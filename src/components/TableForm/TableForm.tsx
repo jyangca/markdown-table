@@ -7,6 +7,7 @@ import {
   copySelected,
   getPasteText,
   getCurrentRows,
+  getCurrentCols,
   removeEmptyRow,
   toBold,
   toItalic,
@@ -14,6 +15,8 @@ import {
   toSelectAll,
   toDeleteCellValue,
   toDeleteAndCopyCellValue,
+  GetCurrentColsReturnType,
+  GetCurrentRowsReturnType,
 } from '@/utils/common';
 import { Button, Cell, HeaderCell, PasteForm } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
@@ -27,7 +30,7 @@ type TableFormProps = {
   updateMarkdown: ForceUpdateType;
 };
 
-export type TableApiType = TableCellSelectionReturnType & TableExportCsvReturnType;
+export type TableApiType = TableCellSelectionReturnType & TableExportCsvReturnType & GetCurrentRowsReturnType & GetCurrentColsReturnType;
 
 export type ColsType = string[];
 export type RowsType = Record<string, any>[];
@@ -50,7 +53,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     const { clearSelection } = tableCellSelection();
     const { toCSVFormat, downloadBlob } = tableExportCsv();
 
-    setTableApi({ clearSelection, toCSVFormat, downloadBlob });
+    setTableApi({ clearSelection, toCSVFormat, downloadBlob, getCurrentRows, getCurrentCols });
 
     updateMarkdown();
   }, []);
@@ -105,7 +108,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
   const handleExportCsv = () => {
     if (tableApi) {
-      const csv = tableApi.toCSVFormat(cols, rows);
+      const csv = tableApi.toCSVFormat({ cols, rows });
       if (csv) tableApi.downloadBlob(csv);
     }
   };
@@ -137,7 +140,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   };
 
   return (
-    <TableAreaContainer direction="COLUMN" align="START" boxFill>
+    <TableAreaContainer direction="COLUMN" align="START" gap={{ row: 16 }} boxFill>
       <Flex justify="SPACE_BETWEEN" boxFill>
         <Flex gap={{ column: 8 }}>
           <Button disabled={!editMode} onClick={handleAddColumn}>
@@ -161,7 +164,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
         </Flex>
       </Flex>
       {pasteMode ? (
-        <PasteForm handlePasteOnChange={handlePasteOnChange} />
+        <PasteForm tableApi={tableApi} handlePasteOnChange={handlePasteOnChange} />
       ) : (
         <Table id="table" ref={tableRef} className={toClassName(['table', editMode ? 'table-mode-edit' : 'table-mode-read'])}>
           <thead>
