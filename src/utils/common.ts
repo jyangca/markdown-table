@@ -1,4 +1,4 @@
-import { RowsType } from '@/types/common';
+import { GenerateMarkdownTableProps, RowsType } from '@/types/common';
 
 export const toClassName = (array: Array<string | number | boolean>) => array.filter(Boolean).join(' ');
 
@@ -67,6 +67,7 @@ export const getColsFromTable = (table: Element | null) => {
 
 export const copySelected = (e: KeyboardEvent) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
+  if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
   if (e.metaKey && e.key === 'c') {
     e.preventDefault();
     e.stopPropagation();
@@ -205,6 +206,7 @@ export const toPreviousRows = (
   rowHistoryRef: React.MutableRefObject<RowsType[]>,
 ) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
+  if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
   if (e.metaKey && e.key === 'z') {
     e.stopPropagation();
     const rowsHistory = [...rowHistoryRef.current];
@@ -218,6 +220,7 @@ export const toPreviousRows = (
 
 export const toSelectAll = (e: KeyboardEvent) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
+  if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
   if (e.metaKey && e.key === 'a') {
     e.preventDefault();
     e.stopPropagation();
@@ -229,6 +232,7 @@ export const toSelectAll = (e: KeyboardEvent) => {
 
 export const toDeleteCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
+  if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
   if (e.metaKey && e.key === 'Backspace') {
     e.stopPropagation();
     const table = document.querySelector('table');
@@ -245,6 +249,7 @@ export const toDeleteCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: 
 
 export const toDeleteAndCopyCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
+  if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
   if (e.metaKey && e.key === 'x') {
     e.stopPropagation();
     const table = document.querySelector('table');
@@ -275,4 +280,27 @@ export const positiveAndZeroNumberOnly = (value?: number, alt?: number): number 
   if (value || value === 0) return value;
   if (alt) return alt;
   return 0;
+};
+
+export const generateMarkdownTable = (manual?: GenerateMarkdownTableProps) => {
+  const table = document.querySelector('table');
+  const ths = table!.querySelectorAll('th');
+  const headers = manual?.header || Array.from(ths).map((th) => getInputValue(th));
+
+  const trs = table!.querySelectorAll('tr');
+
+  const columnDivider = Array.from({ length: (headers || []).length }, (_) => '---');
+
+  const body =
+    manual?.body ||
+    Array.from(trs)
+      .slice(1)
+      .map((tr) => {
+        const tds = tr.querySelectorAll('td');
+        return Array.from(tds).map((td) => getInputValue(td));
+      });
+
+  const result = [headers, columnDivider, ...body].map((row) => row.join(' | ')).join('\n');
+
+  return result;
 };
