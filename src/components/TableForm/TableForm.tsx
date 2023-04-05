@@ -5,7 +5,6 @@ import {
   toClassName,
   initialData,
   copySelected,
-  getPasteText,
   getCurrentRows,
   getCurrentCols,
   removeEmptyRow,
@@ -110,6 +109,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
       tableApi.clearSelection();
     }
     updateRows(removeEmptyRow(getCurrentRows()));
+    setCols(getCurrentCols());
     setEditMode((prev) => !prev);
     updateMarkdown();
   };

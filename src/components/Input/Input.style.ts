@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const InputContainer = styled.div`
-  width: 80%;
+  width: 100%;
 
   user-select: none;
 `;
