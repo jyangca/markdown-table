@@ -1,25 +1,31 @@
 type ColsType = string[];
 type RowsType = Record<string, any>[];
 
+type ToCsvFormatProps = {
+  cols: ColsType;
+  rows: RowsType;
+  toCsvCell?: boolean;
+  joinWith?: string;
+};
 export type TableExportCsvReturnType = {
-  toCSVFormat: (cols: ColsType, rows: RowsType) => string;
+  toCSVFormat: ({ cols, rows, toCsvCell, joinWith }: ToCsvFormatProps) => string;
   downloadBlob: (content: string, filename?: string, contentType?: string) => void;
 };
 
 const tableExportCsv = () => {
-  const toCSVFormat = (cols: ColsType, rows: RowsType) => {
+  const toCSVFormat = ({ cols, rows, toCsvCell = true, joinWith = ',' }: ToCsvFormatProps) => {
     const newCols = cols
       .map(String)
       .map((v) => v.replace(/"/g, ''))
-      .map((v) => `"${v}"`)
-      .join(',');
+      .map((v) => (toCsvCell ? `"${v}"` : v))
+      .join(joinWith);
 
     const newRows = rows.map((row) =>
       Object.values(row)
         .map(String)
         .map((v) => v.replace(/"/g, ''))
-        .map((v) => `"${v}"`)
-        .join(','),
+        .map((v) => (toCsvCell ? `"${v}"` : v))
+        .join(joinWith),
     );
     return [newCols, ...newRows].join('\n');
   };
