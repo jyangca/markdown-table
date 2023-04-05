@@ -21,7 +21,7 @@ import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
 import Flex from '../common/Flex/Flex';
 import { useOutsideClick } from '@/hooks';
-import { ColsType, RowsType, TableApiType } from '@/types/common';
+import { ColsType, PasteFormRefType, RowsType, TableApiType } from '@/types/common';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
@@ -31,6 +31,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const { cols: initialCols, rows: initialRows } = initialData;
 
   const tableRef = useRef<HTMLTableElement>(null);
+  const pasteFormRef = useRef<PasteFormRefType>(null);
   const rowHistoryRef = useRef<RowsType[]>([]);
   const keydownHandlerRef = useRef<{ keydownHandler: null | ((event: KeyboardEvent) => void) }>({ keydownHandler: null });
 
@@ -39,7 +40,6 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [pasteMode, setPasteMode] = useState<boolean>(false);
   const [tableApi, setTableApi] = useState<TableApiType>();
-  const [pastedText, setPastedText] = useState<string>('');
 
   useEffect(() => {
     const { clearSelection } = tableCellSelection();
@@ -115,8 +115,8 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   };
 
   const handleChangePasteMode = () => {
-    if (pasteMode) {
-      const { cols: newCols, rows: newRows } = getPasteText(pastedText);
+    if (pasteMode && pasteFormRef.current) {
+      const { cols: newCols, rows: newRows } = pasteFormRef.current.getPastedText();
       setCols(newCols);
       updateRows(newRows);
     }
@@ -125,10 +125,6 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     }
     !pasteMode && updateRows(removeEmptyRow(getCurrentRows()));
     setPasteMode((prev) => !prev);
-  };
-
-  const handlePasteOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setPastedText(e.target.value);
   };
 
   return (
@@ -149,14 +145,14 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
           </Button>
         </Flex>
         <Flex direction="ROW" gap={{ column: 8 }}>
-          <Button disabled={editMode || (pasteMode && pastedText.length < 1)} onClick={handleChangePasteMode}>
+          <Button disabled={editMode} onClick={handleChangePasteMode}>
             {pasteMode ? 'Done' : 'Paste'}
           </Button>
           {pasteMode && <Button onClick={() => setPasteMode(false)}>Cancel</Button>}
         </Flex>
       </Flex>
       {pasteMode ? (
-        <PasteForm tableApi={tableApi} handlePasteOnChange={handlePasteOnChange} />
+        <PasteForm tableApi={tableApi} ref={pasteFormRef} />
       ) : (
         <Table id="table" ref={tableRef} className={toClassName(['table', editMode ? 'table-mode-edit' : 'table-mode-read'])}>
           <thead>

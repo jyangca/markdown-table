@@ -26,3 +26,9 @@ export type TableExportCsvReturnType = {
 };
 
 export type TableApiType = TableCellSelectionReturnType & TableExportCsvReturnType & GetCurrentRowsReturnType & GetCurrentColsReturnType;
+
+export type GenerateMarkdownTableProps = { header: string[]; body: string[][] };
+
+export type PasteFormRefType = {
+  getPastedText: () => { cols: ColsType; rows: RowsType };
+};
