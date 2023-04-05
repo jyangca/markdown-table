@@ -69,7 +69,9 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
       {isEdit ? (
         <Flex gap={{ column: 8 }}>
           <Input onChange={handleChange} defaultValue={col}></Input>
-          <Button onClick={(e) => console.log(e)}>선택</Button>
+          <Button theme="system7" onClick={(e) => console.log(e)}>
+            선택
+          </Button>
         </Flex>
       ) : (
         col
