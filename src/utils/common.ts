@@ -1,4 +1,4 @@
-import { RowsType } from '@/components/TableForm/TableForm';
+import { ColsType, RowsType } from '@/components/TableForm/TableForm';
 
 export const toClassName = (array: Array<string | number | boolean>) => array.filter(Boolean).join(' ');
 
@@ -118,6 +118,9 @@ export const italicRegex = (string: string) => {
   return newString;
 };
 
+export type GetCurrentRowsReturnType = {
+  getCurrentRows: () => RowsType;
+};
 export const getCurrentRows = () => {
   const table = document.querySelector('table');
   const trs = table!.querySelectorAll('tr');
@@ -131,6 +134,15 @@ export const getCurrentRows = () => {
       return obj;
     });
   return rows;
+};
+
+export type GetCurrentColsReturnType = {
+  getCurrentCols: () => ColsType;
+};
+export const getCurrentCols = () => {
+  const table = document.querySelector('table');
+  const ths = Array.from(table!.querySelectorAll('th')).map((th) => getInputValue(th));
+  return ths;
 };
 
 export const removeEmptyRow = (rows: RowsType) => {
