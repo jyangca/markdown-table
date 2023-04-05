@@ -1,16 +1,4 @@
-type ColsType = string[];
-type RowsType = Record<string, any>[];
-
-type ToCsvFormatProps = {
-  cols: ColsType;
-  rows: RowsType;
-  toCsvCell?: boolean;
-  joinWith?: string;
-};
-export type TableExportCsvReturnType = {
-  toCSVFormat: ({ cols, rows, toCsvCell, joinWith }: ToCsvFormatProps) => string;
-  downloadBlob: (content: string, filename?: string, contentType?: string) => void;
-};
+import { ToCsvFormatProps } from '@/types/common';
 
 const tableExportCsv = () => {
   const toCSVFormat = ({ cols, rows, toCsvCell = true, joinWith = ',' }: ToCsvFormatProps) => {

@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { CopyButton, MarkdownStyle, MarkdownWrapper } from './MarkdownContainer.style';
-import { toIterableType } from '@/utils/types';
+import { toIterableType } from '@/types/utils';
 import { getInputValue } from '@/utils/common';
 
 type MarkdownContainerProps = {
