@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
-import { Input } from '@/components';
+import { Button, Flex, Input } from '@/components';
 import StyledTh from './HeaderCell.style';
 import { tableColumnDrag, tableHeaderCellSelection, tableSortColumn } from '@/utils/table';
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
@@ -66,7 +66,16 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
       onDragOver={(event) => dragEventProvider(event, headerCellEvent?.handleDragOver)}
       onDrop={(event) => dragEventProvider(event, headerCellEvent?.handleDrop)}
     >
-      {isEdit ? <Input onChange={handleChange} defaultValue={col}></Input> : col}
+      {isEdit ? (
+        <Flex gap={{ column: 8 }}>
+          <Input onChange={handleChange} defaultValue={col}></Input>
+          <Button theme="system7" onClick={(e) => console.log(e)}>
+            선택
+          </Button>
+        </Flex>
+      ) : (
+        col
+      )}
     </StyledTh>
   );
 }
