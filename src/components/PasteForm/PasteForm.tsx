@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { DividerBox, PasteFormBox, PasteFormContainer, PasteFormInput, PreviewBox } from './PasteForm.style';
+import { DividerBox, PasteFormBox, PasteFormContainer, PasteFormInput, PreviewBox, SeperationContainer } from './PasteForm.style';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Typography from '../common/Typography/Typography';
@@ -72,16 +72,23 @@ const PasteForm = forwardRef<PasteFormRefType, PasteFormProps>(({ tableApi }, re
   }));
 
   return (
-    <Flex direction="COLUMN" align="START" boxFill>
-      <Flex justify="START" align="START" boxFill>
+    <Flex direction="COLUMN" style={{ padding: '16px' }} align="START" gap={{ row: 16 }} boxFill>
+      <SeperationContainer justify="START" gap={{ column: 16 }} boxFill>
         <Flex gap={{ column: 8 }}>
-          <Typography fontType="pB12">ROW SEP</Typography>
+          <Typography style={{ whiteSpace: 'nowrap' }} fontType="pB12">
+            Row Separator
+          </Typography>
           <PasteFormInput onChange={handleRowSepOnChange} value={mapInputChar(rowSep)} />
         </Flex>
         <Flex gap={{ column: 8 }}>
-          <Typography fontType="pB12">COLUMN SEP</Typography>
+          <Typography style={{ whiteSpace: 'nowrap' }} fontType="pB12">
+            Column Separator
+          </Typography>
           <PasteFormInput onChange={handleColSepOnChange} value={mapInputChar(colSep)} />
         </Flex>
+      </SeperationContainer>
+      <Flex style={{ padding: '0 16px' }}>
+        <Typography fontType="captionB12">\t는 TAB 으로, \n는 NEW_LINE 으로 입력해주세요.</Typography>
       </Flex>
       <PasteFormContainer direction="ROW" gap={{ column: 16 }} boxFill>
         <PasteFormBox ref={pasteFormBoxRef} onChange={() => handlePasteOnChange({})} defaultValue={defaultValue}></PasteFormBox>
@@ -89,7 +96,9 @@ const PasteForm = forwardRef<PasteFormRefType, PasteFormProps>(({ tableApi }, re
           <DividerBox boxFill>
             <Typography fontType="pB20">Preview</Typography>
           </DividerBox>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayText}</ReactMarkdown>
+          <Flex justify="CENTER" boxFill>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayText}</ReactMarkdown>
+          </Flex>
         </PreviewBox>
       </PasteFormContainer>
     </Flex>
