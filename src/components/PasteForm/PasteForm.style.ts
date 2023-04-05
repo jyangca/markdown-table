@@ -29,3 +29,7 @@ export const PasteFormInput = styled(Input)`
   width: 100px;
   height: 32px;
 `;
+
+export const DividerBox = styled(Flex)`
+  border-bottom: 1px solid black;
+`;
