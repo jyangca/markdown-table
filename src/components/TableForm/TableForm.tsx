@@ -175,7 +175,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
             {rows.map((row, rowIdx) => (
               <StyledTr key={generateKey(row, rowIdx)}>
                 {Object.entries(row).map(([_, v], cellIdx) => (
-                  <Cell key={v} updateMarkdown={updateMarkdown} isEdit={editMode} index={cellIdx}>
+                  <Cell key={v} updateMarkdown={updateMarkdown} tableApi={tableApi} isEdit={editMode} index={{ cell: cellIdx, row: rowIdx }}>
                     {row[cols[cellIdx]]}
                   </Cell>
                 ))}
