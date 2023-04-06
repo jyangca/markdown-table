@@ -1,3 +1,4 @@
+import { SelectCellsManualType } from '@/types/common';
 import { positiveAndZeroNumberOnly } from '../common';
 
 type isDraggingType = boolean;
@@ -25,7 +26,7 @@ const tableCellSelection = () => {
   type SelectCellsType = {
     startCell?: HTMLTableCellElement;
     endCell?: HTMLTableCellElement;
-    manual?: { fromCellIndex: number; toCellIndex: number; fromRowIndex: number; toRowIndex: number };
+    manual?: SelectCellsManualType;
   };
 
   const selectCells = ({ startCell, endCell, manual }: SelectCellsType) => {

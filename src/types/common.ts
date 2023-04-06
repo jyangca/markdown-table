@@ -32,3 +32,5 @@ export type GenerateMarkdownTableProps = { header: string[]; body: string[][] };
 export type PasteFormRefType = {
   getPastedText: () => { cols: ColsType; rows: RowsType };
 };
+
+export type SelectCellsManualType = { fromCellIndex: number; toCellIndex: number; fromRowIndex: number; toRowIndex: number };
