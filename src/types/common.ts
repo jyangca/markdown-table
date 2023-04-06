@@ -25,7 +25,11 @@ export type TableExportCsvReturnType = {
   downloadBlob: (content: string, filename?: string, contentType?: string) => void;
 };
 
-export type TableApiType = TableCellSelectionReturnType & TableExportCsvReturnType & GetCurrentRowsReturnType & GetCurrentColsReturnType;
+export type TableApiType = TableCellSelectionReturnType &
+  TableExportCsvReturnType &
+  GetCurrentRowsReturnType &
+  GetCurrentColsReturnType &
+  TableApiEventHandlersType;
 
 export type GenerateMarkdownTableProps = { header: string[]; body: string[][] };
 
@@ -34,3 +38,11 @@ export type PasteFormRefType = {
 };
 
 export type SelectCellsManualType = { fromCellIndex: number; toCellIndex: number; fromRowIndex: number; toRowIndex: number };
+
+export type TableApiEventHandlersType = {
+  handleAddColumn: () => void;
+  handleAddRow: () => void;
+  handleExportCsv: () => void;
+  handleChangeEditMode: () => void;
+  handleChangePasteMode: () => void;
+};

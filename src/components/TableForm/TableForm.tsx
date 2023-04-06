@@ -15,10 +15,9 @@ import {
   toDeleteCellValue,
   toDeleteAndCopyCellValue,
 } from '@/utils/common';
-import { Button, Cell, HeaderCell, PasteForm } from '@/components';
+import { Cell, HeaderCell, PasteForm, TableButtonList } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
-import Flex from '../common/Flex/Flex';
 import { useOutsideClick } from '@/hooks';
 import { ColsType, PasteFormRefType, RowsType, TableApiType } from '@/types/common';
 
@@ -40,11 +39,70 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [pasteMode, setPasteMode] = useState<boolean>(false);
   const [tableApi, setTableApi] = useState<TableApiType>();
 
+  const updateRows = (newRows: RowsType) => {
+    rowHistoryRef.current.push(rows);
+    setRows(newRows);
+  };
+
+  const handleAddColumn = () => {
+    const ths = tableRef.current?.querySelectorAll('th');
+    const newCols = [...getCurrentCols(), `column${(ths || []).length + 1}`];
+    const newRows = getCurrentRows().map((row) => ({ ...row, [`column${(ths || []).length + 1}`]: '' }));
+    setCols(newCols);
+    updateRows(newRows);
+  };
+
+  const handleAddRow = () => {
+    const newRow = getCurrentCols().reduce((acc, cur) => ({ ...acc, [cur]: '' }), {});
+    updateRows([...getCurrentRows(), newRow]);
+  };
+
+  const handleExportCsv = () => {
+    if (tableApi) {
+      const csv = tableApi.toCSVFormat({ cols, rows });
+      if (csv) tableApi.downloadBlob(csv);
+    }
+  };
+
+  const handleChangeEditMode = () => {
+    if (tableApi) {
+      tableApi.clearSelection();
+    }
+    updateRows(removeEmptyRow(getCurrentRows()));
+    setCols(getCurrentCols());
+    setEditMode((prev) => !prev);
+    updateMarkdown();
+  };
+
+  const handleChangePasteMode = () => {
+    if (pasteMode && pasteFormRef.current) {
+      const { cols: newCols, rows: newRows } = pasteFormRef.current.getPastedText();
+      setCols(newCols);
+      updateRows(newRows);
+    }
+    if (tableApi) {
+      tableApi.clearSelection();
+    }
+    !pasteMode && updateRows(removeEmptyRow(getCurrentRows()));
+    setPasteMode((prev) => !prev);
+  };
+
   useEffect(() => {
     const { clearSelection } = tableCellSelection();
     const { toCSVFormat, downloadBlob } = tableExportCsv();
 
-    setTableApi({ clearSelection, toCSVFormat, downloadBlob, getCurrentRows, getCurrentCols });
+    setTableApi({
+      clearSelection,
+      toCSVFormat,
+      downloadBlob,
+      getCurrentRows,
+      getCurrentCols,
+      handleAddColumn,
+      handleAddRow,
+      handleExportCsv,
+      handleChangeEditMode,
+      handleChangePasteMode,
+    });
 
     updateMarkdown();
   }, []);
@@ -80,77 +138,9 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     tableApi?.clearSelection();
   });
 
-  const updateRows = (newRows: RowsType) => {
-    rowHistoryRef.current.push(rows);
-    setRows(newRows);
-  };
-
-  const handleAddColumn = () => {
-    const newCols = [...cols, `column${cols.length + 1}`];
-    const newRows = getCurrentRows().map((row) => ({ ...row, [`column${cols.length + 1}`]: '' }));
-    setCols(newCols);
-    updateRows(newRows);
-  };
-
-  const handleAddRow = () => {
-    const newRow = cols.reduce((acc, cur) => ({ ...acc, [cur]: '' }), {});
-    updateRows([...getCurrentRows(), newRow]);
-  };
-
-  const handleExportCsv = () => {
-    if (tableApi) {
-      const csv = tableApi.toCSVFormat({ cols, rows });
-      if (csv) tableApi.downloadBlob(csv);
-    }
-  };
-
-  const handleChangeEditMode = () => {
-    if (tableApi) {
-      tableApi.clearSelection();
-    }
-    updateRows(removeEmptyRow(getCurrentRows()));
-    setCols(getCurrentCols());
-    setEditMode((prev) => !prev);
-    updateMarkdown();
-  };
-
-  const handleChangePasteMode = () => {
-    if (pasteMode && pasteFormRef.current) {
-      const { cols: newCols, rows: newRows } = pasteFormRef.current.getPastedText();
-      setCols(newCols);
-      updateRows(newRows);
-    }
-    if (tableApi) {
-      tableApi.clearSelection();
-    }
-    !pasteMode && updateRows(removeEmptyRow(getCurrentRows()));
-    setPasteMode((prev) => !prev);
-  };
-
   return (
     <TableAreaContainer direction="COLUMN" align="START" gap={{ row: 16 }} boxFill>
-      <Flex justify="SPACE_BETWEEN" boxFill>
-        <Flex gap={{ column: 8 }}>
-          <Button disabled={!editMode} onClick={handleAddColumn}>
-            Add Column
-          </Button>
-          <Button disabled={!editMode} onClick={handleAddRow}>
-            Add Row
-          </Button>
-          <Button disabled={editMode || pasteMode} onClick={handleExportCsv}>
-            Export CSV
-          </Button>
-          <Button disabled={pasteMode} onClick={handleChangeEditMode}>
-            {editMode ? '보기' : '편집'}
-          </Button>
-        </Flex>
-        <Flex direction="ROW" gap={{ column: 8 }}>
-          <Button disabled={editMode} onClick={handleChangePasteMode}>
-            {pasteMode ? 'Done' : 'Paste'}
-          </Button>
-          {pasteMode && <Button onClick={() => setPasteMode(false)}>Cancel</Button>}
-        </Flex>
-      </Flex>
+      <TableButtonList editMode={editMode} pasteMode={pasteMode} tableApi={tableApi} />
       {pasteMode ? (
         <PasteForm tableApi={tableApi} ref={pasteFormRef} />
       ) : (
