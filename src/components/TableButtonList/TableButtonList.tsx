@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Flex from '../common/Flex/Flex';
 import Button from '../common/Button/Button';
 import { TableApiType } from '@/types/common';
@@ -36,4 +36,4 @@ const TableButtonList = ({ editMode, pasteMode, tableApi }: TableButtonListProps
   );
 };
 
-export default TableButtonList;
+export default memo(TableButtonList);
