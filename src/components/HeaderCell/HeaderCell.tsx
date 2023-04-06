@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { Button, Flex, Input } from '@/components';
 import StyledTh from './HeaderCell.style';
-import { tableColumnDrag, tableHeaderCellSelection, tableSortColumn } from '@/utils/table';
+import { tableColumnDrag, tableCellRangeSelection, tableSortColumn } from '@/utils/table';
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
 import { TableSortColumnReturnType } from '@/utils/table/tableSortColumn';
-import { TableHeaderCellSelectionType } from '@/utils/table/tableHeaderCellSelection';
+import { TableCellRangeSelectionType } from '@/utils/table/tableCellRangeSelection';
 import { TableApiType } from '@/types/common';
 
 type HeaderCellProps = {
@@ -19,7 +19,7 @@ type HeaderCellProps = {
 };
 
 function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tableApi }: HeaderCellProps) {
-  const [headerCellEvent, setHeaderCellEvent] = useState<TableColumnDragReturnType & TableSortColumnReturnType & TableHeaderCellSelectionType>();
+  const [headerCellEvent, setHeaderCellEvent] = useState<TableColumnDragReturnType & TableSortColumnReturnType & TableCellRangeSelectionType>();
 
   const handleChange = () => {
     updateMarkdown();
@@ -31,7 +31,7 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
       setCols,
       setRows,
     });
-    const handleEditModeClick = tableHeaderCellSelection;
+    const handleEditModeClick = tableCellRangeSelection;
 
     setHeaderCellEvent({
       handleClick,
@@ -48,12 +48,17 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
     updateMarkdown();
   };
 
-  const clickEventProvider = () => {
-    if (isEdit) headerCellEvent?.handleEditModeClick(index);
-    else {
-      !isEdit && headerCellEvent?.handleClick(index);
-      updateMarkdown();
-      tableApi?.clearSelection();
+  const handleColumnClick = () => {
+    !isEdit && headerCellEvent?.handleClick(index);
+    updateMarkdown();
+    tableApi?.clearSelection();
+  };
+
+  const handleColumnSelectButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    if (tableApi) {
+      const rows = tableApi.getCurrentRows();
+      headerCellEvent?.handleEditModeClick({ fromCellIndex: index, toCellIndex: index, fromRowIndex: 1, toRowIndex: rows.length });
     }
   };
 
@@ -61,7 +66,7 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
     <StyledTh
       isEdit={isEdit}
       draggable={isEdit}
-      onClick={clickEventProvider}
+      onClick={handleColumnClick}
       onDragStart={(event) => dragEventProvider(event, headerCellEvent?.handleDragStart)}
       onDragOver={(event) => dragEventProvider(event, headerCellEvent?.handleDragOver)}
       onDrop={(event) => dragEventProvider(event, headerCellEvent?.handleDrop)}
@@ -69,7 +74,7 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
       {isEdit ? (
         <Flex gap={{ column: 8 }}>
           <Input onChange={handleChange} defaultValue={col}></Input>
-          <Button theme="system7" onClick={(e) => console.log(e)}>
+          <Button theme="system7" onClick={handleColumnSelectButtonClick}>
             선택
           </Button>
         </Flex>

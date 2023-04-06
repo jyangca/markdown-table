@@ -1,4 +1,5 @@
 import { GenerateMarkdownTableProps, RowsType } from '@/types/common';
+import { tableCellSelection } from './table';
 
 export const toClassName = (array: Array<string | number | boolean>) => array.filter(Boolean).join(' ');
 
@@ -222,6 +223,8 @@ export const toSelectAll = (e: KeyboardEvent) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
   if (e.metaKey && e.key === 'a') {
+    const { clearSelection } = tableCellSelection();
+    clearSelection();
     e.preventDefault();
     e.stopPropagation();
     const table = document.querySelector('table');
