@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import Flex from '../common/Flex/Flex';
-import Input from '../Input/Input';
+import { Flex, Input } from '@/components/common';
 
 export const PasteFormContainer = styled(Flex)`
   min-height: 300px;

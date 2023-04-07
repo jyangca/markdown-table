@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Flex from '../common/Flex/Flex';
+import { Flex } from '@/components/common';
 
 export const TableAreaContainer = styled(Flex)`
   padding: 1rem;

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Flex, Portal } from '@/components';
+import { Portal } from '@/components/common';
 import { ContentBox } from './Popover.style';
 
 type PopoverProps = {

@@ -1,6 +1,6 @@
 import { MarkdownContainer, TableForm } from '@/components';
-import Flex from '@/components/common/Flex/Flex';
 import { useForceUpdate } from '@/hooks';
+import { Flex } from '@/components/common';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 

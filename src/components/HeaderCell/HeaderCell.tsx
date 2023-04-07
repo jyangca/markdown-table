@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
-import { Button, Flex, Input } from '@/components';
+import { Button, Flex, Input } from '@/components/common';
 import StyledTh from './HeaderCell.style';
 import { tableColumnDrag, tableCellRangeSelection, tableSortColumn } from '@/utils/table';
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';

@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
-import Flex from '../common/Flex/Flex';
-import Button from '../common/Button/Button';
+import { Flex, Button } from '@/components/common';
 import { TableApiType } from '@/types/common';
 
 type TableButtonListProps = {
