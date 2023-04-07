@@ -49,13 +49,14 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
   };
 
   const handleColumnClick = () => {
-    !isEdit && headerCellEvent?.handleClick(index);
-    updateMarkdown();
-    tableApi?.clearSelection();
+    if (!isEdit) {
+      headerCellEvent?.handleClick(index);
+      updateMarkdown();
+      tableApi?.clearSelection();
+    }
   };
 
   const handleColumnSelectButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
     if (tableApi) {
       const rows = tableApi.getCurrentRows();
       headerCellEvent?.handleEditModeClick({ fromCellIndex: index, toCellIndex: index, fromRowIndex: 1, toRowIndex: rows.length });
