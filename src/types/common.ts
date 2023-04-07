@@ -8,6 +8,8 @@ export type ToCsvFormatProps = {
   joinWith?: string;
 };
 
+export type GenerateMarkdownTableProps = { header: string[]; body: string[][] };
+
 export type GetCurrentColsReturnType = {
   getCurrentCols: () => ColsType;
 };
@@ -25,20 +27,6 @@ export type TableExportCsvReturnType = {
   downloadBlob: (content: string, filename?: string, contentType?: string) => void;
 };
 
-export type TableApiType = TableCellSelectionReturnType &
-  TableExportCsvReturnType &
-  GetCurrentRowsReturnType &
-  GetCurrentColsReturnType &
-  TableApiEventHandlersType;
-
-export type GenerateMarkdownTableProps = { header: string[]; body: string[][] };
-
-export type PasteFormRefType = {
-  getPastedText: () => { cols: ColsType; rows: RowsType };
-};
-
-export type SelectCellsManualType = { fromCellIndex: number; toCellIndex: number; fromRowIndex: number; toRowIndex: number };
-
 export type TableApiEventHandlersType = {
   handleAddColumn: () => void;
   handleAddRow: () => void;
@@ -46,3 +34,15 @@ export type TableApiEventHandlersType = {
   handleChangeEditMode: () => void;
   handleChangePasteMode: () => void;
 };
+
+export type TableApiType = TableCellSelectionReturnType &
+  TableExportCsvReturnType &
+  GetCurrentRowsReturnType &
+  GetCurrentColsReturnType &
+  TableApiEventHandlersType;
+
+export type PasteFormRefType = {
+  getPastedText: () => { cols: ColsType; rows: RowsType };
+};
+
+export type SelectCellsManualType = { fromCellIndex: number; toCellIndex: number; fromRowIndex: number; toRowIndex: number };
