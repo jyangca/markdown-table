@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import Flex from '../common/Flex/Flex';
-import Button from '../common/Button/Button';
+import { Flex, Button } from '@/components/common';
 
 export const MarkdownWrapper = styled(Flex)`
   padding: 1rem;

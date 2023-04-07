@@ -2,8 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } f
 import { DividerBox, PasteFormBox, PasteFormContainer, PasteFormInput, PreviewBox, SeperationContainer } from './PasteForm.style';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import Typography from '../common/Typography/Typography';
-import Flex from '../common/Flex/Flex';
+import { Flex, Typography } from '@/components/common';
 import { PasteFormRefType, TableApiType } from '@/types/common';
 import { generateMarkdownTable } from '@/utils/common';
 

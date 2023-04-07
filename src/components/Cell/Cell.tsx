@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyledTd } from './Cell.style';
-import { Button, Flex, Input } from '@/components';
+import { Button, Flex, Input } from '@/components/common';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { toClassName } from '@/utils/common';
 import { TableApiType } from '@/types/common';
