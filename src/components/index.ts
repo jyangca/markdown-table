@@ -9,3 +9,4 @@ export { default as TableButtonList } from './TableButtonList/TableButtonList';
 export { default as Button } from './common/Button/Button';
 export { default as Typography } from './common/Typography/Typography';
 export { default as Flex } from './common/Flex/Flex';
+export { default as Portal } from './common/Portal/Portal';
