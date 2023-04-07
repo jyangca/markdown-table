@@ -18,6 +18,8 @@ const tableColumnDrag = ({ setCols, setRows }: TableColumnDragProps): TableColum
   const tableBody = table?.querySelector('tbody');
 
   const handleDragStart = (e: React.DragEvent<HTMLElement>) => {
+    if (e.target && (e.target as HTMLElement).tagName === 'BUTTON') return;
+
     const cols = getColsFromTable(table);
 
     const value = getInputValue(e.target as HTMLElement);
@@ -29,6 +31,8 @@ const tableColumnDrag = ({ setCols, setRows }: TableColumnDragProps): TableColum
   const handleDragOver = (e: React.DragEvent<HTMLElement>) => e.preventDefault();
 
   const handleDrop = (e: React.DragEvent<HTMLElement>) => {
+    if (e.target && (e.target as HTMLElement).tagName === 'BUTTON') return;
+
     const cols = getColsFromTable(table);
     const trs = toIterableType(tableBody!.querySelectorAll('tr'));
     const rows = Array.from(trs).map((tr) => {
