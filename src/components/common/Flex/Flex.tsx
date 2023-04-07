@@ -52,6 +52,7 @@ const Flex = ({
   id,
   tag = 'div',
   wrap,
+  ref,
   ...argsProps
 }: FlexProps) => {
   return (

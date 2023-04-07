@@ -116,4 +116,7 @@ export interface FlexProps extends Omit<HTMLAttributes<HTMLElement>, 'ref'> {
 
   /** width를 100%로 설정한다. */
   boxFill?: boolean;
+
+  /** Flex 박스에 ref를 지정 */
+  ref?: React.RefObject<HTMLDivElement>;
 }
