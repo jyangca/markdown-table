@@ -1,6 +1,14 @@
 import { GenerateMarkdownTableProps, RowsType } from '@/types/common';
 import { tableCellSelection } from './table';
 
+export const isClient = () => {
+  return typeof window === 'object' && !!window.document;
+};
+
+export const isServer = () => {
+  return !isClient();
+};
+
 export const toClassName = (array: Array<string | number | boolean>) => array.filter(Boolean).join(' ');
 
 export const generateKey = (item: unknown, index?: number) => `${JSON.stringify(item)}_${index}`;
