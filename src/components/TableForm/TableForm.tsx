@@ -18,7 +18,7 @@ import {
 import { Cell, HeaderCell, PasteForm, TableButtonList } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
-import { useOutsideClick } from '@/hooks';
+import { useOnOutsideClick } from '@/hooks';
 import { ColsType, PasteFormRefType, RowsType, TableApiType } from '@/types/common';
 
 type TableFormProps = {
@@ -134,9 +134,9 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     return () => document.removeEventListener('keydown', keydownHandler);
   }, [rows, cols]);
 
-  useOutsideClick(tableRef.current!, () => {
+  useOnOutsideClick(() => {
     tableApi?.clearSelection();
-  });
+  }, tableRef);
 
   return (
     <TableAreaContainer direction="COLUMN" align="START" gap={{ row: 16 }} boxFill>
