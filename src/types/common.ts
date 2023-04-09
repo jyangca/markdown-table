@@ -46,3 +46,6 @@ export type PasteFormRefType = {
 };
 
 export type SelectCellsManualType = { fromCellIndex: number; toCellIndex: number; fromRowIndex: number; toRowIndex: number };
+
+export type UpdateRowsType = (newRows: RowsType) => void;
+export type UpdateColsType = (newCols: ColsType) => void;

@@ -9,7 +9,6 @@ import {
   getCurrentCols,
   toBold,
   toItalic,
-  toPreviousRows,
   toSelectAll,
   toDeleteCellValue,
   toDeleteAndCopyCellValue,
@@ -30,7 +29,6 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
   const tableRef = useRef<HTMLTableElement>(null);
   const pasteFormRef = useRef<PasteFormRefType>(null);
-  const rowHistoryRef = useRef<RowsType[]>([]);
   const keydownHandlerRef = useRef<{ keydownHandler: null | ((event: KeyboardEvent) => void) }>({ keydownHandler: null });
 
   const [cols, setCols] = useState<ColsType>(initialCols);
@@ -40,15 +38,18 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [tableApi, setTableApi] = useState<TableApiType>();
 
   const updateRows = (newRows: RowsType) => {
-    rowHistoryRef.current.push(rows);
     setRows(newRows);
+  };
+
+  const updateCols = (newCols: ColsType) => {
+    setCols(newCols);
   };
 
   const handleAddColumn = () => {
     const ths = tableRef.current?.querySelectorAll('th');
     const newCols = [...getCurrentCols(), `column${(ths || []).length + 1}`];
     const newRows = getCurrentRows().map((row) => ({ ...row, [`column${(ths || []).length + 1}`]: '' }));
-    setCols(newCols);
+    updateCols(newCols);
     updateRows(newRows);
   };
 
@@ -70,7 +71,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     }
     const { cols: newCols, rows: newRows } = removeEmptyRowAndCol({ rows: getCurrentRows(), cols: getCurrentCols() });
     updateRows(newRows);
-    setCols(newCols);
+    updateCols(newCols);
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
@@ -78,7 +79,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const handleChangePasteMode = ({ isCancel }: { isCancel: boolean }) => {
     if (!isCancel && pasteMode && pasteFormRef.current) {
       const { cols: newCols, rows: newRows } = pasteFormRef.current.getPastedText();
-      setCols(newCols);
+      updateCols(newCols);
       updateRows(newRows);
     }
     if (tableApi) {
@@ -120,7 +121,6 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
       if (editMode) {
         toBold(event, rows, updateRows);
         toItalic(event, rows, updateRows);
-        toPreviousRows(event, setRows, rowHistoryRef);
         toDeleteCellValue(event, rows, updateRows);
         toDeleteAndCopyCellValue(event, rows, updateRows);
       }
@@ -152,8 +152,8 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
                   key={generateKey([col, index])}
                   col={col}
                   index={index}
-                  setCols={setCols}
-                  setRows={setRows}
+                  updateCols={updateCols}
+                  updateRows={updateRows}
                   updateMarkdown={updateMarkdown}
                   tableApi={tableApi}
                   isEdit={editMode}

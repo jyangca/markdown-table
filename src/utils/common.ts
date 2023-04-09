@@ -1,4 +1,4 @@
-import { GenerateMarkdownTableProps, RowsType } from '@/types/common';
+import { ColsType, GenerateMarkdownTableProps, RowsType, UpdateColsType, UpdateRowsType } from '@/types/common';
 import { tableCellSelection } from './table';
 
 export const isClient = () => {
@@ -217,24 +217,6 @@ export const toItalic = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows:
         }
       }),
     );
-  }
-};
-
-export const toPreviousRows = (
-  e: KeyboardEvent,
-  setRows: React.Dispatch<React.SetStateAction<RowsType>>,
-  rowHistoryRef: React.MutableRefObject<RowsType[]>,
-) => {
-  if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
-  if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
-  if (e.metaKey && e.key === 'z') {
-    e.stopPropagation();
-    const rowsHistory = [...rowHistoryRef.current];
-    const rollBackPoint = rowsHistory.pop();
-    if (rollBackPoint) {
-      setRows(rollBackPoint);
-    }
-    rowHistoryRef.current = rowsHistory;
   }
 };
 
