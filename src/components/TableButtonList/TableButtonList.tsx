@@ -22,7 +22,7 @@ const TableButtonList = ({ editMode, pasteMode, tableApi }: TableButtonListProps
           Export CSV
         </Button>
         <Button disabled={pasteMode} onClick={tableApi?.handleChangeEditMode}>
-          {editMode ? '보기' : '편집'}
+          {editMode ? 'View' : 'Edit'}
         </Button>
       </Flex>
       <Flex direction="ROW" gap={{ column: 8 }}>
