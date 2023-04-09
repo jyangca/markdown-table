@@ -36,7 +36,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [pasteMode, setPasteMode] = useState<boolean>(false);
   const [tableApi, setTableApi] = useState<TableApiType>();
-  const [tableSnapshot, setTableSnapshot] = useState<{ cols: ColsType; rows: RowsType }>({ cols, rows });
+  const [tableHistory, setTableHistory] = useState<{ cols: ColsType; rows: RowsType }>({ cols, rows });
 
   const updateRows = (newRows: RowsType) => {
     setRows(newRows);
@@ -73,7 +73,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     const { cols: newCols, rows: newRows } = removeEmptyRowAndCol({ rows: getCurrentRows(), cols: getCurrentCols() });
     updateRows(newRows);
     updateCols(newCols);
-    setTableSnapshot({ cols: newCols, rows: newRows });
+    setTableHistory({ cols: newCols, rows: newRows });
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
@@ -95,6 +95,8 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     const { toCSVFormat, downloadBlob } = tableExportCsv();
 
     setTableApi({
+      updateRows,
+      updateCols,
       clearSelection,
       toCSVFormat,
       downloadBlob,
