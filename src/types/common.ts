@@ -32,7 +32,7 @@ export type TableApiEventHandlersType = {
   handleAddRow: () => void;
   handleExportCsv: () => void;
   handleChangeEditMode: () => void;
-  handleChangePasteMode: () => void;
+  handleChangePasteMode: ({ isCancel }: { isCancel: boolean }) => void;
 };
 
 export type TableApiType = TableCellSelectionReturnType &

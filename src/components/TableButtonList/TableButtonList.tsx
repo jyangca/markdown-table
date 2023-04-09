@@ -26,10 +26,10 @@ const TableButtonList = ({ editMode, pasteMode, tableApi }: TableButtonListProps
         </Button>
       </Flex>
       <Flex direction="ROW" gap={{ column: 8 }}>
-        <Button disabled={editMode} onClick={tableApi?.handleChangePasteMode}>
+        <Button disabled={editMode} onClick={() => tableApi?.handleChangePasteMode({ isCancel: false })}>
           {pasteMode ? 'Done' : 'Paste'}
         </Button>
-        {pasteMode && <Button onClick={tableApi?.handleChangePasteMode}>Cancel</Button>}
+        {pasteMode && <Button onClick={() => tableApi?.handleChangePasteMode({ isCancel: true })}>Cancel</Button>}
       </Flex>
     </Flex>
   );
