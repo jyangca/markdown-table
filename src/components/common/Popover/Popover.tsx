@@ -23,7 +23,7 @@ const Popover = ({ children, content }: PopoverProps) => {
         const childrenRect = contentNode.getBoundingClientRect();
 
         const top = triggerRect.top;
-        const left = triggerRect.left + childrenRect.width;
+        const left = triggerRect.left + triggerRect.width + 4;
 
         contentNode.style.top = `${top}px`;
         contentNode.style.left = `${left}px`;
@@ -37,9 +37,7 @@ const Popover = ({ children, content }: PopoverProps) => {
         {children}
       </div>
       <Portal isOpen={isOpen} onDimClick={() => setIsOpen(false)}>
-        <ContentBox ref={contentRef} onClick={() => setIsOpen(false)}>
-          {content}
-        </ContentBox>
+        <ContentBox ref={contentRef}>{content}</ContentBox>
       </Portal>
     </>
   );

@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { InputContainer, InputItem } from './Input.style';
 
-type InputProps = {
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-const Input = ({ onChange, ...inputProps }: InputProps & React.InputHTMLAttributes<HTMLInputElement>) => {
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   return (
-    <InputContainer>
-      <InputItem onChange={onChange} {...inputProps} />
+    <InputContainer inputProps={props}>
+      <InputItem ref={ref} {...props} />
     </InputContainer>
   );
-};
+});
+
+Input.displayName = 'Input';
 
 export default Input;

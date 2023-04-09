@@ -4,3 +4,4 @@ export { default as MarkdownContainer } from './MarkdownContainer/MarkdownContai
 export { default as HeaderCell } from './HeaderCell/HeaderCell';
 export { default as PasteForm } from './PasteForm/PasteForm';
 export { default as TableButtonList } from './TableButtonList/TableButtonList';
+export { default as NewPopover } from './NewPopover/NewPopover';
