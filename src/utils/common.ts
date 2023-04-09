@@ -1,4 +1,4 @@
-import { ColsType, GenerateMarkdownTableProps, RowsType } from '@/types/common';
+import { ColsType, GenerateMarkdownTableProps, RowsType, UpdateColsType, UpdateRowsType } from '@/types/common';
 import { tableCellSelection } from './table';
 
 export const isClient = () => {
@@ -229,8 +229,8 @@ export const toPreviousRows = ({
 }: {
   event: KeyboardEvent;
   cols: ColsType;
-  updateRows: (newRows: RowsType) => void;
-  updateCols: (newCols: ColsType) => void;
+  updateCols: UpdateColsType;
+  updateRows: UpdateRowsType;
   rowHistoryRef: React.MutableRefObject<RowsType[]>;
 }) => {
   if (event.target && (event.target as HTMLElement).tagName === 'INPUT') return;

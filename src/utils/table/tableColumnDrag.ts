@@ -1,11 +1,11 @@
 import { getColsFromTable, getInputValue, swapElement } from '@/utils/common';
 import { toIterableType } from '@/types/utils';
 import React, { DragEventHandler } from 'react';
-import { ColsType, RowsType } from '@/types/common';
+import { UpdateColsType, UpdateRowsType } from '@/types/common';
 
 type TableColumnDragProps = {
-  updateCols: (newCols: ColsType) => void;
-  updateRows: (newRows: RowsType) => void;
+  updateCols: UpdateColsType;
+  updateRows: UpdateRowsType;
 };
 
 export type TableColumnDragReturnType = {
@@ -15,7 +15,7 @@ export type TableColumnDragReturnType = {
 };
 
 const tableColumnDrag = ({ updateCols, updateRows }: TableColumnDragProps): TableColumnDragReturnType => {
-  const table = document.querySelector('#table');
+  const table = document.querySelector('table');
   const tableBody = table?.querySelector('tbody');
 
   const handleDragStart = (e: React.DragEvent<HTMLElement>) => {

@@ -6,14 +6,14 @@ import { tableColumnDrag, tableCellRangeSelection, tableSortColumn } from '@/uti
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
 import { TableSortColumnReturnType } from '@/utils/table/tableSortColumn';
 import { TableCellRangeSelectionType } from '@/utils/table/tableCellRangeSelection';
-import { ColsType, RowsType, TableApiType } from '@/types/common';
+import { TableApiType, UpdateColsType, UpdateRowsType } from '@/types/common';
 
 type HeaderCellProps = {
   col: string;
   index: number;
   isEdit: boolean;
-  updateCols: (newCols: ColsType) => void;
-  updateRows: (newRows: RowsType) => void;
+  updateCols: UpdateColsType;
+  updateRows: UpdateRowsType;
   updateMarkdown: ForceUpdateType;
   tableApi: TableApiType | undefined;
 };
