@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
-export const InputContainer = styled.div`
-  width: 100%;
+type InputContainerProps = {
+  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+};
+export const InputContainer = styled.div<InputContainerProps>`
+  width: ${({ inputProps }) => inputProps.width || '100%'};
 
   user-select: none;
 `;
@@ -17,8 +20,6 @@ export const InputItem = styled.input`
   border: 1px solid ${({ theme }) => theme.color.systemE};
   border-radius: 4px;
   background-color: ${({ theme }) => theme.color.systemHover};
-
-  align: left;
 
   user-select: none;
 
