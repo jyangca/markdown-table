@@ -5,3 +5,4 @@ export { default as HeaderCell } from './HeaderCell/HeaderCell';
 export { default as PasteForm } from './PasteForm/PasteForm';
 export { default as TableButtonList } from './TableButtonList/TableButtonList';
 export { default as NewPopover } from './NewPopover/NewPopover';
+export { default as HistoryPopover } from './HistoryPopover/HistoryPopover';
