@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
-import { Flex, Button } from '@/components/common';
+import { Flex, Button, Popover } from '@/components/common';
+import { NewPopover } from '@/components';
 import { TableApiType } from '@/types/common';
 
 type TableButtonListProps = {
@@ -24,6 +25,9 @@ const TableButtonList = ({ editMode, pasteMode, tableApi }: TableButtonListProps
         <Button disabled={pasteMode} onClick={tableApi?.handleChangeEditMode}>
           {editMode ? 'View' : 'Edit'}
         </Button>
+        <Popover content={<NewPopover />}>
+          <Button>New</Button>
+        </Popover>
       </Flex>
       <Flex direction="ROW" gap={{ column: 8 }}>
         <Button disabled={editMode} onClick={() => tableApi?.handleChangePasteMode({ isCancel: false })}>
