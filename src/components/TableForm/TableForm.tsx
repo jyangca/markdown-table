@@ -9,7 +9,6 @@ import {
   getCurrentCols,
   toBold,
   toItalic,
-  toPreviousRows,
   toSelectAll,
   toDeleteCellValue,
   toDeleteAndCopyCellValue,
@@ -30,7 +29,6 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
   const tableRef = useRef<HTMLTableElement>(null);
   const pasteFormRef = useRef<PasteFormRefType>(null);
-  const rowHistoryRef = useRef<RowsType[]>([]);
   const keydownHandlerRef = useRef<{ keydownHandler: null | ((event: KeyboardEvent) => void) }>({ keydownHandler: null });
 
   const [cols, setCols] = useState<ColsType>(initialCols);
@@ -40,7 +38,6 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [tableApi, setTableApi] = useState<TableApiType>();
 
   const updateRows = (newRows: RowsType) => {
-    rowHistoryRef.current.push(rows);
     setRows(newRows);
   };
 
@@ -124,7 +121,6 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
       if (editMode) {
         toBold(event, rows, updateRows);
         toItalic(event, rows, updateRows);
-        toPreviousRows({ event, cols, updateRows, updateCols, rowHistoryRef });
         toDeleteCellValue(event, rows, updateRows);
         toDeleteAndCopyCellValue(event, rows, updateRows);
       }
