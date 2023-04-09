@@ -35,17 +35,17 @@ export type TableApiEventHandlersType = {
   handleChangePasteMode: ({ isCancel }: { isCancel: boolean }) => void;
 };
 
+export type UpdateRowsType = (newRows: RowsType) => void;
+export type UpdateColsType = (newCols: ColsType) => void;
+
 export type TableApiType = TableCellSelectionReturnType &
   TableExportCsvReturnType &
   GetCurrentRowsReturnType &
   GetCurrentColsReturnType &
-  TableApiEventHandlersType;
+  TableApiEventHandlersType & { updateRows: UpdateRowsType; updateCols: UpdateColsType };
 
 export type PasteFormRefType = {
   getPastedText: () => { cols: ColsType; rows: RowsType };
 };
 
 export type SelectCellsManualType = { fromCellIndex: number; toCellIndex: number; fromRowIndex: number; toRowIndex: number };
-
-export type UpdateRowsType = (newRows: RowsType) => void;
-export type UpdateColsType = (newCols: ColsType) => void;
