@@ -1,8 +1,12 @@
 import React, { ChangeEvent, useRef } from 'react';
 import { DividerBox, NewPopoverContainer } from './NewPopover.style';
 import { Button, Flex, Input, Typography } from '@/components/common';
+import { TableApiType } from '@/types/common';
 
-const NewPopover = () => {
+type NewPopoverProps = {
+  tableApi: TableApiType | undefined;
+};
+const NewPopover = ({ tableApi }: NewPopoverProps) => {
   const columnRef = useRef<HTMLInputElement>(null);
   const rowRef = useRef<HTMLInputElement>(null);
 
@@ -16,8 +20,19 @@ const NewPopover = () => {
 
   const handleButtonClick = () => {
     if (columnRef.current && rowRef.current) {
-      console.log(columnRef.current.value);
-      console.log(rowRef.current.value);
+      const columnSize = columnRef.current.value || 1;
+      const rowSize = rowRef.current.value || 1;
+      const newCols = Array.from({ length: Number(columnSize) }, (_, index) => `Column${(index + 1).toString()}`);
+      const newRows = Array.from({ length: Number(rowSize) }, () => {
+        const row: Record<string, any> = {};
+        newCols.forEach((col) => {
+          row[col] = '';
+        });
+        return row;
+      });
+      tableApi?.handleChangeEditMode();
+      tableApi?.updateCols(newCols);
+      tableApi?.updateRows(newRows);
     }
   };
   return (
@@ -32,13 +47,13 @@ const NewPopover = () => {
         <Typography fontType="h5B" color="systemWhite">
           Column
         </Typography>
-        <Input ref={columnRef} width="130px" onChange={handleInputChange} defaultValue={0} />
+        <Input ref={columnRef} width="130px" onChange={handleInputChange} />
       </Flex>
       <Flex gap={{ column: 6 }} justify="SPACE_BETWEEN" boxFill>
         <Typography fontType="h5B" color="systemWhite">
           Row
         </Typography>
-        <Input ref={rowRef} width="130px" onChange={handleInputChange} defaultValue={0} />
+        <Input ref={rowRef} width="130px" onChange={handleInputChange} />
       </Flex>
       <Typography fontType="spanB12" color="systemWhite">
         Range: 1 - 20

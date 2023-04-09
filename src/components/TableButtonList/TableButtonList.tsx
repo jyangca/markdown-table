@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Flex, Button, Popover } from '@/components/common';
-import { NewPopover } from '@/components';
+import { HistoryPopover, NewPopover } from '@/components';
 import { TableApiType } from '@/types/common';
 
 type TableButtonListProps = {
@@ -13,10 +13,10 @@ const TableButtonList = ({ editMode, pasteMode, tableApi }: TableButtonListProps
   return (
     <Flex justify="SPACE_BETWEEN" boxFill>
       <Flex gap={{ column: 8 }}>
-        <Popover content={<NewPopover />}>
+        <Popover content={<NewPopover tableApi={tableApi} />}>
           <Button disabled={pasteMode || editMode}>New</Button>
         </Popover>
-        <Popover content={<NewPopover />}>
+        <Popover content={<HistoryPopover />}>
           <Button disabled={pasteMode || editMode}>History</Button>
         </Popover>
 
