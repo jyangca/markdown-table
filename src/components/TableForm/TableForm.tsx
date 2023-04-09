@@ -7,13 +7,13 @@ import {
   copySelected,
   getCurrentRows,
   getCurrentCols,
-  removeEmptyRow,
   toBold,
   toItalic,
   toPreviousRows,
   toSelectAll,
   toDeleteCellValue,
   toDeleteAndCopyCellValue,
+  removeEmptyRowAndCol,
 } from '@/utils/common';
 import { Cell, HeaderCell, PasteForm, TableButtonList } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
@@ -68,8 +68,9 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     if (tableApi) {
       tableApi.clearSelection();
     }
-    updateRows(removeEmptyRow(getCurrentRows()));
-    setCols(getCurrentCols());
+    const { cols: newCols, rows: newRows } = removeEmptyRowAndCol({ rows: getCurrentRows(), cols: getCurrentCols() });
+    updateRows(newRows);
+    setCols(newCols);
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
