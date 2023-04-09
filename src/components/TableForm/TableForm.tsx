@@ -7,13 +7,13 @@ import {
   copySelected,
   getCurrentRows,
   getCurrentCols,
-  removeEmptyRow,
   toBold,
   toItalic,
   toPreviousRows,
   toSelectAll,
   toDeleteCellValue,
   toDeleteAndCopyCellValue,
+  removeEmptyRowAndCol,
 } from '@/utils/common';
 import { Cell, HeaderCell, PasteForm, TableButtonList } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
@@ -68,14 +68,15 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     if (tableApi) {
       tableApi.clearSelection();
     }
-    updateRows(removeEmptyRow(getCurrentRows()));
-    setCols(getCurrentCols());
+    const { cols: newCols, rows: newRows } = removeEmptyRowAndCol({ rows: getCurrentRows(), cols: getCurrentCols() });
+    updateRows(newRows);
+    setCols(newCols);
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
 
-  const handleChangePasteMode = () => {
-    if (pasteMode && pasteFormRef.current) {
+  const handleChangePasteMode = ({ isCancel }: { isCancel: boolean }) => {
+    if (!isCancel && pasteMode && pasteFormRef.current) {
       const { cols: newCols, rows: newRows } = pasteFormRef.current.getPastedText();
       setCols(newCols);
       updateRows(newRows);
@@ -83,7 +84,6 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     if (tableApi) {
       tableApi.clearSelection();
     }
-    !pasteMode && updateRows(removeEmptyRow(getCurrentRows()));
     setPasteMode((prev) => !prev);
   };
 
@@ -105,7 +105,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     });
 
     updateMarkdown();
-  }, []);
+  }, [pasteMode, editMode]);
 
   useEffect(() => {
     tableCellSelection();

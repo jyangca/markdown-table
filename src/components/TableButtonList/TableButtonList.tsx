@@ -22,14 +22,14 @@ const TableButtonList = ({ editMode, pasteMode, tableApi }: TableButtonListProps
           Export CSV
         </Button>
         <Button disabled={pasteMode} onClick={tableApi?.handleChangeEditMode}>
-          {editMode ? '보기' : '편집'}
+          {editMode ? 'View' : 'Edit'}
         </Button>
       </Flex>
       <Flex direction="ROW" gap={{ column: 8 }}>
-        <Button disabled={editMode} onClick={tableApi?.handleChangePasteMode}>
+        <Button disabled={editMode} onClick={() => tableApi?.handleChangePasteMode({ isCancel: false })}>
           {pasteMode ? 'Done' : 'Paste'}
         </Button>
-        {pasteMode && <Button onClick={tableApi?.handleChangePasteMode}>Cancel</Button>}
+        {pasteMode && <Button onClick={() => tableApi?.handleChangePasteMode({ isCancel: true })}>Cancel</Button>}
       </Flex>
     </Flex>
   );

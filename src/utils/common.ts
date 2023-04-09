@@ -149,12 +149,23 @@ export const getCurrentCols = () => {
   return ths;
 };
 
-export const removeEmptyRow = (rows: RowsType) => {
-  const newRows = rows.filter((row) => {
-    const values = Object.values(row);
+export const removeEmptyRowAndCol = ({ rows, cols }: { rows: RowsType; cols: string[] }) => {
+  const newCols = cols.filter((col) => {
+    const values = rows.map((row) => row[col]);
     return values.some((value) => value !== '');
   });
-  return newRows;
+
+  const newRows = rows
+    .map((row) => {
+      const newRow = Object.fromEntries(Object.entries(row).filter(([key]) => newCols.includes(key)));
+      return newRow;
+    })
+    .filter((row) => {
+      const values = Object.values(row);
+      return values.some((value) => value !== '');
+    });
+
+  return { rows: newRows, cols: newCols };
 };
 
 export const toBold = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
