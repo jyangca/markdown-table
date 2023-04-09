@@ -1,4 +1,4 @@
-import { GenerateMarkdownTableProps, RowsType } from '@/types/common';
+import { ColsType, GenerateMarkdownTableProps, RowsType } from '@/types/common';
 import { tableCellSelection } from './table';
 
 export const isClient = () => {
@@ -220,21 +220,32 @@ export const toItalic = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows:
   }
 };
 
-export const toPreviousRows = (
-  e: KeyboardEvent,
-  setRows: React.Dispatch<React.SetStateAction<RowsType>>,
-  rowHistoryRef: React.MutableRefObject<RowsType[]>,
-) => {
-  if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
-  if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
-  if (e.metaKey && e.key === 'z') {
-    e.stopPropagation();
-    const rowsHistory = [...rowHistoryRef.current];
-    const rollBackPoint = rowsHistory.pop();
-    if (rollBackPoint) {
-      setRows(rollBackPoint);
+export const toPreviousRows = ({
+  event,
+  cols,
+  updateRows,
+  updateCols,
+  rowHistoryRef,
+}: {
+  event: KeyboardEvent;
+  cols: ColsType;
+  updateRows: (newRows: RowsType) => void;
+  updateCols: (newCols: ColsType) => void;
+  rowHistoryRef: React.MutableRefObject<RowsType[]>;
+}) => {
+  if (event.target && (event.target as HTMLElement).tagName === 'INPUT') return;
+  if (event.target && (event.target as HTMLElement).tagName === 'TEXTAREA') return;
+  if (event.metaKey && event.key === 'z') {
+    event.stopPropagation();
+    if (rowHistoryRef.current) {
+      const rowsHistory = [...rowHistoryRef.current];
+      const rollBackPoint = rowsHistory.pop();
+      if (rollBackPoint) {
+        updateRows(rollBackPoint);
+        updateCols(cols.filter((col) => Object.keys(rollBackPoint[0]).includes(col)));
+      }
+      rowHistoryRef.current = rowsHistory;
     }
-    rowHistoryRef.current = rowsHistory;
   }
 };
 

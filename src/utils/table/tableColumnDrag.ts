@@ -1,10 +1,11 @@
 import { getColsFromTable, getInputValue, swapElement } from '@/utils/common';
 import { toIterableType } from '@/types/utils';
 import React, { DragEventHandler } from 'react';
+import { ColsType, RowsType } from '@/types/common';
 
 type TableColumnDragProps = {
-  setCols: React.Dispatch<React.SetStateAction<string[]>>;
-  setRows: React.Dispatch<React.SetStateAction<Record<string, any>[]>>;
+  updateCols: (newCols: ColsType) => void;
+  updateRows: (newRows: RowsType) => void;
 };
 
 export type TableColumnDragReturnType = {
@@ -13,7 +14,7 @@ export type TableColumnDragReturnType = {
   handleDrop: DragEventHandler<HTMLElement>;
 };
 
-const tableColumnDrag = ({ setCols, setRows }: TableColumnDragProps): TableColumnDragReturnType => {
+const tableColumnDrag = ({ updateCols, updateRows }: TableColumnDragProps): TableColumnDragReturnType => {
   const table = document.querySelector('#table');
   const tableBody = table?.querySelector('tbody');
 
@@ -52,8 +53,8 @@ const tableColumnDrag = ({ setCols, setRows }: TableColumnDragProps): TableColum
     tempCols[draggedColIdx] = cols[droppedColIdx];
     tempCols[droppedColIdx] = cols[draggedColIdx];
 
-    setCols(tempCols);
-    setRows(rows.map((row) => swapElement(row, tempCols)));
+    updateCols(tempCols);
+    updateRows(rows.map((row) => swapElement(row, tempCols)));
   };
 
   return {

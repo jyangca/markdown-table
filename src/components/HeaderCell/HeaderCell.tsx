@@ -6,19 +6,19 @@ import { tableColumnDrag, tableCellRangeSelection, tableSortColumn } from '@/uti
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
 import { TableSortColumnReturnType } from '@/utils/table/tableSortColumn';
 import { TableCellRangeSelectionType } from '@/utils/table/tableCellRangeSelection';
-import { TableApiType } from '@/types/common';
+import { ColsType, RowsType, TableApiType } from '@/types/common';
 
 type HeaderCellProps = {
   col: string;
   index: number;
   isEdit: boolean;
-  setCols: React.Dispatch<React.SetStateAction<string[]>>;
-  setRows: React.Dispatch<React.SetStateAction<Record<string, any>[]>>;
+  updateCols: (newCols: ColsType) => void;
+  updateRows: (newRows: RowsType) => void;
   updateMarkdown: ForceUpdateType;
   tableApi: TableApiType | undefined;
 };
 
-function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tableApi }: HeaderCellProps) {
+function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown, tableApi }: HeaderCellProps) {
   const [headerCellEvent, setHeaderCellEvent] = useState<TableColumnDragReturnType & TableSortColumnReturnType & TableCellRangeSelectionType>();
 
   const handleChange = () => {
@@ -28,8 +28,8 @@ function HeaderCell({ col, index, isEdit, setCols, setRows, updateMarkdown, tabl
   useEffect(() => {
     const { handleClick } = tableSortColumn();
     const { handleDragStart, handleDragOver, handleDrop } = tableColumnDrag({
-      setCols,
-      setRows,
+      updateCols,
+      updateRows,
     });
     const handleEditModeClick = tableCellRangeSelection;
 
