@@ -1,25 +1,25 @@
 import React, { memo } from 'react';
 import { Flex, Button, Popover } from '@/components/common';
 import { HistoryPopover, NewPopover } from '@/components';
-import { TableApiType } from '@/types/common';
+import { TableApiType, TableHistoryType } from '@/types/common';
 
 type TableButtonListProps = {
   editMode: boolean;
   pasteMode: boolean;
   tableApi: TableApiType | undefined;
+  tableHistory: TableHistoryType[];
 };
 
-const TableButtonList = ({ editMode, pasteMode, tableApi }: TableButtonListProps) => {
+const TableButtonList = ({ editMode, pasteMode, tableApi, tableHistory }: TableButtonListProps) => {
   return (
     <Flex justify="SPACE_BETWEEN" boxFill>
       <Flex gap={{ column: 8 }}>
         <Popover content={<NewPopover tableApi={tableApi} />}>
           <Button disabled={pasteMode || editMode}>New</Button>
         </Popover>
-        <Popover content={<HistoryPopover />}>
+        <Popover content={<HistoryPopover tableApi={tableApi} tableHistory={tableHistory} />}>
           <Button disabled={pasteMode || editMode}>History</Button>
         </Popover>
-
         <Button disabled={!editMode} onClick={tableApi?.handleAddColumn}>
           Add Column
         </Button>
