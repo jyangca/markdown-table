@@ -37,7 +37,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [pasteMode, setPasteMode] = useState<boolean>(false);
   const [tableApi, setTableApi] = useState<TableApiType>();
-  const [tableHistory, setTableHistory] = useState<TableHistoryType[]>([{ cols, rows, createdAt: dayjs().format('HH:mm:ss') }]);
+  const [tableHistory, setTableHistory] = useState<TableHistoryType[]>([{ cols, rows, createdAt: 'Initial Data' }]);
 
   const updateRows = (newRows: RowsType) => {
     setRows(newRows);
