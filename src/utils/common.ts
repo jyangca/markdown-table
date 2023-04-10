@@ -1,5 +1,6 @@
-import { ColsType, GenerateMarkdownTableProps, RowsType, UpdateColsType, UpdateRowsType } from '@/types/common';
+import { GenerateMarkdownTableProps, RowsType } from '@/types/common';
 import { tableCellSelection } from './table';
+import dayjs from 'dayjs';
 
 export const isClient = () => {
   return typeof window === 'object' && !!window.document;
@@ -8,6 +9,29 @@ export const isClient = () => {
 export const isServer = () => {
   return !isClient();
 };
+
+const setCookie = (name: string, value: string, days: number) => {
+  const expires = dayjs().add(days, 'day').toDate();
+  document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/`;
+};
+
+const getCookie = (name: string) => {
+  const cookies = document.cookie.split(';');
+  const cookie = cookies.find((cookie) => cookie.trim().startsWith(`${name}=`));
+  if (!cookie) {
+    return null;
+  }
+  return decodeURIComponent(cookie.trim().substring(`${name}=`.length));
+};
+
+const showModal = () => {
+  const hasSeenModal = getCookie('modalSeen');
+  if (!hasSeenModal) {
+    setCookie('modalSeen', 'true', 30);
+  }
+};
+
+// window.onload = showModal;
 
 export const toClassName = (array: Array<string | number | boolean>) => array.filter(Boolean).join(' ');
 
