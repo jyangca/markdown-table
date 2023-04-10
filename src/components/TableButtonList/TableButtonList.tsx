@@ -20,10 +20,10 @@ const TableButtonList = ({ editMode, pasteMode, tableApi, tableHistory }: TableB
         <Popover content={<HistoryPopover tableApi={tableApi} tableHistory={tableHistory} />}>
           <Button disabled={pasteMode || editMode}>History</Button>
         </Popover>
-        <Button disabled={!editMode} onClick={tableApi?.handleAddColumn}>
+        <Button disabled={!editMode} onClick={() => tableApi?.handleAddColumn()}>
           Add Column
         </Button>
-        <Button disabled={!editMode} onClick={tableApi?.handleAddRow}>
+        <Button disabled={!editMode} onClick={() => tableApi?.handleAddRow()}>
           Add Row
         </Button>
 

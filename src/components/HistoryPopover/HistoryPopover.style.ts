@@ -3,7 +3,7 @@ import { Flex } from '@/components/common';
 
 export const HistoryPopoverContainer = styled(Flex)`
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 6px;
   background-color: ${({ theme }) => theme.color.system7};
 `;
 

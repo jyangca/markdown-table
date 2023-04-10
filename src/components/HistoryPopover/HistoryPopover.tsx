@@ -16,7 +16,7 @@ const HistoryPopover = ({ tableApi, tableHistory }: HistoryPopoverProps) => {
   return (
     <HistoryPopoverContainer direction="COLUMN" align="START" gap={{ row: 8 }} boxFill>
       <Flex direction="COLUMN" align="START" gap={{ row: 4 }} boxFill>
-        <Typography fontType="h5B" color="systemWhite">
+        <Typography fontType="h5R" color="systemWhite">
           To Previous State
         </Typography>
         <DividerBox boxFill />

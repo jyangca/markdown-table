@@ -38,19 +38,19 @@ const NewPopover = ({ tableApi }: NewPopoverProps) => {
   return (
     <NewPopoverContainer direction="COLUMN" align="START" gap={{ row: 8 }} boxFill>
       <Flex direction="COLUMN" align="START" gap={{ row: 4 }} boxFill>
-        <Typography fontType="h5B" color="systemWhite">
+        <Typography fontType="h5R" color="systemWhite">
           Create New Table
         </Typography>
         <DividerBox boxFill />
       </Flex>
       <Flex gap={{ column: 6 }} justify="SPACE_BETWEEN" boxFill>
-        <Typography fontType="h5B" color="systemWhite">
+        <Typography fontType="pR20" color="systemWhite">
           Column
         </Typography>
         <Input ref={columnRef} width="130px" onChange={handleInputChange} />
       </Flex>
       <Flex gap={{ column: 6 }} justify="SPACE_BETWEEN" boxFill>
-        <Typography fontType="h5B" color="systemWhite">
+        <Typography fontType="pR20" color="systemWhite">
           Row
         </Typography>
         <Input ref={rowRef} width="130px" onChange={handleInputChange} />

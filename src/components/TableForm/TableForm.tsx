@@ -37,7 +37,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [pasteMode, setPasteMode] = useState<boolean>(false);
   const [tableApi, setTableApi] = useState<TableApiType>();
-  const [tableHistory, setTableHistory] = useState<TableHistoryType[]>([{ cols, rows, createdAt: 'Initial Data' }]);
+  const [tableHistory, setTableHistory] = useState<TableHistoryType[]>([{ cols, rows, createdAt: 'Example Data' }]);
 
   const updateRows = (newRows: RowsType) => {
     setRows(newRows);
@@ -47,17 +47,23 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     setCols(newCols);
   };
 
-  const handleAddColumn = () => {
+  const handleAddColumn = (index?: string) => {
     const ths = tableRef.current?.querySelectorAll('th');
-    const newCols = [...getCurrentCols(), `column${(ths || []).length + 1}`];
+    const columnIndex = index || getCurrentCols().length;
+    const newCols = [
+      ...getCurrentCols().slice(0, Number(columnIndex)),
+      `column${(ths || []).length + 1}`,
+      ...getCurrentCols().slice(Number(columnIndex)),
+    ];
     const newRows = getCurrentRows().map((row) => ({ ...row, [`column${(ths || []).length + 1}`]: '' }));
     updateCols(newCols);
     updateRows(newRows);
   };
 
-  const handleAddRow = () => {
+  const handleAddRow = (index?: string) => {
     const newRow = getCurrentCols().reduce((acc, cur) => ({ ...acc, [cur]: '' }), {});
-    updateRows([...getCurrentRows(), newRow]);
+    const rowIndex = index || getCurrentRows().length;
+    updateRows([...getCurrentRows().slice(0, Number(rowIndex)), newRow, ...getCurrentRows().slice(Number(rowIndex))]);
   };
 
   const handleExportCsv = () => {

@@ -7,27 +7,68 @@ import { getCurrentCols, getCurrentRows, removeEmptyRowAndCol } from '@/utils/co
 type TablePopoverProps = {
   tableApi: TableApiType | undefined;
   mode: 'COLUMN' | 'ROW';
-  selected: string | Record<string, any>;
+  index: number;
 };
 
-const TablePopover = ({ tableApi, selected, mode }: TablePopoverProps) => {
+const TablePopover = ({ tableApi, mode, index }: TablePopoverProps) => {
   const handleAddColumnClick = (position: 'LEFT' | 'RIGHT') => {
-    // const { cols: newCols, rows: newRows } = removeEmptyRowAndCol({ rows: getCurrentRows(), cols: getCurrentCols() });
+    if (position === 'LEFT') {
+      tableApi?.handleAddColumn(index.toString());
+    }
+    if (position === 'RIGHT') {
+      tableApi?.handleAddColumn((index + 1).toString());
+    }
+  };
+
+  const handleDeleteColumnClick = () => {
+    const newCols = getCurrentCols().filter((_, i) => i !== index);
+    const newRows = getCurrentRows().map((row) => {
+      const newRow = Object.fromEntries(Object.entries(row).filter(([key]) => newCols.includes(key)));
+      return newRow;
+    });
+    tableApi?.updateCols(newCols);
+    tableApi?.updateRows(newRows);
+  };
+
+  const handleAddRowClick = (position: 'ABOVE' | 'BELOW') => {
+    if (position === 'ABOVE') {
+      tableApi?.handleAddRow(index.toString());
+    }
+    if (position === 'BELOW') {
+      tableApi?.handleAddRow((index + 1).toString());
+    }
+  };
+
+  const handleDeleteRowClick = () => {
+    const newRows = getCurrentRows().filter((_, i) => i !== index);
+    tableApi?.updateRows(newRows);
   };
 
   return (
     <TablePopoverContainer direction="COLUMN" align="START" gap={{ row: 4 }} boxFill>
       {mode === 'COLUMN' ? (
         <Flex direction="COLUMN" align="START" gap={{ row: 4 }} boxFill>
-          <Button fixWidth="100%">Add Column (Left)</Button>
-          <Button fixWidth="100%">Add Column (Right)</Button>
-          <Button fixWidth="100%">Delete Current Column</Button>
+          <Button fixWidth="100%" onClick={() => handleAddColumnClick('LEFT')}>
+            Add Column (Left)
+          </Button>
+          <Button fixWidth="100%" onClick={() => handleAddColumnClick('RIGHT')}>
+            Add Column (Right)
+          </Button>
+          <Button fixWidth="100%" onClick={handleDeleteColumnClick}>
+            Delete Current Column
+          </Button>
         </Flex>
       ) : (
         <Flex direction="COLUMN" align="START" gap={{ row: 4 }} boxFill>
-          <Button fixWidth="100%">Add Row (Above)</Button>
-          <Button fixWidth="100%">Add Row (Below)</Button>
-          <Button fixWidth="100%">Delete Current Row</Button>
+          <Button fixWidth="100%" onClick={() => handleAddRowClick('ABOVE')}>
+            Add Row (Above)
+          </Button>
+          <Button fixWidth="100%" onClick={() => handleAddRowClick('BELOW')}>
+            Add Row (Below)
+          </Button>
+          <Button fixWidth="100%" onClick={handleDeleteRowClick}>
+            Delete Current Row
+          </Button>
         </Flex>
       )}
     </TablePopoverContainer>

@@ -28,8 +28,8 @@ export type TableExportCsvReturnType = {
 };
 
 export type TableApiEventHandlersType = {
-  handleAddColumn: () => void;
-  handleAddRow: () => void;
+  handleAddColumn: (index?: string) => void;
+  handleAddRow: (index?: string) => void;
   handleExportCsv: () => void;
   handleChangeEditMode: () => void;
   handleChangePasteMode: ({ isCancel }: { isCancel: boolean }) => void;
