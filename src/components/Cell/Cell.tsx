@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyledTd } from './Cell.style';
-import { Button, Flex, Input } from '@/components/common';
+import { Button, Flex, Input, Popover } from '@/components/common';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { toClassName } from '@/utils/common';
-import { TableApiType } from '@/types/common';
+import { RowsType, TableApiType } from '@/types/common';
 import { tableCellRangeSelection } from '@/utils/table';
+import TablePopover from '../TablePopover/TablePopover';
 
 type CellProps = {
   isEdit: boolean;
@@ -12,9 +13,10 @@ type CellProps = {
   children: string | number;
   updateMarkdown: ForceUpdateType;
   tableApi: TableApiType | undefined;
+  row: Record<string, any>;
 };
 
-const Cell = ({ isEdit, index, children, updateMarkdown, tableApi }: CellProps) => {
+const Cell = ({ isEdit, index, children, updateMarkdown, tableApi, row }: CellProps) => {
   const handleChangeInput = () => {
     updateMarkdown();
   };
@@ -35,9 +37,11 @@ const Cell = ({ isEdit, index, children, updateMarkdown, tableApi }: CellProps) 
     if (isEdit && index.cell === 0)
       return (
         <Flex gap={{ column: 8 }}>
-          <Button onClick={handleRowSelectButtonClick} theme="system7">
-            선택
-          </Button>
+          <Popover content={<TablePopover tableApi={tableApi} mode="ROW" selected={row} />}>
+            <Button onClick={handleRowSelectButtonClick} theme="system7">
+              선택
+            </Button>
+          </Popover>
           <Input onChange={handleChangeInput} defaultValue={children}></Input>
         </Flex>
       );
