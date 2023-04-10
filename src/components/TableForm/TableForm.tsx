@@ -18,7 +18,8 @@ import { Cell, HeaderCell, PasteForm, TableButtonList } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
 import { useOnOutsideClick } from '@/hooks';
-import { ColsType, PasteFormRefType, RowsType, TableApiType } from '@/types/common';
+import { ColsType, PasteFormRefType, RowsType, TableApiType, TableHistoryType } from '@/types/common';
+import dayjs from 'dayjs';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
@@ -36,7 +37,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [pasteMode, setPasteMode] = useState<boolean>(false);
   const [tableApi, setTableApi] = useState<TableApiType>();
-  const [tableHistory, setTableHistory] = useState<{ cols: ColsType; rows: RowsType }>({ cols, rows });
+  const [tableHistory, setTableHistory] = useState<TableHistoryType[]>([{ cols, rows, createdAt: dayjs().format('HH:mm:ss') }]);
 
   const updateRows = (newRows: RowsType) => {
     setRows(newRows);
@@ -73,7 +74,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     const { cols: newCols, rows: newRows } = removeEmptyRowAndCol({ rows: getCurrentRows(), cols: getCurrentCols() });
     updateRows(newRows);
     updateCols(newCols);
-    setTableHistory({ cols: newCols, rows: newRows });
+    editMode && setTableHistory((prev) => [...prev, { cols: newCols, rows: newRows, createdAt: dayjs().format('HH:mm:ss') }]);
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
@@ -144,7 +145,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
 
   return (
     <TableAreaContainer direction="COLUMN" align="START" gap={{ row: 16 }} boxFill>
-      <TableButtonList editMode={editMode} pasteMode={pasteMode} tableApi={tableApi} />
+      <TableButtonList editMode={editMode} pasteMode={pasteMode} tableApi={tableApi} tableHistory={tableHistory} />
       {pasteMode ? (
         <PasteForm tableApi={tableApi} ref={pasteFormRef} />
       ) : (

@@ -49,3 +49,5 @@ export type PasteFormRefType = {
 };
 
 export type SelectCellsManualType = { fromCellIndex: number; toCellIndex: number; fromRowIndex: number; toRowIndex: number };
+
+export type TableHistoryType = { cols: ColsType; rows: RowsType; createdAt: string };
