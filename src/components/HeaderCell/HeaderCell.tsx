@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
-import { Button, Flex, Input } from '@/components/common';
+import { Button, Flex, Input, Popover } from '@/components/common';
+import { TablePopover } from '@/components';
 import StyledTh from './HeaderCell.style';
 import { tableColumnDrag, tableCellRangeSelection, tableSortColumn } from '@/utils/table';
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
@@ -75,9 +76,11 @@ function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown
       {isEdit ? (
         <Flex gap={{ column: 8 }}>
           <Input onChange={handleChange} defaultValue={col}></Input>
-          <Button theme="system7" onClick={handleColumnSelectButtonClick}>
-            선택
-          </Button>
+          <Popover content={<TablePopover tableApi={tableApi} mode="COLUMN" selected={col} />}>
+            <Button theme="system7" onClick={handleColumnSelectButtonClick}>
+              선택
+            </Button>
+          </Popover>
         </Flex>
       ) : (
         col

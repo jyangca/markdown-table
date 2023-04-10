@@ -74,7 +74,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     const { cols: newCols, rows: newRows } = removeEmptyRowAndCol({ rows: getCurrentRows(), cols: getCurrentCols() });
     updateRows(newRows);
     updateCols(newCols);
-    editMode && setTableHistory((prev) => [...prev, { cols: newCols, rows: newRows, createdAt: dayjs().format('HH:mm:ss') }]);
+    editMode && setTableHistory((prev) => [...prev, { cols: newCols, rows: newRows, createdAt: dayjs().format('HH:mm:ss') }].slice(-15));
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
@@ -170,7 +170,14 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
             {rows.map((row, rowIdx) => (
               <StyledTr key={generateKey(row, rowIdx)}>
                 {Object.entries(row).map(([_, v], cellIdx) => (
-                  <Cell key={v} updateMarkdown={updateMarkdown} tableApi={tableApi} isEdit={editMode} index={{ cell: cellIdx, row: rowIdx }}>
+                  <Cell
+                    key={v}
+                    updateMarkdown={updateMarkdown}
+                    tableApi={tableApi}
+                    isEdit={editMode}
+                    index={{ cell: cellIdx, row: rowIdx }}
+                    row={row}
+                  >
                     {row[cols[cellIdx]]}
                   </Cell>
                 ))}
