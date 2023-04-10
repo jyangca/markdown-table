@@ -23,7 +23,10 @@ const Popover = ({ children, content }: PopoverProps) => {
         const childrenRect = contentNode.getBoundingClientRect();
 
         const top = triggerRect.top;
-        const left = triggerRect.left + triggerRect.width + 4;
+        const left =
+          triggerRect.right + childrenRect.width + 4 > window.innerWidth
+            ? triggerRect.left - childrenRect.width - 4
+            : triggerRect.left + triggerRect.width + 4;
 
         contentNode.style.top = `${top}px`;
         contentNode.style.left = `${left}px`;
