@@ -17,7 +17,7 @@ const TableButtonList = ({ editMode, pasteMode, tableApi, tableHistory }: TableB
         <Popover content={<NewPopover tableApi={tableApi} />}>
           <Button disabled={pasteMode || editMode}>New</Button>
         </Popover>
-        <Popover content={<HistoryPopover tableApi={tableApi} tableHistory={tableHistory} />}>
+        <Popover content={<HistoryPopover tableApi={tableApi} tableHistory={tableHistory} />} closeOption={{ keyDown: true, contentClick: true }}>
           <Button disabled={pasteMode || editMode}>History</Button>
         </Popover>
         <Button disabled={!editMode} onClick={() => tableApi?.handleAddColumn()}>

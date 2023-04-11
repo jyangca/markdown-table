@@ -76,7 +76,7 @@ function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown
       {isEdit ? (
         <Flex gap={{ column: 8 }}>
           <Input onChange={handleChange} defaultValue={col}></Input>
-          <Popover content={<TablePopover tableApi={tableApi} mode="COLUMN" index={index} />}>
+          <Popover content={<TablePopover tableApi={tableApi} mode="COLUMN" index={index} />} closeOption={{ keyDown: true, contentClick: true }}>
             <Button theme="system7" onClick={handleColumnSelectButtonClick}>
               선택
             </Button>
