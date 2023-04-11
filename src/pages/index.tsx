@@ -9,6 +9,7 @@ const Container = styled(Flex)`
   padding: 1rem;
   height: 100%;
   background-color: ${({ theme }) => theme.color.systemE};
+  overflow: auto;
 `;
 
 const Home = () => {

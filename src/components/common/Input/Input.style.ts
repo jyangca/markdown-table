@@ -5,6 +5,7 @@ type InputContainerProps = {
 };
 export const InputContainer = styled.div<InputContainerProps>`
   width: ${({ inputProps }) => inputProps.width || '100%'};
+  min-width: 80px;
 
   user-select: none;
 `;
