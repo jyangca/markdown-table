@@ -20,6 +20,7 @@ import { tableCellSelection, tableExportCsv } from '@/utils/table';
 import { useOnOutsideClick } from '@/hooks';
 import { ColsType, PasteFormRefType, RowsType, TableApiType, TableHistoryType } from '@/types/common';
 import dayjs from 'dayjs';
+import { isEqual } from 'lodash';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
@@ -80,7 +81,17 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     const { cols: newCols, rows: newRows } = removeEmptyRowAndCol({ rows: getCurrentRows(), cols: getCurrentCols() });
     updateRows(newRows);
     updateCols(newCols);
-    editMode && setTableHistory((prev) => [...prev, { cols: newCols, rows: newRows, createdAt: dayjs().format('HH:mm:ss') }].slice(-15));
+    if (editMode) {
+      setTableHistory((prev) => {
+        const prevHistory = { cols: prev[prev.length - 1].cols, rows: prev[prev.length - 1].rows };
+        if (isEqual(prevHistory, { cols: newCols, rows: newRows })) {
+          prev.pop();
+          prev.push({ cols: newCols, rows: newRows, createdAt: dayjs().format('HH:mm:ss') });
+          return prev;
+        }
+        return [...prev, { cols: newCols, rows: newRows, createdAt: dayjs().format('HH:mm:ss') }];
+      });
+    }
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
