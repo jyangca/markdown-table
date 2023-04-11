@@ -1,10 +1,15 @@
+import { TextAlignType } from '@/types/common';
 import styled from 'styled-components';
 
-export const StyledTd = styled.td`
+type StyledTdProps = {
+  textAlign: TextAlignType;
+};
+export const StyledTd = styled.td<StyledTdProps>`
   text-align: center;
   vertical-align: center;
   padding: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.color.systemE};
+  text-align: ${({ textAlign }) => textAlign};
   transition: background-color 0.1s ease 0s;
 
   user-select: none;

@@ -1,12 +1,15 @@
+import { TextAlignType } from '@/types/common';
 import styled from 'styled-components';
 
 type StyledThProps = {
   isEdit: boolean;
+  TextAlign: TextAlignType;
 };
 
 const StyledTh = styled.th<StyledThProps>`
   white-space: nowrap;
   color: ${({ theme }) => theme.color.system9};
+  text-align: ${({ TextAlign }) => TextAlign};
   letter-spacing: 1.5px;
   font-weight: 600;
   font-size: 16px;

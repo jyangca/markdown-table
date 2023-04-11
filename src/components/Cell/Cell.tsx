@@ -2,20 +2,22 @@ import React from 'react';
 import { StyledTd } from './Cell.style';
 import { Button, Flex, Input, Popover } from '@/components/common';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
-import { toClassName } from '@/utils/common';
-import { RowsType, TableApiType } from '@/types/common';
+import { normalizeAlignType, toClassName } from '@/utils/common';
+import { ColumnAlignType, RowsType, TableApiType } from '@/types/common';
 import { tableCellRangeSelection } from '@/utils/table';
 import TablePopover from '../TablePopover/TablePopover';
 
 type CellProps = {
   isEdit: boolean;
   index: { cell: number; row: number };
+  col: string;
   children: string | number;
   updateMarkdown: ForceUpdateType;
+  columnAlign: ColumnAlignType;
   tableApi?: TableApiType;
 };
 
-const Cell = ({ isEdit, index, children, updateMarkdown, tableApi }: CellProps) => {
+const Cell = ({ isEdit, index, children, updateMarkdown, col, columnAlign, tableApi }: CellProps) => {
   const handleChangeInput = () => {
     updateMarkdown();
   };
@@ -48,7 +50,11 @@ const Cell = ({ isEdit, index, children, updateMarkdown, tableApi }: CellProps) 
   };
 
   return (
-    <StyledTd onClick={handleCellClick} className={toClassName(['cell', isEdit ? 'cell-mode-edit' : 'cell-mode-read'])}>
+    <StyledTd
+      onClick={handleCellClick}
+      className={toClassName(['cell', isEdit ? 'cell-mode-edit' : 'cell-mode-read'])}
+      textAlign={normalizeAlignType(columnAlign[col])}
+    >
       {cellItem()}
     </StyledTd>
   );

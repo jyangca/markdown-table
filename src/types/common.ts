@@ -1,10 +1,10 @@
 export type ColsType = string[];
 export type RowsType = Record<string, any>[];
 
-export type ColumnAlignType = ':--' | '--:' | ':-:' | '---';
-export type UpdateColumnAlignType = (
-  align: Record<string, ColumnAlignType> | ((prev: Record<string, ColumnAlignType>) => Record<string, ColumnAlignType>),
-) => void;
+export type AlignType = ':--' | '--:' | ':-:' | '---';
+export type ColumnAlignType = Record<string, AlignType>;
+export type TextAlignType = 'start' | 'center' | 'end';
+export type UpdateColumnAlignType = (align: ColumnAlignType | ((prev: ColumnAlignType) => ColumnAlignType)) => void;
 
 export type ToCsvFormatProps = {
   cols: ColsType;
@@ -13,7 +13,7 @@ export type ToCsvFormatProps = {
   joinWith?: string;
 };
 
-export type GenerateMarkdownTableProps = { manual?: { header: string[]; body: string[][] }; columnDivider?: ColumnAlignType[] };
+export type GenerateMarkdownTableProps = { manual?: { header: string[]; body: string[][] }; columnDivider?: AlignType[] };
 
 export type GetCurrentColsReturnType = {
   getCurrentCols: () => ColsType;

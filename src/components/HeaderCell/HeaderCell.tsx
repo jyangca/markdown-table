@@ -7,7 +7,8 @@ import { tableColumnDrag, tableCellRangeSelection, tableSortColumn } from '@/uti
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
 import { TableSortColumnReturnType } from '@/utils/table/tableSortColumn';
 import { TableCellRangeSelectionType } from '@/utils/table/tableCellRangeSelection';
-import { TableApiType, UpdateColsType, UpdateColumnAlignType, UpdateRowsType } from '@/types/common';
+import { ColumnAlignType, TableApiType, UpdateColsType, UpdateColumnAlignType, UpdateRowsType } from '@/types/common';
+import { normalizeAlignType } from '@/utils/common';
 
 type HeaderCellProps = {
   col: string;
@@ -17,10 +18,11 @@ type HeaderCellProps = {
   updateRows: UpdateRowsType;
   updateMarkdown: ForceUpdateType;
   updateColumnAlign: UpdateColumnAlignType;
+  columnAlign: ColumnAlignType;
   tableApi?: TableApiType;
 };
 
-function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown, updateColumnAlign, tableApi }: HeaderCellProps) {
+function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown, updateColumnAlign, columnAlign, tableApi }: HeaderCellProps) {
   const [headerCellEvent, setHeaderCellEvent] = useState<TableColumnDragReturnType & TableSortColumnReturnType & TableCellRangeSelectionType>();
 
   const handleChange = () => {
@@ -68,6 +70,7 @@ function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown
     <StyledTh
       isEdit={isEdit}
       draggable={isEdit}
+      TextAlign={normalizeAlignType(columnAlign[col])}
       onClick={handleColumnClick}
       onDragStart={(event) => dragEventProvider(event, headerCellEvent?.handleDragStart)}
       onDragOver={(event) => dragEventProvider(event, headerCellEvent?.handleDragOver)}
