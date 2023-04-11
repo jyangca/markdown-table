@@ -141,10 +141,10 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
       copySelected(event);
       toSelectAll(event);
       if (editMode) {
-        toBold(event, rows, updateRows);
-        toItalic(event, rows, updateRows);
-        toDeleteCellValue(event, rows, updateRows);
-        toDeleteAndCopyCellValue(event, rows, updateRows);
+        toBold(event, tableApi);
+        toItalic(event, tableApi);
+        toDeleteCellValue(event, tableApi);
+        toDeleteAndCopyCellValue(event, tableApi);
       }
     };
     keydownHandlerRef.current.keydownHandler = keydownHandler;
@@ -187,14 +187,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
             {rows.map((row, rowIdx) => (
               <StyledTr key={generateKey(row, rowIdx)}>
                 {Object.entries(row).map(([_, v], cellIdx) => (
-                  <Cell
-                    key={v}
-                    updateMarkdown={updateMarkdown}
-                    tableApi={tableApi}
-                    isEdit={editMode}
-                    index={{ cell: cellIdx, row: rowIdx }}
-                    row={row}
-                  >
+                  <Cell key={v} updateMarkdown={updateMarkdown} tableApi={tableApi} isEdit={editMode} index={{ cell: cellIdx, row: rowIdx }}>
                     {row[cols[cellIdx]]}
                   </Cell>
                 ))}

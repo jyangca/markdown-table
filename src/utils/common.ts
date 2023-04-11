@@ -1,4 +1,4 @@
-import { GenerateMarkdownTableProps, RowsType } from '@/types/common';
+import { GenerateMarkdownTableProps, RowsType, TableApiType } from '@/types/common';
 import { tableCellSelection } from './table';
 import dayjs from 'dayjs';
 
@@ -192,15 +192,18 @@ export const removeEmptyRowAndCol = ({ rows, cols }: { rows: RowsType; cols: str
   return { rows: newRows, cols: newCols };
 };
 
-export const toBold = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
+export const toBold = (e: KeyboardEvent, tableApi?: TableApiType) => {
   if (e.metaKey && e.key === 'b') {
     e.stopPropagation();
     const table = document.querySelector('table');
-    const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
+    let selectedValues: string[] = [];
+    Array.from(table!.querySelectorAll('.selected')).forEach(
+      (td) => td.querySelector('input')?.value && selectedValues.push(td.querySelector('input')!.value),
+    );
     const isBoldMode = selectedValues.some((value) => value.match(/\*{2}(\S+)\s*\*{2}/g));
 
-    updateRows(
-      rows.map((row) => {
+    tableApi?.updateRows(
+      getCurrentRows().map((row) => {
         if (!isBoldMode) {
           const newRow = Object.fromEntries(
             Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? `**${value}**` : value]),
@@ -214,22 +217,26 @@ export const toBold = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: R
         }
       }),
     );
+    tableApi?.updateCols(getCurrentCols());
   }
 };
 
-export const toItalic = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
+export const toItalic = (e: KeyboardEvent, tableApi?: TableApiType) => {
   if (e.metaKey && e.key === 'i') {
     e.stopPropagation();
     const table = document.querySelector('table');
-    const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
+    let selectedValues: string[] = [];
+    Array.from(table!.querySelectorAll('.selected')).forEach(
+      (td) => td.querySelector('input')?.value && selectedValues.push(td.querySelector('input')!.value),
+    );
     const isItalicMode = selectedValues.some(
       (value) =>
         (value.startsWith('*') && value.endsWith('*') && !value.startsWith('**') && !value.endsWith('**')) ||
         (value.startsWith('***') && value.endsWith('***')),
     );
 
-    updateRows(
-      rows.map((row) => {
+    tableApi?.updateRows(
+      getCurrentRows().map((row) => {
         if (!isItalicMode) {
           const newRow = Object.fromEntries(Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? `*${value}*` : value]));
           return newRow;
@@ -241,6 +248,7 @@ export const toItalic = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows:
         }
       }),
     );
+    tableApi?.updateCols(getCurrentCols());
   }
 };
 
@@ -258,7 +266,7 @@ export const toSelectAll = (e: KeyboardEvent) => {
   }
 };
 
-export const toDeleteCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
+export const toDeleteCellValue = (e: KeyboardEvent, tableApi?: TableApiType) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
   if (e.metaKey && e.key === 'Backspace') {
@@ -266,16 +274,17 @@ export const toDeleteCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: 
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
 
-    updateRows(
-      rows.map((row) => {
+    tableApi?.updateRows(
+      getCurrentRows().map((row) => {
         const newRow = Object.fromEntries(Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? '' : value]));
         return newRow;
       }),
     );
+    tableApi?.updateCols(getCurrentCols());
   }
 };
 
-export const toDeleteAndCopyCellValue = (e: KeyboardEvent, rows: RowsType, updateRows: (newRows: RowsType) => void) => {
+export const toDeleteAndCopyCellValue = (e: KeyboardEvent, tableApi?: TableApiType) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
   if (e.metaKey && e.key === 'x') {
@@ -295,12 +304,13 @@ export const toDeleteAndCopyCellValue = (e: KeyboardEvent, rows: RowsType, updat
 
     navigator.clipboard.writeText(selectedCellsValuesString);
 
-    updateRows(
-      rows.map((row) => {
+    tableApi?.updateRows(
+      getCurrentRows().map((row) => {
         const newRow = Object.fromEntries(Object.entries(row).map(([key, value]) => [key, selectedValues.includes(value) ? '' : value]));
         return newRow;
       }),
     );
+    tableApi?.updateCols(getCurrentCols());
   }
 };
 
