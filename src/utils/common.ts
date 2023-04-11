@@ -10,6 +10,14 @@ export const isServer = () => {
   return !isClient();
 };
 
+export const isMetaKey = (e: KeyboardEvent) => {
+  if (navigator.userAgentData) {
+    const isMac = navigator.userAgentData.platform.toUpperCase().indexOf('MAC') >= 0;
+    return isMac ? e.metaKey : e.ctrlKey;
+  }
+  return e.metaKey;
+};
+
 export const setCookie = (name: string, value: string, days: number) => {
   Cookies.set(name, value, { expires: days });
 };
@@ -174,7 +182,7 @@ export const removeEmptyRowAndCol = ({ rows, cols }: { rows: RowsType; cols: str
 };
 
 export const toBold = (e: KeyboardEvent, tableApi?: TableApiType) => {
-  if (e.metaKey && e.key === 'b') {
+  if (isMetaKey(e) && e.key === 'b') {
     e.stopPropagation();
     const table = document.querySelector('table');
     let selectedValues: string[] = [];
@@ -203,7 +211,7 @@ export const toBold = (e: KeyboardEvent, tableApi?: TableApiType) => {
 };
 
 export const toItalic = (e: KeyboardEvent, tableApi?: TableApiType) => {
-  if (e.metaKey && e.key === 'i') {
+  if (isMetaKey(e) && e.key === 'i') {
     e.stopPropagation();
     const table = document.querySelector('table');
     let selectedValues: string[] = [];
@@ -236,7 +244,7 @@ export const toItalic = (e: KeyboardEvent, tableApi?: TableApiType) => {
 export const toSelectAll = (e: KeyboardEvent) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
-  if (e.metaKey && e.key === 'a') {
+  if (isMetaKey(e) && e.key === 'a') {
     const { clearSelection } = tableCellSelection();
     clearSelection();
     e.preventDefault();
@@ -250,7 +258,7 @@ export const toSelectAll = (e: KeyboardEvent) => {
 export const toDeleteCellValue = (e: KeyboardEvent, tableApi?: TableApiType) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
-  if (e.metaKey && e.key === 'Backspace') {
+  if (isMetaKey(e) && e.key === 'Backspace') {
     e.stopPropagation();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
@@ -268,7 +276,7 @@ export const toDeleteCellValue = (e: KeyboardEvent, tableApi?: TableApiType) => 
 export const toDeleteAndCopyCellValue = (e: KeyboardEvent, tableApi?: TableApiType) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
-  if (e.metaKey && e.key === 'x') {
+  if (isMetaKey(e) && e.key === 'x') {
     e.stopPropagation();
     const table = document.querySelector('table');
     const selectedValues = Array.from(table!.querySelectorAll('.selected')).map((td) => td.querySelector('input')?.value || '');
@@ -302,22 +310,9 @@ export const positiveAndZeroNumberOnly = (value?: number, alt?: number): number 
 };
 
 export const generateMarkdownTable = ({ manual, columnDivider }: GenerateMarkdownTableProps) => {
-  const table = document.querySelector('table');
-  const ths = table!.querySelectorAll('th');
-  const headers = manual?.header || Array.from(ths).map((th) => getInputValue(th));
-
-  const trs = table!.querySelectorAll('tr');
-
+  const headers = manual?.header || getCurrentCols();
   const divider = columnDivider || Array.from({ length: (headers || []).length }, (_) => '---');
-
-  const body =
-    manual?.body ||
-    Array.from(trs)
-      .slice(1)
-      .map((tr) => {
-        const tds = tr.querySelectorAll('td');
-        return Array.from(tds).map((td) => getInputValue(td));
-      });
+  const body = manual?.body || getCurrentRows().map((row) => Object.values(row).map((value) => value || '  '));
 
   const result = [headers, divider, ...body].map((row) => row.join(' | ')).join('\n');
 

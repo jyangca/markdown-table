@@ -5,6 +5,7 @@ export const TableAreaContainer = styled(Flex)`
   padding: 1rem;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.color.systemWhite};
+  overflow: auto;
 `;
 
 export const Table = styled.table`

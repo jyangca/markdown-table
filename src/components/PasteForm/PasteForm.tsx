@@ -75,19 +75,21 @@ const PasteForm = forwardRef<PasteFormRefType, PasteFormProps>(({ tableApi }, re
       <SeperationContainer justify="START" gap={{ column: 16 }} boxFill>
         <Flex gap={{ column: 8 }}>
           <Typography style={{ whiteSpace: 'nowrap' }} fontType="pB12">
-            Row Separator
-          </Typography>
-          <PasteFormInput onChange={handleRowSepOnChange} value={mapInputChar(rowSep)} />
-        </Flex>
-        <Flex gap={{ column: 8 }}>
-          <Typography style={{ whiteSpace: 'nowrap' }} fontType="pB12">
             Column Separator
           </Typography>
           <PasteFormInput onChange={handleColSepOnChange} value={mapInputChar(colSep)} />
         </Flex>
+        <Flex gap={{ column: 8 }}>
+          <Typography style={{ whiteSpace: 'nowrap' }} fontType="pB12">
+            Row Separator
+          </Typography>
+          <PasteFormInput onChange={handleRowSepOnChange} value={mapInputChar(rowSep)} />
+        </Flex>
       </SeperationContainer>
       <Flex style={{ padding: '0 16px' }}>
-        <Typography fontType="captionB12">\t는 TAB 으로, \n는 NEW_LINE 으로 입력해주세요.</Typography>
+        <Typography fontType="pB20">
+          Enter &quot;Tab&quot; as &quot;TAB&quot; and &quot;New Line&quot; as &quot;NEW_LINE&quot; on each separator input.
+        </Typography>
       </Flex>
       <PasteFormContainer direction="ROW" gap={{ column: 16 }} boxFill>
         <PasteFormBox ref={pasteFormBoxRef} onChange={() => handlePasteOnChange({})} defaultValue={defaultValue}></PasteFormBox>
