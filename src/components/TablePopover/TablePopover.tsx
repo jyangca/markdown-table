@@ -5,7 +5,7 @@ import { TablePopoverContainer } from './TablePopover.style';
 import { getCurrentCols, getCurrentRows } from '@/utils/common';
 
 type TablePopoverProps = {
-  updateColumnAlign: UpdateColumnAlignType;
+  updateColumnAlign?: UpdateColumnAlignType;
   tableApi?: TableApiType;
   mode: 'COLUMN' | 'ROW';
   index: number;
@@ -53,7 +53,7 @@ const TablePopover = ({ updateColumnAlign, tableApi, mode, index }: TablePopover
 
   const handleColumnAlignClick = (align: 'LEFT' | 'CENTER' | 'RIGHT') => {
     const cols = tableApi?.getCurrentCols();
-    updateColumnAlign((prev) => {
+    updateColumnAlign?.((prev) => {
       if (cols) {
         const newColumnAlign = { ...prev };
         newColumnAlign[cols[index]] = alignMap[align];
