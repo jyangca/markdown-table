@@ -90,7 +90,7 @@ export const getColsFromTable = (table: Element | null) => {
 export const copySelected = (e: KeyboardEvent) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
-  if (e.metaKey && e.key === 'c') {
+  if (isMetaKey(e) && e.key === 'c') {
     e.preventDefault();
     e.stopPropagation();
     const table = document.querySelector('table');
