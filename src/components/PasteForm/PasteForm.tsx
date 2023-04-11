@@ -7,7 +7,7 @@ import { PasteFormRefType, TableApiType } from '@/types/common';
 import { generateMarkdownTable } from '@/utils/common';
 
 type PasteFormProps = {
-  tableApi: TableApiType | undefined;
+  tableApi?: TableApiType;
 };
 
 type HandlePasteOnChangeProps = { newRowSep?: string; newColSep?: string };

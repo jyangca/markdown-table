@@ -20,6 +20,7 @@ import { tableCellSelection, tableExportCsv } from '@/utils/table';
 import { useOnOutsideClick } from '@/hooks';
 import { ColsType, PasteFormRefType, RowsType, TableApiType, TableHistoryType } from '@/types/common';
 import dayjs from 'dayjs';
+import { isEqual } from 'lodash';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
@@ -80,7 +81,17 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
     const { cols: newCols, rows: newRows } = removeEmptyRowAndCol({ rows: getCurrentRows(), cols: getCurrentCols() });
     updateRows(newRows);
     updateCols(newCols);
-    editMode && setTableHistory((prev) => [...prev, { cols: newCols, rows: newRows, createdAt: dayjs().format('HH:mm:ss') }].slice(-15));
+    if (editMode) {
+      setTableHistory((prev) => {
+        const prevHistory = { cols: prev[prev.length - 1].cols, rows: prev[prev.length - 1].rows };
+        if (isEqual(prevHistory, { cols: newCols, rows: newRows })) {
+          prev.pop();
+          prev.push({ cols: newCols, rows: newRows, createdAt: dayjs().format('HH:mm:ss') });
+          return prev;
+        }
+        return [...prev, { cols: newCols, rows: newRows, createdAt: dayjs().format('HH:mm:ss') }];
+      });
+    }
     setEditMode((prev) => !prev);
     updateMarkdown();
   };
@@ -130,10 +141,10 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
       copySelected(event);
       toSelectAll(event);
       if (editMode) {
-        toBold(event, rows, updateRows);
-        toItalic(event, rows, updateRows);
-        toDeleteCellValue(event, rows, updateRows);
-        toDeleteAndCopyCellValue(event, rows, updateRows);
+        toBold(event, tableApi);
+        toItalic(event, tableApi);
+        toDeleteCellValue(event, tableApi);
+        toDeleteAndCopyCellValue(event, tableApi);
       }
     };
     keydownHandlerRef.current.keydownHandler = keydownHandler;
@@ -176,14 +187,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
             {rows.map((row, rowIdx) => (
               <StyledTr key={generateKey(row, rowIdx)}>
                 {Object.entries(row).map(([_, v], cellIdx) => (
-                  <Cell
-                    key={v}
-                    updateMarkdown={updateMarkdown}
-                    tableApi={tableApi}
-                    isEdit={editMode}
-                    index={{ cell: cellIdx, row: rowIdx }}
-                    row={row}
-                  >
+                  <Cell key={v} updateMarkdown={updateMarkdown} tableApi={tableApi} isEdit={editMode} index={{ cell: cellIdx, row: rowIdx }}>
                     {row[cols[cellIdx]]}
                   </Cell>
                 ))}

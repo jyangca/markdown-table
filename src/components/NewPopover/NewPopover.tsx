@@ -4,7 +4,7 @@ import { Button, Flex, Input, Typography } from '@/components/common';
 import { TableApiType } from '@/types/common';
 
 type NewPopoverProps = {
-  tableApi: TableApiType | undefined;
+  tableApi?: TableApiType;
 };
 const NewPopover = ({ tableApi }: NewPopoverProps) => {
   const columnRef = useRef<HTMLInputElement>(null);
