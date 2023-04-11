@@ -6,7 +6,7 @@ type PortalProps = {
   children: React.ReactNode;
   isOpen: boolean;
   onDimClick?: () => void;
-  isModal: boolean;
+  isModal?: boolean;
 };
 
 const Portal = ({ children, isOpen, onDimClick, isModal = false }: PortalProps) => {
