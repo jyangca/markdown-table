@@ -89,6 +89,7 @@ const tableCellSelection = () => {
   };
 
   const handleMouseMove = (event: MouseEvent) => {
+    console.log(event);
     if (isDragging && startCell) {
       let endCell = event.target as HTMLTableCellElement;
 
@@ -117,6 +118,7 @@ const tableCellSelection = () => {
     tds[i].addEventListener('mouseup', handleMouseUp, true);
     tds[i].addEventListener('click', handleMouseClick, true);
   }
+  document.addEventListener('mouseup', handleMouseUp, true);
 
   return {
     selectCells,
