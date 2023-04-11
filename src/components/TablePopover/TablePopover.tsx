@@ -45,7 +45,7 @@ const TablePopover = ({ updateColumnAlign, tableApi, mode, index }: TablePopover
     tableApi?.updateRows(newRows);
   };
 
-  const alignMap: Record<string, ColumnAlignType> = {
+  const alignMap: ColumnAlignType = {
     LEFT: ':--',
     CENTER: ':-:',
     RIGHT: '--:',
