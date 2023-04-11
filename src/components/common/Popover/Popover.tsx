@@ -8,13 +8,13 @@ type PopoverProps = {
 };
 
 const Popover = ({ children, content }: PopoverProps) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [openPopover, setOpenPopover] = useState<boolean>(false);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isOpen) {
+    if (openPopover) {
       const triggerNode = triggerRef.current;
       const contentNode = contentRef.current;
 
@@ -32,15 +32,23 @@ const Popover = ({ children, content }: PopoverProps) => {
         contentNode.style.left = `${left}px`;
       }
     }
-  }, [isOpen]);
+  }, [openPopover]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', () => setOpenPopover(false));
+
+    return document.removeEventListener('keydown', () => setOpenPopover(false));
+  }, []);
 
   return (
     <>
-      <div ref={triggerRef} onClick={() => setIsOpen((prev) => !prev)}>
+      <div ref={triggerRef} onClick={() => setOpenPopover((prev) => !prev)}>
         {children}
       </div>
-      <Portal isOpen={isOpen} onDimClick={() => setIsOpen(false)}>
-        <ContentBox ref={contentRef}>{content}</ContentBox>
+      <Portal isOpen={openPopover} onDimClick={() => setOpenPopover(false)}>
+        <ContentBox ref={contentRef} onClick={() => setOpenPopover(false)}>
+          {content}
+        </ContentBox>
       </Portal>
     </>
   );
