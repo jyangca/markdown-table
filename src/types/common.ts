@@ -1,6 +1,11 @@
 export type ColsType = string[];
 export type RowsType = Record<string, any>[];
 
+export type ColumnAlignType = ':--' | '--:' | ':-:' | '---';
+export type UpdateColumnAlignType = (
+  align: Record<string, ColumnAlignType> | ((prev: Record<string, ColumnAlignType>) => Record<string, ColumnAlignType>),
+) => void;
+
 export type ToCsvFormatProps = {
   cols: ColsType;
   rows: RowsType;
@@ -8,7 +13,7 @@ export type ToCsvFormatProps = {
   joinWith?: string;
 };
 
-export type GenerateMarkdownTableProps = { header: string[]; body: string[][] };
+export type GenerateMarkdownTableProps = { manual?: { header: string[]; body: string[][] }; columnDivider?: ColumnAlignType[] };
 
 export type GetCurrentColsReturnType = {
   getCurrentCols: () => ColsType;

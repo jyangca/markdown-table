@@ -320,14 +320,14 @@ export const positiveAndZeroNumberOnly = (value?: number, alt?: number): number 
   return 0;
 };
 
-export const generateMarkdownTable = (manual?: GenerateMarkdownTableProps) => {
+export const generateMarkdownTable = ({ manual, columnDivider }: GenerateMarkdownTableProps) => {
   const table = document.querySelector('table');
   const ths = table!.querySelectorAll('th');
   const headers = manual?.header || Array.from(ths).map((th) => getInputValue(th));
 
   const trs = table!.querySelectorAll('tr');
 
-  const columnDivider = Array.from({ length: (headers || []).length }, (_) => '---');
+  const divider = columnDivider || Array.from({ length: (headers || []).length }, (_) => '---');
 
   const body =
     manual?.body ||
@@ -338,7 +338,7 @@ export const generateMarkdownTable = (manual?: GenerateMarkdownTableProps) => {
         return Array.from(tds).map((td) => getInputValue(td));
       });
 
-  const result = [headers, columnDivider, ...body].map((row) => row.join(' | ')).join('\n');
+  const result = [headers, divider, ...body].map((row) => row.join(' | ')).join('\n');
 
   return result;
 };
