@@ -2,19 +2,22 @@ import React, { memo, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { CopyButton, MarkdownStyle, MarkdownWrapper } from './MarkdownContainer.style';
-import { generateMarkdownTable } from '@/utils/common';
+import { generateMarkdownTable, getCurrentCols } from '@/utils/common';
+import { ColumnAlignType } from '@/types/common';
 
 type MarkdownContainerProps = {
   deps: number;
+  columnAlign: Record<string, ColumnAlignType>;
 };
 
-const MarkdownContainer = ({ deps }: MarkdownContainerProps) => {
+const MarkdownContainer = ({ deps, columnAlign }: MarkdownContainerProps) => {
   const [markdownTable, setMarkdownTable] = useState<string>('');
   const [copied, setCopied] = useState<boolean>(false);
 
   useEffect(() => {
-    setMarkdownTable(generateMarkdownTable());
-  }, [deps]);
+    const columnDivider = getCurrentCols().map((col) => columnAlign[col] || '---');
+    setMarkdownTable(generateMarkdownTable({ columnDivider }));
+  }, [deps, columnAlign]);
 
   const copyMarkDownTable = () => {
     if (typeof window !== 'undefined') {
