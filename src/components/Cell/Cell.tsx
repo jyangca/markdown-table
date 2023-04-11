@@ -12,11 +12,10 @@ type CellProps = {
   index: { cell: number; row: number };
   children: string | number;
   updateMarkdown: ForceUpdateType;
-  tableApi: TableApiType | undefined;
-  row: Record<string, any>;
+  tableApi?: TableApiType;
 };
 
-const Cell = ({ isEdit, index, children, updateMarkdown, tableApi, row }: CellProps) => {
+const Cell = ({ isEdit, index, children, updateMarkdown, tableApi }: CellProps) => {
   const handleChangeInput = () => {
     updateMarkdown();
   };

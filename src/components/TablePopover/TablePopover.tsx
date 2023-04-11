@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Flex, Typography } from '@/components/common';
+import { Button, Flex } from '@/components/common';
 import { TableApiType } from '@/types/common';
 import { TablePopoverContainer } from './TablePopover.style';
-import { getCurrentCols, getCurrentRows, removeEmptyRowAndCol } from '@/utils/common';
+import { getCurrentCols, getCurrentRows } from '@/utils/common';
 
 type TablePopoverProps = {
-  tableApi: TableApiType | undefined;
+  tableApi?: TableApiType;
   mode: 'COLUMN' | 'ROW';
   index: number;
 };

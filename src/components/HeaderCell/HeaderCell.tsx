@@ -16,7 +16,7 @@ type HeaderCellProps = {
   updateCols: UpdateColsType;
   updateRows: UpdateRowsType;
   updateMarkdown: ForceUpdateType;
-  tableApi: TableApiType | undefined;
+  tableApi?: TableApiType;
 };
 
 function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown, tableApi }: HeaderCellProps) {

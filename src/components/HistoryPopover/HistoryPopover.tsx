@@ -5,7 +5,7 @@ import { Button, Flex, Typography } from '@/components/common';
 import { generateKey } from '@/utils/common';
 
 type HistoryPopoverProps = {
-  tableApi: TableApiType | undefined;
+  tableApi?: TableApiType;
   tableHistory: TableHistoryType[];
 };
 const HistoryPopover = ({ tableApi, tableHistory }: HistoryPopoverProps) => {

@@ -6,7 +6,7 @@ import { TableApiType, TableHistoryType } from '@/types/common';
 type TableButtonListProps = {
   editMode: boolean;
   pasteMode: boolean;
-  tableApi: TableApiType | undefined;
+  tableApi?: TableApiType;
   tableHistory: TableHistoryType[];
 };
 
