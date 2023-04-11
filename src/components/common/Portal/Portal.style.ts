@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   position: absolute;
@@ -10,10 +10,20 @@ export const Container = styled.div`
   justify-content: center;
 `;
 
-export const Dim = styled.div`
+type DimProps = {
+  isModal: boolean;
+};
+export const Dim = styled.div<DimProps>`
   display: flex;
   width: 100%;
   height: 100%;
   position: fixed;
   z-index: 0;
+
+  ${({ isModal }) =>
+    isModal &&
+    css`
+      background: #000000;
+      opacity: 0.5;
+    `}
 `;

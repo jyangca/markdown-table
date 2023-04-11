@@ -6,15 +6,16 @@ type PortalProps = {
   children: React.ReactNode;
   isOpen: boolean;
   onDimClick?: () => void;
+  isModal: boolean;
 };
 
-const Portal = ({ children, isOpen, onDimClick }: PortalProps) => {
+const Portal = ({ children, isOpen, onDimClick, isModal = false }: PortalProps) => {
   if (isServer()) return null;
 
   return ReactDOM.createPortal(
     isOpen && (
       <Container role="dialog">
-        <Dim aria-hidden="true" onClick={onDimClick} />
+        <Dim aria-hidden="true" onClick={onDimClick} isModal={isModal} />
         {children}
       </Container>
     ),
