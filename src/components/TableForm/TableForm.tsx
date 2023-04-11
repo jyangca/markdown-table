@@ -18,16 +18,17 @@ import { Cell, HeaderCell, PasteForm, TableButtonList } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
 import { useOnOutsideClick } from '@/hooks';
-import { ColsType, PasteFormRefType, RowsType, TableApiType, TableHistoryType, UpdateColumnAlignType } from '@/types/common';
+import { ColsType, ColumnAlignType, PasteFormRefType, RowsType, TableApiType, TableHistoryType, UpdateColumnAlignType } from '@/types/common';
 import dayjs from 'dayjs';
 import { isEqual } from 'lodash';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
   updateColumnAlign: UpdateColumnAlignType;
+  columnAlign: ColumnAlignType;
 };
 
-const TableForm = ({ updateMarkdown, updateColumnAlign }: TableFormProps) => {
+const TableForm = ({ updateMarkdown, updateColumnAlign, columnAlign }: TableFormProps) => {
   const { cols: initialCols, rows: initialRows } = initialData;
 
   const tableRef = useRef<HTMLTableElement>(null);
@@ -180,6 +181,7 @@ const TableForm = ({ updateMarkdown, updateColumnAlign }: TableFormProps) => {
                     updateRows={updateRows}
                     updateMarkdown={updateMarkdown}
                     updateColumnAlign={updateColumnAlign}
+                    columnAlign={columnAlign}
                     tableApi={tableApi}
                     isEdit={editMode}
                   />
@@ -190,7 +192,15 @@ const TableForm = ({ updateMarkdown, updateColumnAlign }: TableFormProps) => {
               {rows.map((row, rowIdx) => (
                 <StyledTr key={generateKey(row, rowIdx)}>
                   {Object.entries(row).map(([_, v], cellIdx) => (
-                    <Cell key={v} updateMarkdown={updateMarkdown} tableApi={tableApi} isEdit={editMode} index={{ cell: cellIdx, row: rowIdx }}>
+                    <Cell
+                      key={v}
+                      updateMarkdown={updateMarkdown}
+                      columnAlign={columnAlign}
+                      col={cols[cellIdx]}
+                      tableApi={tableApi}
+                      isEdit={editMode}
+                      index={{ cell: cellIdx, row: rowIdx }}
+                    >
                       {row[cols[cellIdx]]}
                     </Cell>
                   ))}

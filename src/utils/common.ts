@@ -1,4 +1,4 @@
-import { GenerateMarkdownTableProps, RowsType, TableApiType } from '@/types/common';
+import { AlignType, GenerateMarkdownTableProps, RowsType, TableApiType } from '@/types/common';
 import { tableCellSelection } from './table';
 import Cookies from 'js-cookie';
 
@@ -90,7 +90,7 @@ export const getColsFromTable = (table: Element | null) => {
 export const copySelected = (e: KeyboardEvent) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
-  if (e.metaKey && e.key === 'c') {
+  if (isMetaKey(e) && e.key === 'c') {
     e.preventDefault();
     e.stopPropagation();
     const table = document.querySelector('table');
@@ -317,4 +317,10 @@ export const generateMarkdownTable = ({ manual, columnDivider }: GenerateMarkdow
   const result = [headers, divider, ...body].map((row) => row.join(' | ')).join('\n');
 
   return result;
+};
+
+export const normalizeAlignType = (align: AlignType): 'start' | 'center' | 'end' => {
+  if (align === ':--') return 'start';
+  if (align === '--:') return 'end';
+  return 'center';
 };

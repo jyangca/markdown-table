@@ -6,6 +6,8 @@ export const MarkdownWrapper = styled(Flex)`
 
   border-radius: 8px;
   background-color: ${({ theme }) => theme.color.systemWhite};
+
+  overflow: auto;
 `;
 
 export const MarkdownStyle = styled(Flex)`

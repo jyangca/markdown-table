@@ -7,7 +7,7 @@ import { ColumnAlignType } from '@/types/common';
 
 type MarkdownContainerProps = {
   deps: number;
-  columnAlign: Record<string, ColumnAlignType>;
+  columnAlign: ColumnAlignType;
 };
 
 const MarkdownContainer = ({ deps, columnAlign }: MarkdownContainerProps) => {
