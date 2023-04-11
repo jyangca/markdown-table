@@ -18,15 +18,16 @@ import { Cell, HeaderCell, PasteForm, TableButtonList } from '@/components';
 import { ForceUpdateType } from '@/hooks/useForceUpdate';
 import { tableCellSelection, tableExportCsv } from '@/utils/table';
 import { useOnOutsideClick } from '@/hooks';
-import { ColsType, PasteFormRefType, RowsType, TableApiType, TableHistoryType } from '@/types/common';
+import { ColsType, PasteFormRefType, RowsType, TableApiType, TableHistoryType, UpdateColumnAlignType } from '@/types/common';
 import dayjs from 'dayjs';
 import { isEqual } from 'lodash';
 
 type TableFormProps = {
   updateMarkdown: ForceUpdateType;
+  updateColumnAlign: UpdateColumnAlignType;
 };
 
-const TableForm = ({ updateMarkdown }: TableFormProps) => {
+const TableForm = ({ updateMarkdown, updateColumnAlign }: TableFormProps) => {
   const { cols: initialCols, rows: initialRows } = initialData;
 
   const tableRef = useRef<HTMLTableElement>(null);
@@ -177,6 +178,7 @@ const TableForm = ({ updateMarkdown }: TableFormProps) => {
                   updateCols={updateCols}
                   updateRows={updateRows}
                   updateMarkdown={updateMarkdown}
+                  updateColumnAlign={updateColumnAlign}
                   tableApi={tableApi}
                   isEdit={editMode}
                 />

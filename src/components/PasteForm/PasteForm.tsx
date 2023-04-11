@@ -26,7 +26,7 @@ const PasteForm = forwardRef<PasteFormRefType, PasteFormProps>(({ tableApi }, re
       const data = tableApi.toCSVFormat({ cols, rows, toCsvCell: false, joinWith: '\t' });
       const body = rows.map((row) => Object.values(row));
       setDefaultValue(data);
-      setDisplayText(generateMarkdownTable({ header: cols, body }));
+      setDisplayText(generateMarkdownTable({ manual: { header: cols, body } }));
     }
   }, [tableApi]);
 
@@ -48,7 +48,7 @@ const PasteForm = forwardRef<PasteFormRefType, PasteFormProps>(({ tableApi }, re
   const handlePasteOnChange = ({ newRowSep, newColSep }: HandlePasteOnChangeProps) => {
     if (pasteFormBoxRef.current) {
       const arrayForm = pasteFormBoxRef.current.value.split(newRowSep || rowSep).map((row) => row.split(newColSep || colSep));
-      const markdownForm = generateMarkdownTable({ header: arrayForm[0], body: arrayForm.slice(1) });
+      const markdownForm = generateMarkdownTable({ manual: { header: arrayForm[0], body: arrayForm.slice(1) } });
       setDisplayText(markdownForm);
     }
   };

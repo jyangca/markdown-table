@@ -36,7 +36,7 @@ const Cell = ({ isEdit, index, children, updateMarkdown, tableApi }: CellProps) 
     if (isEdit && index.cell === 0)
       return (
         <Flex gap={{ column: 8 }}>
-          <Popover content={<TablePopover tableApi={tableApi} mode="ROW" index={index.row} />}>
+          <Popover content={<TablePopover tableApi={tableApi} mode="ROW" index={index.row} />} closeOption={{ keyDown: true, contentClick: true }}>
             <Button onClick={handleRowSelectButtonClick} theme="system7">
               선택
             </Button>

@@ -1,16 +1,17 @@
 import React from 'react';
-import { Button, Flex } from '@/components/common';
-import { TableApiType } from '@/types/common';
+import { Button, Flex, Typography } from '@/components/common';
+import { ColumnAlignType, TableApiType, UpdateColumnAlignType } from '@/types/common';
 import { TablePopoverContainer } from './TablePopover.style';
 import { getCurrentCols, getCurrentRows } from '@/utils/common';
 
 type TablePopoverProps = {
+  updateColumnAlign?: UpdateColumnAlignType;
   tableApi?: TableApiType;
   mode: 'COLUMN' | 'ROW';
   index: number;
 };
 
-const TablePopover = ({ tableApi, mode, index }: TablePopoverProps) => {
+const TablePopover = ({ updateColumnAlign, tableApi, mode, index }: TablePopoverProps) => {
   const handleAddColumnClick = (position: 'LEFT' | 'RIGHT') => {
     if (position === 'LEFT') {
       tableApi?.handleAddColumn(index.toString());
@@ -44,6 +45,24 @@ const TablePopover = ({ tableApi, mode, index }: TablePopoverProps) => {
     tableApi?.updateRows(newRows);
   };
 
+  const alignMap: Record<string, ColumnAlignType> = {
+    LEFT: ':--',
+    CENTER: ':-:',
+    RIGHT: '--:',
+  };
+
+  const handleColumnAlignClick = (align: 'LEFT' | 'CENTER' | 'RIGHT') => {
+    const cols = tableApi?.getCurrentCols();
+    updateColumnAlign?.((prev) => {
+      if (cols) {
+        const newColumnAlign = { ...prev };
+        newColumnAlign[cols[index]] = alignMap[align];
+        return newColumnAlign;
+      }
+      return prev;
+    });
+  };
+
   return (
     <TablePopoverContainer direction="COLUMN" align="START" gap={{ row: 4 }} boxFill>
       {mode === 'COLUMN' ? (
@@ -57,6 +76,14 @@ const TablePopover = ({ tableApi, mode, index }: TablePopoverProps) => {
           <Button fixWidth="100%" onClick={handleDeleteColumnClick}>
             Delete Current Column
           </Button>
+          <Flex gap={{ column: 3 }}>
+            <Typography fontType="pR20" color="systemWhite">
+              Align:
+            </Typography>
+            <Button onClick={() => handleColumnAlignClick('LEFT')}>Left</Button>
+            <Button onClick={() => handleColumnAlignClick('CENTER')}>Center</Button>
+            <Button onClick={() => handleColumnAlignClick('RIGHT')}>Right</Button>
+          </Flex>
         </Flex>
       ) : (
         <Flex direction="COLUMN" align="START" gap={{ row: 4 }} boxFill>

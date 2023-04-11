@@ -7,7 +7,7 @@ import { tableColumnDrag, tableCellRangeSelection, tableSortColumn } from '@/uti
 import { TableColumnDragReturnType } from '@/utils/table/tableColumnDrag';
 import { TableSortColumnReturnType } from '@/utils/table/tableSortColumn';
 import { TableCellRangeSelectionType } from '@/utils/table/tableCellRangeSelection';
-import { TableApiType, UpdateColsType, UpdateRowsType } from '@/types/common';
+import { TableApiType, UpdateColsType, UpdateColumnAlignType, UpdateRowsType } from '@/types/common';
 
 type HeaderCellProps = {
   col: string;
@@ -16,10 +16,11 @@ type HeaderCellProps = {
   updateCols: UpdateColsType;
   updateRows: UpdateRowsType;
   updateMarkdown: ForceUpdateType;
+  updateColumnAlign: UpdateColumnAlignType;
   tableApi?: TableApiType;
 };
 
-function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown, tableApi }: HeaderCellProps) {
+function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown, updateColumnAlign, tableApi }: HeaderCellProps) {
   const [headerCellEvent, setHeaderCellEvent] = useState<TableColumnDragReturnType & TableSortColumnReturnType & TableCellRangeSelectionType>();
 
   const handleChange = () => {
@@ -46,7 +47,6 @@ function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown
   const dragEventProvider = (event: React.DragEvent<HTMLElement>, handler?: React.DragEventHandler<HTMLElement>) => {
     if (!isEdit) return undefined;
     handler?.(event);
-    updateMarkdown();
   };
 
   const handleColumnClick = () => {
@@ -57,7 +57,7 @@ function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown
     }
   };
 
-  const handleColumnSelectButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleColumnSelectButtonClick = () => {
     if (tableApi) {
       const rows = tableApi.getCurrentRows();
       headerCellEvent?.handleEditModeClick({ fromCellIndex: index, toCellIndex: index, fromRowIndex: 1, toRowIndex: rows.length });
@@ -76,7 +76,10 @@ function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown
       {isEdit ? (
         <Flex gap={{ column: 8 }}>
           <Input onChange={handleChange} defaultValue={col}></Input>
-          <Popover content={<TablePopover tableApi={tableApi} mode="COLUMN" index={index} />}>
+          <Popover
+            content={<TablePopover updateColumnAlign={updateColumnAlign} tableApi={tableApi} mode="COLUMN" index={index} />}
+            closeOption={{ keyDown: true, contentClick: true }}
+          >
             <Button theme="system7" onClick={handleColumnSelectButtonClick}>
               선택
             </Button>
