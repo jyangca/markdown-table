@@ -302,22 +302,9 @@ export const positiveAndZeroNumberOnly = (value?: number, alt?: number): number 
 };
 
 export const generateMarkdownTable = ({ manual, columnDivider }: GenerateMarkdownTableProps) => {
-  const table = document.querySelector('table');
-  const ths = table!.querySelectorAll('th');
-  const headers = manual?.header || Array.from(ths).map((th) => getInputValue(th));
-
-  const trs = table!.querySelectorAll('tr');
-
+  const headers = manual?.header || getCurrentCols();
   const divider = columnDivider || Array.from({ length: (headers || []).length }, (_) => '---');
-
-  const body =
-    manual?.body ||
-    Array.from(trs)
-      .slice(1)
-      .map((tr) => {
-        const tds = tr.querySelectorAll('td');
-        return Array.from(tds).map((td) => getInputValue(td));
-      });
+  const body = manual?.body || getCurrentRows().map((row) => Object.values(row).map((value) => value || '  '));
 
   const result = [headers, divider, ...body].map((row) => row.join(' | ')).join('\n');
 
