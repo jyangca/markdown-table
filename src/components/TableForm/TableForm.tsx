@@ -162,43 +162,45 @@ const TableForm = ({ updateMarkdown, updateColumnAlign }: TableFormProps) => {
   }, tableRef);
 
   return (
-    <TableAreaContainer direction="COLUMN" align="START" gap={{ row: 16 }} boxFill>
-      <TableButtonList editMode={editMode} pasteMode={pasteMode} tableApi={tableApi} tableHistory={tableHistory} />
-      {pasteMode ? (
-        <PasteForm tableApi={tableApi} ref={pasteFormRef} />
-      ) : (
-        <Table id="table" ref={tableRef} className={toClassName(['table', editMode ? 'table-mode-edit' : 'table-mode-read'])}>
-          <thead>
-            <tr>
-              {cols.map((col, index) => (
-                <HeaderCell
-                  key={generateKey([col, index])}
-                  col={col}
-                  index={index}
-                  updateCols={updateCols}
-                  updateRows={updateRows}
-                  updateMarkdown={updateMarkdown}
-                  updateColumnAlign={updateColumnAlign}
-                  tableApi={tableApi}
-                  isEdit={editMode}
-                />
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, rowIdx) => (
-              <StyledTr key={generateKey(row, rowIdx)}>
-                {Object.entries(row).map(([_, v], cellIdx) => (
-                  <Cell key={v} updateMarkdown={updateMarkdown} tableApi={tableApi} isEdit={editMode} index={{ cell: cellIdx, row: rowIdx }}>
-                    {row[cols[cellIdx]]}
-                  </Cell>
+    <>
+      <TableAreaContainer direction="COLUMN" align="START" gap={{ row: 16 }} boxFill>
+        <TableButtonList editMode={editMode} pasteMode={pasteMode} tableApi={tableApi} tableHistory={tableHistory} />
+        {pasteMode ? (
+          <PasteForm tableApi={tableApi} ref={pasteFormRef} />
+        ) : (
+          <Table id="table" ref={tableRef} className={toClassName(['table', editMode ? 'table-mode-edit' : 'table-mode-read'])}>
+            <thead>
+              <tr>
+                {cols.map((col, index) => (
+                  <HeaderCell
+                    key={generateKey([col, index])}
+                    col={col}
+                    index={index}
+                    updateCols={updateCols}
+                    updateRows={updateRows}
+                    updateMarkdown={updateMarkdown}
+                    updateColumnAlign={updateColumnAlign}
+                    tableApi={tableApi}
+                    isEdit={editMode}
+                  />
                 ))}
-              </StyledTr>
-            ))}
-          </tbody>
-        </Table>
-      )}
-    </TableAreaContainer>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, rowIdx) => (
+                <StyledTr key={generateKey(row, rowIdx)}>
+                  {Object.entries(row).map(([_, v], cellIdx) => (
+                    <Cell key={v} updateMarkdown={updateMarkdown} tableApi={tableApi} isEdit={editMode} index={{ cell: cellIdx, row: rowIdx }}>
+                      {row[cols[cellIdx]]}
+                    </Cell>
+                  ))}
+                </StyledTr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </TableAreaContainer>
+    </>
   );
 };
 
