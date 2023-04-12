@@ -10,10 +10,8 @@ const systemD = '#DDDEE5';
 const systemE = '#E9EBEE';
 const systemF = '#F3F8FD';
 const systemWhite = '#fff';
-const systemError = '#EA0000';
 const systemLightBlue = '#C0DEFF';
 const systemLightBlueHover = '#e1eefc';
-
 const systemBlue = '#65abfc';
 const systemHover = '#FAFAFA';
 
@@ -29,7 +27,6 @@ const systemColor = {
   systemE,
   systemF,
   systemWhite,
-  systemError,
   systemLightBlue,
   systemBlue,
   systemHover,
