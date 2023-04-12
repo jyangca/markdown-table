@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { Flex } from '../common';
 
+export const RootContainer = styled(Flex)`
+  overflow: auto;
+`;
+
 export const DividerBox = styled(Flex)`
   padding: 1rem;
   border-bottom: 1.5px solid ${({ theme }) => theme.color.systemE};

@@ -7,6 +7,5 @@ export const ModalContainer = styled(Flex)`
   width: 650px;
   height: 800px;
   border-radius: 8px;
-  overflow: auto;
   z-index: 1000;
 `;

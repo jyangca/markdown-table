@@ -1,10 +1,10 @@
 import React from 'react';
 import { Flex, Typography } from '@/components/common';
-import { ContentsContainer, DividerBox, ModeContentContainer, TypoBox } from './ModalContent.style';
+import { ContentsContainer, DividerBox, ModeContentContainer, RootContainer, TypoBox } from './ModalContent.style';
 
 const ModalContent = () => {
   return (
-    <Flex direction="COLUMN" gap={{ row: 30 }} boxFill>
+    <RootContainer direction="COLUMN" gap={{ row: 30 }} boxFill>
       <DividerBox justify="CENTER" boxFill>
         <Typography fontType="h4B">도움말</Typography>
       </DividerBox>
@@ -63,7 +63,7 @@ const ModalContent = () => {
           </ModeContentContainer>
         </ContentsContainer>
       </Flex>
-    </Flex>
+    </RootContainer>
   );
 };
 
