@@ -87,7 +87,7 @@ const PasteForm = forwardRef<PasteFormRefType, PasteFormProps>(({ tableApi }, re
         </Flex>
       </SeperationContainer>
       <Flex style={{ padding: '0 16px' }}>
-        <Typography fontType="pB20">Enter Tab as &quot;TAB&quot; and New Line as &quot;NEW_LINE&quot; on each separator input.</Typography>
+        <Typography fontType="pR20">Enter Tab as &quot;TAB&quot; and New Line as &quot;NEW_LINE&quot;</Typography>
       </Flex>
       <PasteFormContainer direction="ROW" gap={{ column: 16 }} boxFill>
         <PasteFormBox ref={pasteFormBoxRef} onChange={() => handlePasteOnChange({})} defaultValue={defaultValue}></PasteFormBox>
