@@ -81,12 +81,6 @@ export const getInputValue = (element: HTMLElement): string => {
   return '';
 };
 
-export const getColsFromTable = (table: Element | null) => {
-  const ths = table!.querySelectorAll('th');
-  const cols = Array.from(ths).map((th) => th.querySelector('input')?.value ?? '');
-  return cols;
-};
-
 export const copySelected = (e: KeyboardEvent) => {
   if (e.target && (e.target as HTMLElement).tagName === 'INPUT') return;
   if (e.target && (e.target as HTMLElement).tagName === 'TEXTAREA') return;
