@@ -84,7 +84,7 @@ function HeaderCell({ col, index, isEdit, updateCols, updateRows, updateMarkdown
             closeOption={{ keyDown: true, contentClick: true }}
           >
             <Button theme="system7" onClick={handleColumnSelectButtonClick}>
-              선택
+              Select
             </Button>
           </Popover>
         </Flex>
