@@ -5,8 +5,8 @@ import { ContentsContainer, DividerBox, ModeContentContainer, RootContainer, Tab
 type TabType = 'Start' | 'View' | 'Edit';
 
 const ModalContent = () => {
-  const tabList: TabType[] = ['Start', 'View', 'Edit'];
-  const [tab, setTab] = useState<TabType>('Start');
+  const tabList: TabType[] = ['View', 'Edit'];
+  const [tab, setTab] = useState<TabType>('View');
 
   const handleTabClick = (tab: TabType) => {
     setTab(tab);
@@ -14,47 +14,6 @@ const ModalContent = () => {
 
   const tabContent = () => {
     switch (tab) {
-      case 'Start':
-        return (
-          <Flex direction="COLUMN" align="START" gap={{ row: 16 }} boxFill>
-            <TypoBox>
-              <Typography fontType="h5B">Getting Started</Typography>
-            </TypoBox>
-            <ContentsContainer align="START" direction="COLUMN" gap={{ row: 8 }}>
-              <TypoBox boxFill>
-                <Typography fontType="pB20">Create New Table</Typography>
-              </TypoBox>
-              <ModeContentContainer direction="COLUMN" align="START" gap={{ row: 4 }} boxFill>
-                <Typography fontType="pB12" color="system5">
-                  1. Go to Page mode
-                </Typography>
-                <Typography fontType="pB12" color="system5">
-                  2. Paste the data and make it into a table format using separator
-                </Typography>
-                <Typography fontType="pB12" color="system5">
-                  3. Click &ldquo;Done&rdquo; to apply the generated table in preview
-                </Typography>
-                <Typography fontType="pB12" color="system5">
-                  4. Copy
-                </Typography>
-              </ModeContentContainer>
-              <TypoBox boxFill>
-                <Typography fontType="pB20">Paste Raw Data</Typography>
-              </TypoBox>
-              <ModeContentContainer direction="COLUMN" align="START" gap={{ row: 4 }} boxFill>
-                <Typography fontType="pB12" color="system5">
-                  1. Press &ldquo;New&rdquo; and enter the number of columns and rows
-                </Typography>
-                <Typography fontType="pB12" color="system5">
-                  2. Fill in the data in the created table
-                </Typography>
-                <Typography fontType="pB12" color="system5">
-                  3. Copy
-                </Typography>
-              </ModeContentContainer>
-            </ContentsContainer>
-          </Flex>
-        );
       case 'View':
         return (
           <Flex direction="COLUMN" align="START" gap={{ row: 16 }} boxFill>
