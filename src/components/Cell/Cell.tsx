@@ -40,7 +40,7 @@ const Cell = ({ isEdit, index, children, updateMarkdown, col, columnAlign, table
         <Flex gap={{ column: 8 }}>
           <Popover content={<TablePopover tableApi={tableApi} mode="ROW" index={index.row} />} closeOption={{ keyDown: true, contentClick: true }}>
             <Button onClick={handleRowSelectButtonClick} theme="system7">
-              선택
+              Select
             </Button>
           </Popover>
           <Input onChange={handleChangeInput} defaultValue={children}></Input>
