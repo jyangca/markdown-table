@@ -6,20 +6,21 @@ export const PasteFormContainer = styled(Flex)`
 `;
 
 export const PasteFormBox = styled.textarea`
-  resize: none;
-  padding: 1rem;
   width: 100%;
   height: 100%;
+  padding: 1rem;
 
-  border-radius: 4px;
   border: 2px solid ${({ theme }) => theme.color.system5};
+  border-radius: 4px;
+
+  resize: none;
 `;
 
 export const PreviewBox = styled(Flex)`
-  padding: 1rem;
   height: 100%;
-  border-radius: 4px;
+  padding: 1rem;
   border: 2px solid ${({ theme }) => theme.color.system5};
+  border-radius: 4px;
 
   user-select: none;
 `;

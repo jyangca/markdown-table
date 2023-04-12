@@ -10,7 +10,6 @@ export const TableAreaContainer = styled(Flex)`
 
 export const Table = styled.table`
   width: 100%;
-
   border-collapse: collapse;
 `;
 

@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import { ColumnAlignType } from '@/types/common';
 
 const Container = styled(Flex)`
-  padding: 1rem;
-  height: 100%;
   background-color: ${({ theme }) => theme.color.systemE};
+  height: 100%;
   overflow: auto;
+  padding: 1rem;
 `;
 
 const Home = () => {

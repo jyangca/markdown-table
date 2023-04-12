@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { Flex } from '@/components/common';
 
 export const NewPopoverContainer = styled(Flex)`
-  padding: 1rem;
-  border-radius: 6px;
   background-color: ${({ theme }) => theme.color.system7};
+  border-radius: 6px;
+  padding: 1rem;
 `;
 
 export const DividerBox = styled(Flex)`
