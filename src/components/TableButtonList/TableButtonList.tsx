@@ -49,7 +49,7 @@ const TableButtonList = ({ editMode, pasteMode, tableApi, tableHistory }: TableB
           </Button>
         </Flex>
         <Flex direction="ROW" gap={{ column: 8 }}>
-          <Button onClick={handleModalOpen}>Help</Button>
+          <Button onClick={handleModalOpen}>Guide</Button>
           <Button disabled={editMode || pasteMode} onClick={tableApi?.handleExportCsv}>
             Export CSV
           </Button>
