@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Flex, Portal } from '@/components/common';
-import { ModalContainer } from './Modal.style';
+import { Button, Portal } from '@/components/common';
+import { ModalButtonContainer, ModalContainer } from './Modal.style';
 
 type ModalProps = {
   isOpen: boolean;
@@ -15,9 +15,13 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 
   return (
     <Portal isOpen={isOpen} onDimClick={handleDimClick} isModal={true}>
-      <ModalContainer direction="COLUMN" boxFill>
+      <ModalContainer direction="COLUMN" justify="SPACE_BETWEEN" boxFill>
         {children}
-        <Button onClick={onClose}>Close</Button>
+        <ModalButtonContainer justify="CENTER" boxFill>
+          <Button fixWidth="60%" size={60} onClick={onClose}>
+            Close
+          </Button>
+        </ModalButtonContainer>
       </ModalContainer>
     </Portal>
   );
