@@ -1,14 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import fontStyle, {
-  defaultTextStyle,
-  FontStyleKeyType,
-} from '@/theme/fontStyle';
+import fontStyle, { defaultTextStyle, FontStyleKeyType } from '@/theme/fontStyle';
 import { TypoElement, TypographyProps } from './Typography.types';
 
-const TextElement = styled.div<
-  TypographyProps & Required<Pick<TypographyProps, 'fontType'>>
->`
+const TextElement = styled.div<TypographyProps & Required<Pick<TypographyProps, 'fontType'>>>`
   text-align: ${(props) => props.textAlign};
   ${(props) => fontStyle[props.fontType]}
   ${defaultTextStyle};
@@ -19,18 +14,6 @@ const TextElement = styled.div<
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-    `}
-
-  ${({ decoration }) =>
-    decoration &&
-    css`
-      text-decoration: ${decoration};
-    `}
-
-  ${({ wordBreak }) =>
-    wordBreak &&
-    css`
-      word-break: ${wordBreak};
     `}
 `;
 
@@ -69,18 +52,10 @@ const Typography = ({
   children,
   style,
   color = 'system3',
-  decoration,
   ...props
 }: TypographyProps) => {
   return (
-    <TextElement
-      as={tag}
-      fontType={fontType}
-      style={style}
-      color={color}
-      decoration={decoration}
-      {...props}
-    >
+    <TextElement as={tag} fontType={fontType} style={style} color={color} {...props}>
       {children}
     </TextElement>
   );
