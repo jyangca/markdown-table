@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Flex, Input } from '@/components/common';
 
 export const PasteFormContainer = styled(Flex)`
-  min-height: 300px;
+  min-height: 200px;
 `;
 
 export const PasteFormBox = styled.textarea`
