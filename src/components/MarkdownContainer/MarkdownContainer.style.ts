@@ -22,7 +22,13 @@ type CopyButtonProps = {
   copied: boolean;
 };
 export const CopyButton = styled(Button)<CopyButtonProps>`
-  transition: all 0.25s ease-in-out;
+  background-color: ${({ theme, copied }) => (copied ? theme.color.systemA : theme.color.system5)};
 
-  background-color: ${({ theme, copied }) => (copied ? theme.color.systemA : theme.color.system3)};
+  box-shadow: 0 0.4rem 0 0 ${({ theme }) => theme.color.system7};
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    transform: translateY(0.3rem);
+    box-shadow: 0 0.2rem 0 0 ${({ theme }) => theme.color.system9};
+  }
 `;

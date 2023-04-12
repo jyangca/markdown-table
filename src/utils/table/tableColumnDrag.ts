@@ -1,5 +1,4 @@
-import { getColsFromTable, getInputValue, swapElement } from '@/utils/common';
-import { toIterableType } from '@/types/utils';
+import { getCurrentCols, getCurrentRows, getInputValue, swapElement } from '@/utils/common';
 import React, { DragEventHandler } from 'react';
 import { UpdateColsType, UpdateRowsType } from '@/types/common';
 
@@ -15,13 +14,10 @@ export type TableColumnDragReturnType = {
 };
 
 const tableColumnDrag = ({ updateCols, updateRows }: TableColumnDragProps): TableColumnDragReturnType => {
-  const table = document.querySelector('table');
-  const tableBody = table?.querySelector('tbody');
-
   const handleDragStart = (e: React.DragEvent<HTMLElement>) => {
     if (e.target && (e.target as HTMLElement).tagName === 'BUTTON') return;
 
-    const cols = getColsFromTable(table);
+    const cols = getCurrentCols();
 
     const value = getInputValue(e.target as HTMLElement);
     const idx = cols.indexOf(value);
@@ -34,17 +30,7 @@ const tableColumnDrag = ({ updateCols, updateRows }: TableColumnDragProps): Tabl
   const handleDrop = (e: React.DragEvent<HTMLElement>) => {
     if (e.target && (e.target as HTMLElement).tagName === 'BUTTON') return;
 
-    const cols = getColsFromTable(table);
-    const trs = toIterableType(tableBody!.querySelectorAll('tr'));
-    const rows = Array.from(trs).map((tr) => {
-      let obj: Record<string, any> = {};
-      const tds = tr.querySelectorAll('td');
-      Array.from(tds).forEach((td, index) => {
-        return (obj[cols[index]] = td.querySelector('input')?.value);
-      });
-      return obj;
-    });
-
+    const cols = getCurrentCols();
     const value = getInputValue(e.target as HTMLElement);
     const droppedColIdx = cols.indexOf(value);
     const draggedColIdx = Number(e.dataTransfer.getData('colIdx'));
@@ -54,7 +40,7 @@ const tableColumnDrag = ({ updateCols, updateRows }: TableColumnDragProps): Tabl
     tempCols[droppedColIdx] = cols[draggedColIdx];
 
     updateCols(tempCols);
-    updateRows(rows.map((row) => swapElement(row, tempCols)));
+    updateRows(getCurrentRows().map((row) => swapElement(row, tempCols)));
   };
 
   return {

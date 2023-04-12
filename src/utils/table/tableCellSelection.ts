@@ -89,7 +89,6 @@ const tableCellSelection = () => {
   };
 
   const handleMouseMove = (event: MouseEvent) => {
-    console.log(event);
     if (isDragging && startCell) {
       let endCell = event.target as HTMLTableCellElement;
 
