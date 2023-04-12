@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 import { Flex, Button, Popover, Modal } from '@/components/common';
-import { HistoryPopover, NewPopover } from '@/components';
+import { HistoryPopover, ModalContent, NewPopover } from '@/components';
 import { TableApiType, TableHistoryType } from '@/types/common';
 import { setCookie } from '@/utils/common';
 import Cookies from 'js-cookie';
@@ -60,7 +60,7 @@ const TableButtonList = ({ editMode, pasteMode, tableApi, tableHistory }: TableB
         </Flex>
       </Flex>
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        dasda
+        <ModalContent />
       </Modal>
     </>
   );

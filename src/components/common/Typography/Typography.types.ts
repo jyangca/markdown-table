@@ -3,16 +3,7 @@ import { FontStyleKeyType, TextStyleProperties } from '@/theme/fontStyle';
 
 type WordBreakType = 'normal' | 'break-all' | 'keep-all';
 
-export type TypoElement =
-  | 'h1'
-  | 'h2'
-  | 'h3'
-  | 'h4'
-  | 'h5'
-  | 'h6'
-  | 'p'
-  | 'div'
-  | 'span';
+export type TypoElement = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'div' | 'span';
 
 export type TypographyProps = {
   /** 폰트 타입을 지정합니다. */
@@ -34,10 +25,5 @@ export type TypographyProps = {
   noWrap?: boolean;
 
   style?: React.CSSProperties;
-
-  /** text-decoration */
-  decoration?: string;
-
-  wordBreak?: WordBreakType;
 } & TextStyleProperties &
   HTMLAttributes<HTMLElement>;

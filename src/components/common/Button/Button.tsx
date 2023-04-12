@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { FontStyleKeyType } from '@/theme/fontStyle';
-import { ButtonFontTypeMap, ButtonSizeMap, ButtonThemeMap } from './Button.theme';
+import { ButtonSizeMap, ButtonThemeMap } from './Button.theme';
 import { ButtonProps, ButtonSize, ButtonTheme } from './Button.types';
 
 type StyledButtonProps = {
@@ -22,11 +22,6 @@ const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;
   ${({ size }) => ButtonSizeMap[size]};
   ${({ buttonTheme }) => ButtonThemeMap[buttonTheme]};
-  ${({ rounded }) =>
-    rounded &&
-    css`
-      border-radius: 56px;
-    `}
 
   white-space: nowrap;
   & > * {
@@ -51,14 +46,12 @@ const StyledButton = styled.button<StyledButtonProps>`
   }
 `;
 
-const Button = ({ theme = 'system3', size = 32, children, disabled, fontType = ButtonFontTypeMap[size], rounded, ...props }: ButtonProps) => {
+const Button = ({ theme = 'system3', size = 32, children, disabled, ...props }: ButtonProps) => {
   return (
     <StyledButton
       buttonTheme={theme}
       size={size}
-      fontType={fontType}
       disabled={disabled}
-      rounded={rounded}
       {...props}
       onClick={(event) => {
         if (!disabled) props?.onClick?.(event);

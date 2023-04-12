@@ -1,19 +1,11 @@
-import {
-  css,
-  DefaultTheme,
-  FlattenInterpolation,
-  ThemedStyledProps,
-  ThemeProps,
-} from 'styled-components';
+import { css, DefaultTheme, FlattenInterpolation, ThemedStyledProps, ThemeProps } from 'styled-components';
 import { AllColor, ColorKeyType } from '@/theme/color';
 import fontStyle, { FontStyleKeyType } from '@/theme/fontStyle';
 import { ButtonSize, ButtonTheme } from './Button.types';
 
 type ButtonThemeFontType = { fontType?: FontStyleKeyType };
 export const ButtonSizeMap: {
-  [key in ButtonSize]: FlattenInterpolation<
-    ThemedStyledProps<ButtonThemeFontType, DefaultTheme>
-  >;
+  [key in ButtonSize]: FlattenInterpolation<ThemedStyledProps<ButtonThemeFontType, DefaultTheme>>;
 } = {
   32: css<ButtonThemeFontType>`
     min-width: 48px;
@@ -57,38 +49,22 @@ const defaultDisabled = css`
 `;
 
 export const ButtonContentColorMap: { [key in ButtonTheme]: ColorKeyType } = {
-  primary: 'systemWhite',
   systemA: 'systemWhite',
   system3: 'systemWhite',
   system7: 'systemWhite',
-  system1: 'systemWhite',
 };
 
 export const ButtonDisabledColorMap: {
   [key in ButtonTheme]: ColorKeyType;
 } = {
-  primary: 'systemWhite',
   systemA: 'systemWhite',
   system3: 'systemWhite',
   system7: 'systemWhite',
-  system1: 'systemWhite',
-};
-
-export const ButtonIconSizeMap: { [key in ButtonSize]: number } = {
-  32: 16,
-  40: 16,
-  60: 22,
 };
 
 export const ButtonThemeMap: {
   [key in ButtonTheme]: FlattenInterpolation<ThemeProps<DefaultTheme>>;
 } = {
-  primary: css`
-    background-color: ${AllColor.systemBlue};
-    color: ${AllColor.systemWhite};
-
-    ${defaultDisabled}
-  `,
   systemA: css`
     background-color: ${AllColor.systemA};
     color: ${AllColor.systemWhite};
@@ -106,12 +82,6 @@ export const ButtonThemeMap: {
     color: ${AllColor.systemWhite};
 
     ${defaultDisabled}
-  `,
-  system1: css`
-    background-color: ${AllColor.system1};
-    color: ${AllColor.systemWhite};
-
-    ${defaultDisabled};
   `,
 };
 

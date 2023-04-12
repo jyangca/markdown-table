@@ -74,13 +74,13 @@ const PasteForm = forwardRef<PasteFormRefType, PasteFormProps>(({ tableApi }, re
     <Flex direction="COLUMN" style={{ padding: '16px' }} align="START" gap={{ row: 16 }} boxFill>
       <SeperationContainer justify="START" gap={{ column: 16 }} boxFill>
         <Flex gap={{ column: 8 }}>
-          <Typography style={{ whiteSpace: 'nowrap' }} fontType="pB12">
+          <Typography noWrap fontType="pB12">
             Column Separator
           </Typography>
           <PasteFormInput onChange={handleColSepOnChange} value={mapInputChar(colSep)} />
         </Flex>
         <Flex gap={{ column: 8 }}>
-          <Typography style={{ whiteSpace: 'nowrap' }} fontType="pB12">
+          <Typography noWrap fontType="pB12">
             Row Separator
           </Typography>
           <PasteFormInput onChange={handleRowSepOnChange} value={mapInputChar(rowSep)} />

@@ -7,3 +7,4 @@ export { default as TableButtonList } from './TableButtonList/TableButtonList';
 export { default as NewPopover } from './NewPopover/NewPopover';
 export { default as HistoryPopover } from './HistoryPopover/HistoryPopover';
 export { default as TablePopover } from './TablePopover/TablePopover';
+export { default as ModalContent } from './ModalContent/ModalContent';
