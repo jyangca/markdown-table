@@ -8,11 +8,12 @@ export const DividerBox = styled(Flex)`
 
 export const ContentsContainer = styled(Flex)`
   padding: 2rem;
+  height: fit-content;
+  width: 100%;
+
   border: 1px solid ${({ theme }) => theme.color.systemA};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.color.systemE};
-  height: fit-content;
-  width: 100%;
 `;
 
 export const TypoBox = styled(Flex)`
@@ -21,8 +22,9 @@ export const TypoBox = styled(Flex)`
 
 export const ModeContentContainer = styled(Flex)`
   padding: 2rem;
+  height: fit-content;
+
   border: 1px solid ${({ theme }) => theme.color.systemC};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.color.systemWhite};
-  height: fit-content;
 `;
