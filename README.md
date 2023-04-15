@@ -1,4 +1,5 @@
-<img width="643" alt="image" src="https://user-images.githubusercontent.com/118745681/232208253-5450aa01-b727-4844-89cf-bc2543475a03.png">
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/118745681/232208253-5450aa01-b727-4844-89cf-bc2543475a03.png">
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/118745681/232208336-0557a09b-2f00-41e7-baed-cad0228b9cc0.png">
 Multifunctional table UI which convert data to markdown format.
 
 ## Features
