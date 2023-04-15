@@ -1,38 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Multifunctional table UI which convert data to markdown format.
 
-## Getting Started
+## Features
 
-First, run the development server:
+#### View Mode
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- Create New Table
+- Select
+- Select All
+- Copy Selected cell in format
+- Sort column values in order (Ascending, Descending)
+- Export data to CSV
+- Revert to previous Data
+  - Saved when table is switching from edit mode to view mode if the data is changed from the previous value.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Edit Mode
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Select
+- Select All
+- Copy and Delete selected cell value
+- Makes selected cell values ​​bold & italic
+- Move column position(change column order)
+- Add new column
+  - Add columns to the left and right the selected column
+- Add new row
+  - Add rows above and below the selected rows
+- Align Column
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+#### Paste Mode
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Convert raw data into column and row format by using each seperator
+- Preview
